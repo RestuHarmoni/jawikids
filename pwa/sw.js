@@ -1,5 +1,5 @@
-// JawiKids Service Worker v1.11 CLEAN JS STRUCTURE
-const CACHE_NAME = 'jawikids-cache-v1.11';
+// JawiKids Service Worker v1.12 CLEAN JS STRUCTURE
+const CACHE_NAME = 'jawikids-cache-v1.12';
 const CORE_ASSETS = [
   '/',
   '/index.html',

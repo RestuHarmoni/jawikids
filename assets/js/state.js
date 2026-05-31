@@ -1,10 +1,10 @@
-// JawiKids State + Supabase Full Schema Sync v1.10
+// JawiKids State + Learning System Sync v1.12
 // Semua query diselaraskan dengan schema.sql semasa:
 // parents, children, learning_progress, quiz_results, achievements, notifications,
 // support_tickets, ticket_messages, affiliate_interest, payments, subscriptions, settings, admin_users.
 const JK = (() => {
-  const KEY = 'jawikids_local_state_v110';
-  const LEGACY_KEYS = ['jawikids_local_state_v109','jawikids_local_state_v108','jawikids_local_state_v107','jawikids_local_state_v106','jawikids_local_state_v105','jawikids_local_state_v104'];
+  const KEY = 'jawikids_local_state_v112';
+  const LEGACY_KEYS = ['jawikids_local_state_v110','jawikids_local_state_v109','jawikids_local_state_v108','jawikids_local_state_v107','jawikids_local_state_v106','jawikids_local_state_v105','jawikids_local_state_v104'];
   const defaultState = {
     parents: [],
     children: [],
@@ -25,11 +25,15 @@ const JK = (() => {
   const questions = [
     { q:'Apakah nama huruf ا ?', a:'Alif', o:['Alif','Ba','Ta','Jim'] },
     { q:'Apakah nama huruf ب ?', a:'Ba', o:['Dal','Ba','Sin','Nun'] },
+    { q:'Apakah nama huruf ت ?', a:'Ta', o:['Ta','Tha','Kaf','Lam'] },
     { q:'Pilih huruf untuk Ta', a:'ت', o:['ب','ت','ث','ج'] },
     { q:'Pilih huruf untuk Mim', a:'م', o:['ن','م','ل','ك'] },
-    { q:'Apakah nama huruf ج ?', a:'Jim', o:['Jim','Ha','Kha','Dal'] }
+    { q:'Apakah nama huruf ج ?', a:'Jim', o:['Jim','Ha','Kha','Dal'] },
+    { q:'Pilih huruf untuk Alif', a:'ا', o:['ا','ب','ت','ث'] },
+    { q:'Apakah nama huruf س ?', a:'Sin', o:['Syin','Sin','Sod','Zai'] },
+    { q:'Pilih huruf untuk Nun', a:'ن', o:['م','ن','و','ه'] },
+    { q:'Apakah nama huruf ي ?', a:'Ya', o:['Wau','Ha','Ya','Lam'] }
   ];
-
   function safeJson(raw){ try { return JSON.parse(raw || '{}') || {}; } catch { return {}; } }
   function load(){
     let current = safeJson(localStorage.getItem(KEY));
