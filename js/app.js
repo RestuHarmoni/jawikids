@@ -1,18 +1,14 @@
+// JawiKids App Helper v1.04
+// Compatibility file. No import/export here so it can run in normal browsers.
 
-import { supabase } from "../supabase/client.js";
-
-export function showToast(title, message) {
-  const toast = document.querySelector(".toast");
-  if (!toast) return;
-  toast.innerHTML = `<strong>${title}</strong><br><span>${message}</span>`;
-  toast.style.display = "block";
-  setTimeout(() => toast.style.display = "none", 5000);
-}
-
-export async function getPublicSettings() {
-  const { data, error } = await supabase.from("settings").select("*").eq("is_public", true);
-  if (error) return [];
-  return data || [];
-}
-
-window.JawiKidsApp = { showToast, getPublicSettings };
+(function () {
+  window.JawiKidsApp = window.JawiKidsApp || {
+    showToast(message) {
+      if (window.JK && typeof window.JK.toast === "function") {
+        window.JK.toast(message);
+        return;
+      }
+      alert(message);
+    }
+  };
+})();
