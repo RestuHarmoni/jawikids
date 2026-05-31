@@ -1,36 +1,30 @@
-# JawiKids App Starter v1.00
+# JawiKids App Real MVP v1.03
 
-Official starter structure for jawikids.restuharmoni.com.
+Base rasmi development JawiKids selepas semakan source.
 
-## Stack
-- Cloudflare Pages
-- GitHub
-- Supabase Auth
-- Supabase PostgreSQL
-- Supabase Storage
-- ToyyibPay
+## Upload ke GitHub
+Upload semua fail/folder kecuali jika mahu production clean boleh abaikan `/docs` dan `/storage-notes`.
 
 ## Supabase
-URL:
-`https://tuwbamxobhkbbkaodvkg.supabase.co`
+Run SQL mengikut turutan:
+1. `/supabase/schema.sql`
+2. `/supabase/rls.sql`
+3. `/supabase/seed.sql` pilihan untuk test
 
-Frontend key:
-`sb_publishable_zuXeYtmjbpYaFCJq9Ker7A_ngs5_VOu`
+## Config
+Tukar nilai dalam `/supabase/config.js`:
+```js
+window.JAWIKIDS_SUPABASE_URL = "...";
+window.JAWIKIDS_SUPABASE_ANON_KEY = "...";
+```
 
-## Pages
-- `index.html` Landing Page
-- `demo.html` Demo Mode
-- `login.html` Parent Login
-- `register.html` Parent Register
-- `dashboard.html` Parent Dashboard
-- `payment.html` ToyyibPay placeholder
-- `admin/index.html` Admin Panel placeholder
-- `affiliate/index.html` Affiliate Coming Soon
+## Demo local
+Email: demo@jawikids.com  
+Password: demo12345
 
-## Next Development
-TASK003:
-- Build real landing page sections
-- Add ToyyibPay link
-- Complete login/register validation
-- Add premium license check
-- Add notification UI
+## Status
+Versi ini belum final production untuk jualan penuh, tetapi sudah menjadi Real MVP Build yang boleh diuji dan disambung development.
+
+
+## v1.10 FULL SCHEMA SYNC
+Semua file JS utama telah diselaraskan dengan Supabase schema semasa. Service worker cache v1.10.
