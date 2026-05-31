@@ -1,6 +1,6 @@
-/* JawiKids Service Worker v1.05
+/* JawiKids Service Worker v1.08
    Fix: clear old cache so updated login/register module files load correctly. */
-const CACHE_NAME = 'jawikids-v1-05-cache';
+const CACHE_NAME = 'jawikids-v1.08';
 
 const CORE_ASSETS = [
   '/',

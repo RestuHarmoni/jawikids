@@ -1,1 +1,31 @@
-document.addEventListener('DOMContentLoaded',()=>{const p=JK.requireAuth();if(!p)return;render();const form=document.querySelector('#childForm');if(form)form.addEventListener('submit',e=>{e.preventDefault();const s=JK.load();const kids=s.children.filter(c=>c.parent_id===p.id);if(kids.length>=5)return JK.toast('Maksimum 5 anak untuk 1 akaun parent.');s.children.push({id:JK.id('child'),parent_id:p.id,full_name:form.full_name.value.trim(),gender:form.gender.value,birth_year:Number(form.birth_year.value),avatar:form.avatar.value,level:1,xp:0,created_at:new Date().toISOString()});JK.save(s);form.reset();JK.toast('Profil anak berjaya ditambah.');render();});});function render(){const p=JK.currentParent(),s=JK.load(),kids=s.children.filter(c=>c.parent_id===p.id),el=document.querySelector('#childrenList');if(!el)return;el.innerHTML=kids.map(c=>`<div class="card"><div class="stat"><div class="icon">${c.avatar||'👧'}</div><div><h3>${c.full_name}</h3><p class="muted">${c.gender||'-'} • Tahun lahir ${c.birth_year||'-'} • Level ${c.level||1}</p><p><b>${c.xp||0} XP</b></p></div></div><button class="btn-danger" onclick="removeChild('${c.id}')">Padam</button></div>`).join('')||'<div class="card">Belum ada profil anak.</div>'}function removeChild(id){if(!confirm('Padam profil anak ini?'))return;const s=JK.load();s.children=s.children.filter(c=>c.id!==id);JK.save(s);render();}window.removeChild=removeChild;
+// JawiKids Child Profile System v1.08 - Supabase table sync
+async function renderChildren(){
+  const p=JK.requireAuth(); if(!p) return;
+  await JK.syncAll();
+  const s=JK.load(); const kids=s.children.filter(c=>c.parent_id===p.id);
+  const count=document.querySelector('[data-child-count]'); if(count) count.textContent=`${kids.length}/5`;
+  const el=document.querySelector('#childrenList'); if(!el) return;
+  el.innerHTML=kids.map(c=>`<div class="card"><div class="stat"><div class="icon">${c.avatar||'👧'}</div><div><h3>${c.full_name}</h3><p class="muted">${c.gender||''} • ${c.birth_year||''}</p><p>Level ${c.level||1} • ${c.xp||0} XP</p></div></div></div>`).join('') || '<div class="card">Belum ada anak.</div>';
+}
+
+document.addEventListener('DOMContentLoaded',async()=>{
+  const p=JK.requireAuth(); if(!p) return;
+  await renderChildren();
+  const form=document.querySelector('#childForm');
+  if(form) form.addEventListener('submit',async e=>{
+    e.preventDefault();
+    const parent=await JK.getSupabaseParent();
+    const s=JK.load(); const kids=s.children.filter(c=>c.parent_id===parent.id);
+    if(kids.length>=5) return JK.toast('Maksimum 5 anak sahaja.');
+    const row={parent_id:parent.id,full_name:form.full_name.value.trim(),gender:form.gender.value,birth_year:Number(form.birth_year.value),avatar:form.avatar.value,level:1,xp:0,created_at:new Date().toISOString()};
+    let child=row;
+    if(JK.supabase()){
+      const {data,error}=await JK.insertRow('children',row);
+      if(error){console.error(error); return JK.toast('Gagal simpan anak ke Supabase: '+error.message);}
+      child=data;
+    } else child={...row,id:JK.id('child')};
+    const st=JK.load(); st.children.push(child); JK.save(st);
+    await JK.notify(parent.id,'Profil Anak Ditambah',`${child.full_name} berjaya ditambah.`,'SYSTEM');
+    form.reset(); JK.toast('Profil anak berjaya disimpan.'); await renderChildren();
+  });
+});
