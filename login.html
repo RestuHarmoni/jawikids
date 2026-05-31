@@ -1,0 +1,29 @@
+
+<!doctype html>
+<html lang="ms">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Login JawiKids</title><link rel="stylesheet" href="css/app.css"></head>
+<body>
+  <div class="container section" style="max-width:520px">
+    <a href="index.html">← Laman Utama</a>
+    <div class="card">
+      <h1>Login Parent</h1>
+      <form id="loginForm" class="form">
+        <input class="input" id="email" type="email" placeholder="Email" required>
+        <input class="input" id="password" type="password" placeholder="Password" required>
+        <button class="btn btn-primary" type="submit">Login</button>
+      </form>
+      <p>Belum ada akaun? <a href="register.html" style="color:#10B981;font-weight:700">Daftar di sini</a></p>
+    </div>
+  </div>
+<script type="module">
+import { loginParent } from "./js/auth.js";
+document.getElementById("loginForm").addEventListener("submit", async e => {
+  e.preventDefault();
+  try {
+    await loginParent({ email: email.value, password: password.value });
+    window.location.href = "dashboard.html";
+  } catch(err) { alert(err.message); }
+});
+</script>
+</body>
+</html>

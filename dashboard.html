@@ -1,0 +1,45 @@
+
+<!doctype html>
+<html lang="ms">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Dashboard JawiKids</title><link rel="stylesheet" href="css/app.css"></head>
+<body>
+<div class="toast"></div>
+<div class="app-shell">
+  <aside class="sidebar">
+    <div class="logo">Jawi<span>Kids</span></div>
+    <br>
+    <a class="active" href="dashboard.html">Dashboard</a>
+    <a href="#anak">Anak Saya</a>
+    <a href="#belajar">Pembelajaran</a>
+    <a href="#achievements">Pencapaian</a>
+    <a href="#noti">📢 Pusat Makluman</a>
+    <a href="#support">💬 Support</a>
+    <a href="affiliate/index.html">🚀 Affiliate Program</a>
+    <a href="#settings">Profil & Tetapan</a>
+    <a href="#" id="logoutBtn">Log Keluar</a>
+  </aside>
+  <main class="main">
+    <div class="topbar">
+      <h1>Dashboard Parent</h1>
+      <strong id="userEmail">Parent</strong>
+    </div>
+    <div class="grid-3">
+      <div class="card"><h3>Profil Anak</h3><p>Sehingga 5 anak.</p></div>
+      <div class="card"><h3>Status Lesen</h3><p>Premium Lifetime.</p></div>
+      <div class="card"><h3>Makluman</h3><p>0 mesej baru.</p></div>
+    </div>
+    <section id="anak" class="section">
+      <h2>Anak Saya</h2>
+      <form id="addChildForm" class="card form">
+        <input class="input" id="childName" placeholder="Nama anak" required>
+        <input class="input" id="childAge" type="number" min="1" max="17" placeholder="Umur">
+        <button class="btn btn-primary" type="submit">Tambah Anak</button>
+      </form>
+      <br>
+      <div id="childrenList" class="grid-3"></div>
+    </section>
+  </main>
+</div>
+<script type="module" src="js/dashboard.js"></script>
+</body>
+</html>

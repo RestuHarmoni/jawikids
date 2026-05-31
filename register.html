@@ -1,0 +1,31 @@
+
+<!doctype html>
+<html lang="ms">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Register JawiKids</title><link rel="stylesheet" href="css/app.css"></head>
+<body>
+  <div class="container section" style="max-width:520px">
+    <a href="index.html">← Laman Utama</a>
+    <div class="card">
+      <h1>Daftar Parent</h1>
+      <div class="notice">Akaun premium diaktifkan selepas pembayaran RM49.90 disahkan.</div><br>
+      <form id="registerForm" class="form">
+        <input class="input" id="fullName" placeholder="Nama penuh" required>
+        <input class="input" id="email" type="email" placeholder="Email" required>
+        <input class="input" id="password" type="password" placeholder="Password" required minlength="6">
+        <button class="btn btn-primary" type="submit">Daftar Akaun</button>
+      </form>
+    </div>
+  </div>
+<script type="module">
+import { registerParent } from "./js/auth.js";
+document.getElementById("registerForm").addEventListener("submit", async e => {
+  e.preventDefault();
+  try {
+    await registerParent({ fullName: fullName.value, email: email.value, password: password.value });
+    alert("Akaun berjaya didaftarkan. Sila semak email jika confirmation diaktifkan.");
+    window.location.href = "login.html";
+  } catch(err) { alert(err.message); }
+});
+</script>
+</body>
+</html>
