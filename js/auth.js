@@ -1,33 +1,9 @@
-
-import { supabase } from "../supabase/client.js";
-
-const $ = (id) => document.getElementById(id);
-
-export async function registerParent({ fullName, email, password }) {
-  const { data, error } = await supabase.auth.signUp({
-    email,
-    password,
-    options: { data: { full_name: fullName } }
-  });
-  if (error) throw error;
-  return data;
-}
-
-export async function loginParent({ email, password }) {
-  const { data, error } = await supabase.auth.signInWithPassword({ email, password });
-  if (error) throw error;
-  return data;
-}
-
-export async function logout() {
-  await supabase.auth.signOut();
-  window.location.href = "login.html";
-}
-
-export async function requireAuth() {
-  const { data } = await supabase.auth.getUser();
-  if (!data.user) window.location.href = "login.html";
-  return data.user;
-}
-
-window.JawiKidsAuth = { registerParent, loginParent, logout, requireAuth };
+document.addEventListener('DOMContentLoaded',()=>{
+  const loginForm=document.querySelector('#loginForm');
+  const registerForm=document.querySelector('#registerForm');
+  const forgotForm=document.querySelector('#forgotForm');
+  if(loginForm) loginForm.addEventListener('submit', async e=>{e.preventDefault();const email=loginForm.email.value.trim().toLowerCase();const password=loginForm.password.value;if(window.jawikidsSupabase){const {error}=await jawikidsSupabase.auth.signInWithPassword({email,password});if(error && !email.includes('demo')) return JK.toast(error.message);}const s=JK.load();let p=s.parents.find(x=>x.email===email);if(!p){if(email==='demo@jawikids.com' && password==='demo12345'){p={id:JK.id('parent'),email,full_name:'Demo Parent',phone:'',package:'TRIAL',status:'active',created_at:new Date().toISOString()};s.parents.push(p);s.children.push({id:JK.id('child'),parent_id:p.id,full_name:'Ali',gender:'Lelaki',birth_year:2018,avatar:'👦',level:1,xp:35,created_at:new Date().toISOString()});s.notifications.push({id:JK.id('noti'),parent_id:p.id,type:'SYSTEM',title:'Akaun Demo Aktif',message:'Ini data demo untuk mencuba JawiKids.',is_read:false,created_at:new Date().toISOString()});}else return JK.toast('Akaun tidak dijumpai. Daftar dahulu atau guna demo@jawikids.com / demo12345');}
+    s.session={parentId:p.id,email:p.email,loggedAt:new Date().toISOString()};p.last_login=new Date().toISOString();JK.save(s);location.href='dashboard.html';});
+  if(registerForm) registerForm.addEventListener('submit', async e=>{e.preventDefault();const full_name=registerForm.full_name.value.trim();const email=registerForm.email.value.trim().toLowerCase();const phone=registerForm.phone.value.trim();const password=registerForm.password.value;if(password.length<8)return JK.toast('Password minimum 8 aksara.');if(window.jawikidsSupabase){const {error}=await jawikidsSupabase.auth.signUp({email,password,options:{data:{full_name,phone}}});if(error)return JK.toast(error.message);}const s=JK.load();if(s.parents.some(p=>p.email===email))return JK.toast('Email sudah didaftarkan.');const p={id:JK.id('parent'),email,full_name,phone,package:'TRIAL',status:'active',created_at:new Date().toISOString(),last_login:new Date().toISOString()};s.parents.push(p);s.session={parentId:p.id,email:p.email,loggedAt:new Date().toISOString()};s.notifications.push({id:JK.id('noti'),parent_id:p.id,type:'SYSTEM',title:'Selamat Datang ke JawiKids',message:'Akaun parent berjaya didaftarkan.',is_read:false,created_at:new Date().toISOString()});JK.save(s);location.href='children.html';});
+  if(forgotForm) forgotForm.addEventListener('submit', async e=>{e.preventDefault();const email=forgotForm.email.value.trim().toLowerCase();if(window.jawikidsSupabase){await jawikidsSupabase.auth.resetPasswordForEmail(email,{redirectTo:location.origin+'/login.html'});}JK.toast('Jika email wujud, link reset password akan dihantar.');});
+});

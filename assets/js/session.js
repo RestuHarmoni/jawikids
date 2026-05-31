@@ -1,0 +1,1 @@
+document.addEventListener('DOMContentLoaded',()=>{document.querySelectorAll('[data-logout]').forEach(b=>b.addEventListener('click',JK.logout));const nameEl=document.querySelector('[data-parent-name]');const p=JK.currentParent();if(nameEl&&p)nameEl.textContent=p.full_name||p.email;});
