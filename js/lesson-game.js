@@ -1,4 +1,4 @@
-// JawiKids v1.34 - Lesson audio manager sync + selected child safe lesson flow
+// JawiKids v1.35 - Premium lesson audio card + audio manager sync
 (function(){
   'use strict';
 
@@ -130,9 +130,9 @@
       if(activeAudio){ activeAudio.pause(); activeAudio.currentTime = 0; }
       if(window.speechSynthesis) window.speechSynthesis.cancel();
       activeAudio = new Audio(url);
-      activeAudio.onplay = () => showAudioStatus('Audio sedang dimainkan...');
-      activeAudio.onended = () => showAudioStatus('Tekan speaker untuk ulang audio.');
-      activeAudio.onerror = () => speak(fallbackText);
+      activeAudio.onplay = () => { setAudioPlaying(true); showAudioStatus('Audio sedang dimainkan...'); };
+      activeAudio.onended = () => { setAudioPlaying(false); showAudioStatus('Tekan butang main untuk ulang audio.'); };
+      activeAudio.onerror = () => { setAudioPlaying(false); speak(fallbackText); };
       activeAudio.play().catch(() => speak(fallbackText));
     }catch(e){
       speak(fallbackText);
@@ -160,12 +160,22 @@
       utter.pitch = 1.05;
       const voice = getVoice();
       if(voice) utter.voice = voice;
-      utter.onstart = () => showAudioStatus('Audio sedang dimainkan...');
-      utter.onend = () => showAudioStatus('Tekan speaker untuk ulang audio.');
-      utter.onerror = () => showAudioStatus('Tekan speaker sekali lagi untuk main audio.');
+      utter.onstart = () => { setAudioPlaying(true); showAudioStatus('Audio sedang dimainkan...'); };
+      utter.onend = () => { setAudioPlaying(false); showAudioStatus('Tekan butang main untuk ulang audio.'); };
+      utter.onerror = () => { setAudioPlaying(false); showAudioStatus('Tekan butang main sekali lagi untuk main audio.'); };
       window.speechSynthesis.speak(utter);
     }catch(e){
-      showAudioStatus('Tekan speaker sekali lagi untuk main audio.');
+      setAudioPlaying(false); showAudioStatus('Tekan butang main sekali lagi untuk main audio.');
+    }
+  }
+
+  function setAudioPlaying(isPlaying){
+    const card = $('lessonAudioCard');
+    const btn = $('playAudioBtn');
+    if(card) card.classList.toggle('is-playing', !!isPlaying);
+    if(btn){
+      btn.classList.toggle('is-playing', !!isPlaying);
+      btn.querySelector('strong').textContent = isPlaying ? 'Sedang Main...' : 'Mainkan Audio';
     }
   }
 
@@ -222,7 +232,7 @@
     renderBase(progress);
     const audioBtn = $('playAudioBtn');
     if(audioBtn) audioBtn.addEventListener('click', () => playAudioKey(LESSON.audioKey, LESSON.audioText));
-    showAudioStatus('Tekan butang speaker untuk dengar arahan.');
+    showAudioStatus('Tekan butang main untuk dengar arahan.');
   }
 
   document.addEventListener('DOMContentLoaded', boot);
