@@ -89,8 +89,9 @@
         localStorage.setItem('jawikids_game_wide_mode', '1');
         localStorage.setItem('jawikids_game_mode', '1');
 
-        // Start wide mode only from this user gesture. Dashboard/profil remain normal.
-window.location.href = link.getAttribute('href') || 'game-map.html';
+        // Do NOT lock orientation on child-select/dashboard.
+        // The game page itself will activate wide mode after navigation.
+        window.location.href = link.getAttribute('href') || 'game-map.html';
       });
     });
   }
