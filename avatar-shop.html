@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="ms">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Kedai Avatar - JawiKids</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@500;600;700;800;900&family=Noto+Sans+Arabic:wght@600;700;800;900&family=Amiri:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="app.css">
+</head>
+<body class="feature-shell">
+  <header class="app-header">
+    <a class="brand" href="index.html">
+      <span class="brand-mark">ج</span>
+      <span><strong>JawiKids</strong><small>Main, Belajar, Bijak Jawi!</small></span>
+    </a>
+    <nav class="app-nav">
+      <a href="parent-dashboard.html">Dashboard</a>
+      <a href="child-select.html">Profil Anak</a>
+      <a href="game-map.html">Peta Pulau</a>
+      <a href="achievement.html" >Achievement</a>
+      <a href="avatar-shop.html" class="active">Kedai Avatar</a>
+      <a href="parent-inbox.html" class="nav-inbox">🔔 Inbox <span class="nav-badge" data-inbox-count>3</span></a>
+    </nav>
+  </header>
+  <main class="app-main">
+    
+<section class="premium-card app-card feature-hero">
+  <div>
+    <div class="pill">TASK 14</div>
+    <h1>Kedai Avatar</h1>
+    <p>Anak boleh menggunakan XP untuk membeli aksesori comel untuk Zafri dan Zainab. Ini memberi motivasi tanpa perlu pembelian wang sebenar.</p>
+    <div class="feature-actions">
+      <a class="primary-btn" href="game-map.html">Kumpul XP</a>
+      <a class="secondary-btn" href="achievement.html">Lihat Badge</a>
+    </div>
+  </div>
+  <div class="feature-icon-card premium-card"><div class="feature-big-icon">🎒</div></div>
+</section>
+
+<div class="shop-tabs">
+  <button class="shop-tab active" data-shop-filter="all">Semua</button>
+  <button class="shop-tab" data-shop-filter="zafri">Zafri</button>
+  <button class="shop-tab" data-shop-filter="zainab">Zainab</button>
+</div>
+
+<section class="shop-grid">
+  <article class="shop-item owned" data-shop-item="zafri"><div class="shop-preview">👦</div><h3>Songkok Biru</h3><p>Item common untuk Zafri.</p><div class="price-row"><span class="price-xp">100 XP</span><span class="status-chip unlocked">Owned</span></div></article>
+  <article class="shop-item" data-shop-item="zafri"><div class="shop-preview">🧢</div><h3>Songkok Emas</h3><p>Item epic untuk penjelajah hebat.</p><div class="price-row"><span class="price-xp">1000 XP</span><button class="secondary-btn mini-3d-btn">Tebus</button></div></article>
+  <article class="shop-item" data-shop-item="zafri"><div class="shop-preview">🧥</div><h3>Jubah Pengembara</h3><p>Item rare untuk Zafri.</p><div class="price-row"><span class="price-xp">500 XP</span><button class="secondary-btn mini-3d-btn">Tebus</button></div></article>
+  <article class="shop-item owned" data-shop-item="zainab"><div class="shop-preview">👧</div><h3>Tudung Pink</h3><p>Item common untuk Zainab.</p><div class="price-row"><span class="price-xp">100 XP</span><span class="status-chip unlocked">Owned</span></div></article>
+  <article class="shop-item" data-shop-item="zainab"><div class="shop-preview">🎒</div><h3>Beg Sekolah</h3><p>Item rare untuk Zainab.</p><div class="price-row"><span class="price-xp">500 XP</span><button class="secondary-btn mini-3d-btn">Tebus</button></div></article>
+  <article class="shop-item" data-shop-item="zainab"><div class="shop-preview">👑</div><h3>Mahkota Bintang</h3><p>Item epic untuk kejayaan besar.</p><div class="price-row"><span class="price-xp">1000 XP</span><button class="secondary-btn mini-3d-btn">Tebus</button></div></article>
+</section>
+
+  </main>
+  <div class="footer-mini">© 2026 JawiKids. Avatar Shop</div>
+  <script src="js/beta-features.js"></script>
+</body>
+</html>

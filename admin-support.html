@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="ms">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Admin Support Center - JawiKids</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Nunito:wght@400;600;700;800&family=Noto+Sans+Arabic:wght@500;700;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="admin.css" />
+  <link rel="stylesheet" href="css/support.css" />
+</head>
+<body>
+  <div class="admin-shell">
+    <aside class="sidebar" id="sidebar">
+      <a class="brand" href="admin.html" aria-label="JawiKids Admin Home"><span class="brand-mark">ج</span><span><strong>JawiKids</strong><small>Support Center</small></span></a>
+      <nav class="admin-nav" aria-label="Admin navigation">
+        <a href="admin.html#overview">Overview</a>
+        <a href="admin.html#questions">Questions Bank</a>
+        <a href="admin.html#payments">Payments</a>
+        <a class="active" href="admin-support.html">Support Center</a>
+        <a href="admin.html#notifications">Notifications</a>
+        <a href="index.html">Landing Page</a>
+      </nav>
+    </aside>
+
+    <main class="admin-main">
+      <header class="topbar">
+        <button class="menu-toggle" id="menuToggle" type="button">☰</button>
+        <div><p class="eyebrow">Parent Support Operations</p><h1>Admin Support Center</h1></div>
+        <div class="top-actions"><a class="ghost-btn" href="admin.html">Admin Dashboard</a></div>
+      </header>
+
+      <section class="panel">
+        <div class="panel-head">
+          <div><p class="eyebrow">Ticket Queue</p><h2>Semak & Balas Aduan Parent</h2></div>
+          <span class="status-chip draft" id="openCount">0 Open</span>
+        </div>
+        <div class="admin-filter-row">
+          <input id="ticketSearch" type="search" placeholder="Cari subjek / nama parent..." />
+          <select id="statusFilter"><option value="all">Semua Status</option><option value="open">Open</option><option value="pending">Pending</option><option value="closed">Closed</option></select>
+          <select id="categoryFilter"><option value="all">Semua Kategori</option><option value="technical">Teknikal</option><option value="payment">Pembayaran</option><option value="progress">Progress</option><option value="audio">Audio/Game</option><option value="account">Akaun</option></select>
+        </div>
+        <div class="admin-support-layout">
+          <div class="admin-ticket-sidebar" id="adminTicketList"></div>
+          <article class="thread-card" id="adminThreadPanel">
+            <div class="thread-head">
+              <div><div class="pill">Selected Ticket</div><h2 id="adminThreadSubject">Pilih tiket untuk dibalas</h2><p class="small-note" id="adminThreadMeta">Tiket parent akan dipaparkan di sini.</p></div>
+              <span class="ticket-status open" id="adminThreadStatus">Open</span>
+            </div>
+            <div class="message-list" id="adminMessageList"></div>
+            <form class="reply-box" id="adminReplyForm">
+              <textarea id="adminReplyMessage" placeholder="Tulis balasan admin kepada parent..." required></textarea>
+              <button class="primary-btn" type="submit">Balas Parent</button>
+              <div class="status-actions">
+                <button class="ghost-btn small" type="button" data-status="open">Set Open</button>
+                <button class="ghost-btn small" type="button" data-status="pending">Set Pending</button>
+                <button class="ghost-btn small" type="button" data-status="closed">Close Ticket</button>
+              </div>
+              <p class="small-note">Balasan admin akan trigger notification jenis support ke Inbox Parent.</p>
+            </form>
+          </article>
+        </div>
+      </section>
+    </main>
+  </div>
+  <div class="support-toast" id="supportToast"><span>🔔</span><b>Notifikasi</b></div>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="js/supabase-client.js"></script>
+  <script src="js/admin-support.js"></script>
+</body>
+</html>

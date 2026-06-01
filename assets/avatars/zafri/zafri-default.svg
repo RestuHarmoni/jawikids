@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 420 420" role="img" aria-label="Zafri budak lelaki bersongkok">
+  <defs>
+    <linearGradient id="bg" x1="0" x2="1" y1="0" y2="1"><stop stop-color="#E0F7FF"/><stop offset="1" stop-color="#FDF4C9"/></linearGradient>
+    <linearGradient id="shirt" x1="0" x2="1"><stop stop-color="#22C55E"/><stop offset="1" stop-color="#06B6D4"/></linearGradient>
+  </defs>
+  <circle cx="210" cy="210" r="196" fill="url(#bg)"/>
+  <circle cx="210" cy="215" r="172" fill="#fff" opacity=".45"/>
+  <path d="M116 359c17-66 55-101 94-101s78 35 94 101" fill="url(#shirt)"/>
+  <path d="M130 359c18-48 45-73 80-73s63 25 80 73" fill="#0EA5E9" opacity=".35"/>
+  <circle cx="210" cy="187" r="86" fill="#F4B987"/>
+  <path d="M130 186c5-56 39-96 82-96s75 38 78 96c-18-26-47-39-81-39s-61 13-79 39z" fill="#2F1B13"/>
+  <path d="M132 120c16-45 52-69 80-69s62 24 77 69c-34 13-110 13-157 0z" fill="#111827"/>
+  <path d="M147 104c35 11 88 11 126 0" stroke="#FACC15" stroke-width="10" stroke-linecap="round" opacity=".95"/>
+  <circle cx="177" cy="186" r="9" fill="#111827"/>
+  <circle cx="243" cy="186" r="9" fill="#111827"/>
+  <path d="M181 228c19 18 42 18 60 0" fill="none" stroke="#7C2D12" stroke-width="10" stroke-linecap="round"/>
+  <circle cx="154" cy="211" r="13" fill="#F472B6" opacity=".34"/>
+  <circle cx="266" cy="211" r="13" fill="#F472B6" opacity=".34"/>
+  <path d="M115 324c-20-1-37-17-37-37 0-15 10-27 24-32 7 25 17 48 28 69h-15z" fill="#F4B987"/>
+  <path d="M305 324c20-1 37-17 37-37 0-15-10-27-24-32-7 25-17 48-28 69h15z" fill="#F4B987"/>
+</svg>

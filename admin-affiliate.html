@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="ms">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Affiliate Management - Admin JawiKids</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@500;600;700;800;900&family=Noto+Sans+Arabic:wght@600;700;800;900&family=Amiri:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="admin.css">
+</head>
+<body class="admin-body">
+  <aside class="admin-sidebar">
+    <a class="admin-brand" href="admin.html"><span class="brand-mark">ج</span><strong>JawiKids Admin</strong></a>
+    <nav>
+      <a href="admin.html">Overview</a>
+      <a href="admin.html#users">Users</a>
+      <a href="admin.html#questions">Questions Bank</a>
+      <a href="admin-support.html">Support Center</a>
+      <a href="admin-affiliate.html" class="active">Affiliate</a>
+      <a href="admin.html#settings">Settings</a>
+    </nav>
+    <div class="admin-side-note">Affiliate Management disediakan sebagai tapak awal. Status public masih Feature OFF.</div>
+  </aside>
+
+  <main class="admin-main affiliate-admin-page">
+    <header class="admin-topbar">
+      <div>
+        <p class="eyebrow">Affiliate Management</p>
+        <h1>Permohonan, Referral & Komisen</h1>
+      </div>
+      <span class="status-pill warning">Coming Soon / Disabled</span>
+    </header>
+
+    <section class="admin-metrics affiliate-admin-metrics">
+      <article class="metric-card"><span>Applications</span><strong>3</strong><small>2 pending approval</small></article>
+      <article class="metric-card success"><span>Approved Affiliates</span><strong>0</strong><small>Feature belum dibuka</small></article>
+      <article class="metric-card blue"><span>Referral Sales</span><strong>0</strong><small>Tracking belum aktif</small></article>
+      <article class="metric-card warning"><span>Pending Payout</span><strong>RM0</strong><small>Tiada payout aktif</small></article>
+    </section>
+
+    <section class="admin-panel">
+      <div class="panel-head">
+        <div>
+          <p class="eyebrow">Applications</p>
+          <h2>Permohonan Affiliate</h2>
+        </div>
+        <button class="admin-action-btn" data-feature-off>Approve Selected</button>
+      </div>
+      <div class="admin-table-wrap">
+        <table class="admin-table affiliate-table">
+          <thead>
+            <tr>
+              <th>Parent</th>
+              <th>Bank</th>
+              <th>No Akaun</th>
+              <th>Platform</th>
+              <th>Status</th>
+              <th>Tindakan</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Nurul Aisyah</strong><small>aisyah@email.com</small></td>
+              <td>Maybank</td>
+              <td>******4321</td>
+              <td>TikTok, WhatsApp</td>
+              <td><span class="status-pill warning">Pending</span></td>
+              <td><button class="mini-btn" data-open-application="0">Review</button></td>
+            </tr>
+            <tr>
+              <td><strong>Ustaz Farid</strong><small>farid@email.com</small></td>
+              <td>Bank Islam</td>
+              <td>******0098</td>
+              <td>Facebook, Telegram</td>
+              <td><span class="status-pill warning">Pending</span></td>
+              <td><button class="mini-btn" data-open-application="1">Review</button></td>
+            </tr>
+            <tr>
+              <td><strong>Teacher Hana</strong><small>hana@email.com</small></td>
+              <td>Agrobank <small>Other</small></td>
+              <td>******8755</td>
+              <td>YouTube</td>
+              <td><span class="status-pill muted">Draft</span></td>
+              <td><button class="mini-btn" data-open-application="2">Review</button></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="admin-grid two">
+      <article class="admin-panel">
+        <div class="panel-head"><div><p class="eyebrow">Commission Center</p><h2>Ringkasan Komisen</h2></div></div>
+        <div class="commission-list">
+          <div><span>Komisen per sale</span><strong>RM10</strong></div>
+          <div><span>Pending</span><strong>RM0</strong></div>
+          <div><span>Approved</span><strong>RM0</strong></div>
+          <div><span>Paid</span><strong>RM0</strong></div>
+        </div>
+      </article>
+      <article class="admin-panel">
+        <div class="panel-head"><div><p class="eyebrow">Feature Control</p><h2>Status Affiliate</h2></div></div>
+        <p>Public landing page tidak memaparkan affiliate. Parent Dashboard hanya memaparkan tapak Coming Soon.</p>
+        <label class="admin-toggle-row"><input type="checkbox" disabled> Enable Affiliate Program <small>Locked OFF untuk MVP Beta</small></label>
+      </article>
+    </section>
+  </main>
+
+  <div class="application-modal is-hidden" data-application-modal>
+    <div class="application-modal-card">
+      <button class="modal-close" data-close-application>×</button>
+      <p class="eyebrow">Application Review</p>
+      <h2 data-modal-name>Nama Parent</h2>
+      <div class="review-grid">
+        <div><span>Email</span><strong data-modal-email>-</strong></div>
+        <div><span>Bank</span><strong data-modal-bank>-</strong></div>
+        <div><span>No Akaun</span><strong data-modal-account>-</strong></div>
+        <div><span>Platform</span><strong data-modal-platform>-</strong></div>
+      </div>
+      <div class="affiliate-actions">
+        <button class="admin-action-btn" data-feature-off>Approve</button>
+        <button class="admin-action-btn danger" data-feature-off>Reject</button>
+      </div>
+      <p class="form-note">Butang approve/reject dikunci kerana feature affiliate masih OFF.</p>
+    </div>
+  </div>
+
+  <script src="js/admin-affiliate.js"></script>
+</body>
+</html>

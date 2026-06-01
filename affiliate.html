@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="ms">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Affiliate Program - JawiKids</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@500;600;700;800;900&family=Noto+Sans+Arabic:wght@600;700;800;900&family=Amiri:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="app.css">
+</head>
+<body>
+  <div class="app-shell">
+    <header class="app-header dashboard-header">
+      <a class="brand" href="index.html">
+        <span class="brand-mark">ج</span>
+        <span><strong>JawiKids</strong><small>Main, Belajar, Bijak Jawi!</small></span>
+      </a>
+      <nav class="app-nav">
+        <a href="parent-dashboard.html">Dashboard</a>
+        <a href="child-select.html">Profil Anak</a>
+        <a href="parent-inbox.html">🔔 Inbox</a>
+        <a href="support.html">Support</a>
+        <a href="affiliate.html" class="active">Affiliate <span class="soon-dot">Soon</span></a>
+      </nav>
+    </header>
+
+    <main class="app-main affiliate-page">
+      <section class="premium-card app-card affiliate-hero affiliate-application-hero">
+        <div>
+          <div class="pill">Coming Soon / Tapak Disediakan</div>
+          <h1>Affiliate Program JawiKids</h1>
+          <p>Program affiliate belum diaktifkan kepada pengguna umum, tetapi tapak permohonan, maklumat bank, dan struktur admin telah disediakan awal supaya mudah diaktifkan selepas beta.</p>
+          <div class="affiliate-actions">
+            <a class="primary-btn" href="#affiliateForm">Lihat Borang Permohonan</a>
+            <a class="secondary-btn" href="parent-dashboard.html">Kembali ke Dashboard</a>
+          </div>
+        </div>
+        <div class="affiliate-illustration" aria-hidden="true">
+          <div class="affiliate-badge-big">🤝</div>
+          <div class="affiliate-mini-card">Referral Link<br><strong>Belum Aktif</strong></div>
+        </div>
+      </section>
+
+      <section class="premium-card app-card affiliate-status-card">
+        <div class="section-title-row">
+          <div>
+            <div class="pill">Status Semasa</div>
+            <h2>Feature OFF sehingga admin aktifkan</h2>
+          </div>
+          <span class="soon-chip">Planned v1.1</span>
+        </div>
+        <p>Affiliate tidak dipaparkan di landing page. Parent hanya akan nampak tapak ini selepas login di Parent Dashboard.</p>
+      </section>
+
+      <section class="premium-card app-card affiliate-form-card" id="affiliateForm">
+        <div class="section-title-row">
+          <div>
+            <div class="pill">Borang Permohonan</div>
+            <h2>Mohon Jadi Affiliate</h2>
+            <p>Maklumat pembayaran diambil awal supaya proses approve dan payout lebih mudah apabila program dibuka.</p>
+          </div>
+          <span class="soon-chip">Preview</span>
+        </div>
+
+        <form class="affiliate-form" data-affiliate-form>
+          <div class="form-section-title">Maklumat Akaun</div>
+          <div class="form-grid two">
+            <label>Nama Penuh
+              <input type="text" name="full_name" placeholder="Contoh: Nurul Aisyah" required>
+            </label>
+            <label>Email
+              <input type="email" name="email" placeholder="nama@email.com" required>
+            </label>
+            <label>No Telefon
+              <input type="tel" name="phone" placeholder="0123456789" required>
+            </label>
+          </div>
+
+          <div class="form-section-title">Maklumat Bank</div>
+          <div class="form-grid two">
+            <label>Nama Bank
+              <select name="bank_name" data-bank-select required>
+                <option value="">Pilih bank</option>
+                <option value="Maybank">Maybank</option>
+                <option value="CIMB">CIMB</option>
+                <option value="Bank Islam">Bank Islam</option>
+                <option value="BSN">BSN</option>
+                <option value="RHB">RHB</option>
+                <option value="Public Bank">Public Bank</option>
+                <option value="Hong Leong">Hong Leong</option>
+                <option value="AmBank">AmBank</option>
+                <option value="Bank Muamalat">Bank Muamalat</option>
+                <option value="OCBC">OCBC</option>
+                <option value="UOB">UOB</option>
+                <option value="OTHER">Lain-lain / Other</option>
+              </select>
+            </label>
+            <label class="other-bank-field is-hidden" data-other-bank-field>Sila nyatakan nama bank
+              <input type="text" name="bank_name_other" placeholder="Contoh: Agrobank / Bank Rakyat / GXBank">
+            </label>
+            <label>Nama Pemegang Akaun
+              <input type="text" name="bank_account_name" placeholder="Nama seperti dalam bank" required>
+            </label>
+            <label>Nombor Akaun Bank
+              <input type="text" name="bank_account_number" inputmode="numeric" placeholder="Contoh: 1234567890" required>
+            </label>
+          </div>
+
+          <div class="form-section-title">Maklumat Promosi</div>
+          <div class="platform-grid">
+            <label><input type="checkbox" name="platform" value="Facebook"> Facebook</label>
+            <label><input type="checkbox" name="platform" value="TikTok"> TikTok</label>
+            <label><input type="checkbox" name="platform" value="Instagram"> Instagram</label>
+            <label><input type="checkbox" name="platform" value="WhatsApp"> WhatsApp</label>
+            <label><input type="checkbox" name="platform" value="Telegram"> Telegram</label>
+            <label><input type="checkbox" name="platform" value="YouTube"> YouTube</label>
+            <label><input type="checkbox" name="platform" value="Other"> Lain-lain</label>
+          </div>
+          <label>Link Profil / Channel Promosi <span class="muted-text">(optional)</span>
+            <input type="url" name="social_link" placeholder="https://facebook.com/... atau https://tiktok.com/..."></label>
+
+          <label class="agree-row">
+            <input type="checkbox" name="agree" required>
+            <span>Saya bersetuju mematuhi syarat Affiliate JawiKids dan faham program ini masih Coming Soon.</span>
+          </label>
+
+          <div class="affiliate-actions">
+            <button class="primary-btn" type="submit">Simpan Permohonan Draft</button>
+            <button class="secondary-btn" type="reset">Reset</button>
+          </div>
+          <p class="form-note">Nota: Versi ini menyediakan tapak UI dan struktur database. Sambungan sebenar ke Supabase boleh diaktifkan apabila Affiliate Program dibuka.</p>
+        </form>
+      </section>
+
+      <section class="app-grid three affiliate-info-grid">
+        <div class="premium-card app-card"><div class="icon-bubble">🔒</div><h2>Feature OFF</h2><p>Affiliate tidak muncul di landing page dan belum terbuka kepada public visitor.</p></div>
+        <div class="premium-card app-card"><div class="icon-bubble">🏦</div><h2>Bank Ready</h2><p>Senarai bank Malaysia + pilihan Other sudah disediakan dalam borang.</p></div>
+        <div class="premium-card app-card"><div class="icon-bubble">💳</div><h2>Payout Later</h2><p>Admin boleh semak permohonan, akaun bank, komisen dan payout apabila modul diaktifkan.</p></div>
+      </section>
+    </main>
+    <div class="footer-mini">© 2026 JawiKids. Affiliate tapak awal disediakan — Feature OFF.</div>
+  </div>
+  <script src="js/affiliate.js"></script>
+</body>
+</html>

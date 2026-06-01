@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="ms">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Inbox Parent - JawiKids</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@500;600;700;800;900&family=Noto+Sans+Arabic:wght@600;700;800;900&family=Amiri:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="app.css">
+</head>
+<body>
+  <div class="app-shell">
+    <header class="app-header dashboard-header">
+      <a class="brand" href="index.html">
+        <span class="brand-mark">ج</span>
+        <span><strong>JawiKids</strong><small>Main, Belajar, Bijak Jawi!</small></span>
+      </a>
+      <nav class="app-nav">
+        <a href="parent-dashboard.html">Dashboard</a>
+        <a href="child-select.html">Profil Anak</a>
+        <a href="game-map.html">Peta Pulau</a>
+        <a href="parent-inbox.html" class="active nav-inbox">🔔 Inbox <span class="nav-badge" data-inbox-count>3</span></a>
+        <a href="support.html">Support</a>
+      </nav>
+    </header>
+
+    <main class="app-main inbox-page">
+      <section class="premium-card app-card inbox-hero">
+        <div>
+          <div class="pill">Parent Inbox</div>
+          <h1>Pusat Notifikasi Ibu Bapa.</h1>
+          <p>Semua pengumuman, balasan support, pembayaran, reward dan kemaskini penting JawiKids akan muncul di sini.</p>
+        </div>
+        <button class="secondary-btn" id="markAllReadBtn">Tanda Semua Dibaca</button>
+      </section>
+
+      <section class="inbox-layout">
+        <aside class="premium-card app-card inbox-filter">
+          <h2>Kategori</h2>
+          <button class="filter-btn active" data-filter="all">Semua <span>5</span></button>
+          <button class="filter-btn" data-filter="support">🛟 Support <span>1</span></button>
+          <button class="filter-btn" data-filter="reward">🎁 Reward <span>1</span></button>
+          <button class="filter-btn" data-filter="payment">💳 Pembayaran <span>1</span></button>
+          <button class="filter-btn" data-filter="announcement">📢 Pengumuman <span>2</span></button>
+        </aside>
+
+        <section class="premium-card app-card inbox-list-card">
+          <div class="inbox-message unread" data-type="support">
+            <div class="message-icon">🛟</div>
+            <div class="message-body"><div class="message-top"><strong>Admin membalas tiket support anda</strong><span>Baru</span></div><p>Sila cuba refresh aplikasi dan masuk semula ke Pulau 2. Jika masih tersekat, balas tiket support tersebut.</p><small>Hari ini · 5:20 petang</small><a href="ticket-thread.html" class="mini-link">Buka Tiket</a></div>
+          </div>
+          <div class="inbox-message unread" data-type="reward">
+            <div class="message-icon">🎁</div>
+            <div class="message-body"><div class="message-top"><strong>Ganjaran harian tersedia</strong><span>Baru</span></div><p>Log masuk hari ini untuk claim bonus XP dan teruskan streak pembelajaran anak.</p><small>Hari ini · 9:00 pagi</small></div>
+          </div>
+          <div class="inbox-message unread" data-type="payment">
+            <div class="message-icon">💳</div>
+            <div class="message-body"><div class="message-top"><strong>Premium Lifetime aktif</strong><span>Baru</span></div><p>Pembayaran RM49.90 telah disahkan. Akaun anda kini mempunyai akses premium lifetime untuk 3 anak.</p><small>Semalam · 8:40 malam</small></div>
+          </div>
+          <div class="inbox-message" data-type="announcement">
+            <div class="message-icon">📢</div>
+            <div class="message-body"><div class="message-top"><strong>JawiKids Beta Update</strong></div><p>Kami sedang menambah sistem badge, daily reward dan avatar shop untuk pengalaman pembelajaran lebih menyeronokkan.</p><small>30 Mei 2026</small></div>
+          </div>
+          <div class="inbox-message" data-type="announcement">
+            <div class="message-icon">🔒</div>
+            <div class="message-body"><div class="message-top"><strong>Keselamatan Akaun</strong></div><p>Pastikan email dan nombor telefon parent dikemaskini untuk memudahkan bantuan support.</p><small>29 Mei 2026</small></div>
+          </div>
+        </section>
+      </section>
+    </main>
+    <div class="footer-mini">© 2026 JawiKids. Parent Inbox System.</div>
+  </div>
+  <script src="js/inbox.js"></script>
+</body>
+</html>

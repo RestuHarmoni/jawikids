@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="ms">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Log Masuk Parent | JawiKids</title>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="app.css" />
+</head>
+<body class="auth-page">
+  <main class="auth-shell">
+    <section class="auth-card">
+      <a class="brand-mini" href="index.html">🌙 JawiKids</a>
+      <p class="eyebrow">Portal Ibu Bapa</p>
+      <h1>Log Masuk Akaun Parent</h1>
+      <p class="auth-subtitle">Pantau progress anak, notifikasi, support dan langganan JawiKids.</p>
+
+      <div id="authMessage" class="auth-message" hidden></div>
+
+      <form id="loginForm" class="auth-form">
+        <label>Email
+          <input id="email" type="email" autocomplete="email" placeholder="email@example.com" required />
+        </label>
+        <label>Kata Laluan
+          <input id="password" type="password" autocomplete="current-password" placeholder="••••••••" required />
+        </label>
+        <button id="loginBtn" class="btn btn-primary btn-full" type="submit">Log Masuk</button>
+      </form>
+
+      <button class="btn btn-google btn-full" type="button" onclick="JawiKidsAuth.loginGoogle()">Log Masuk dengan Google</button>
+
+      <div class="auth-links">
+        <a href="forgot-password.html">Lupa kata laluan?</a>
+        <a href="register.html">Daftar akaun baru</a>
+      </div>
+    </section>
+
+    <section class="auth-side-card">
+      <div class="floating-island-mini">🏝️</div>
+      <h2>Main, Belajar, Bijak Jawi!</h2>
+      <p>Premium lifetime untuk keluarga Malaysia. Device open, maksimum 5 sesi serentak.</p>
+      <div class="trust-row"><span>🚫 Ad-Free</span><span>🔒 Selamat</span><span>🇲🇾 Malaysia</span></div>
+    </section>
+  </main>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="js/supabase-client.js"></script>
+  <script src="js/auth.js"></script>
+  <script>document.getElementById('loginForm').addEventListener('submit', JawiKidsAuth.loginParent);</script>
+</body>
+</html>

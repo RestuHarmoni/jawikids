@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="ms">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Daily Reward - JawiKids</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@500;600;700;800;900&family=Noto+Sans+Arabic:wght@600;700;800;900&family=Amiri:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="app.css">
+</head>
+<body class="feature-shell">
+  <header class="app-header">
+    <a class="brand" href="index.html">
+      <span class="brand-mark">ج</span>
+      <span><strong>JawiKids</strong><small>Main, Belajar, Bijak Jawi!</small></span>
+    </a>
+    <nav class="app-nav">
+      <a href="parent-dashboard.html">Dashboard</a>
+      <a href="child-select.html">Profil Anak</a>
+      <a href="game-map.html">Peta Pulau</a>
+      <a href="achievement.html" >Achievement</a>
+      <a href="avatar-shop.html" >Kedai Avatar</a>
+      <a href="parent-inbox.html" class="nav-inbox">🔔 Inbox <span class="nav-badge" data-inbox-count>3</span></a>
+    </nav>
+  </header>
+  <main class="app-main">
+    
+<section class="premium-card app-card feature-hero">
+  <div>
+    <div class="pill">TASK 13</div>
+    <h1>Daily Reward</h1>
+    <p>Ganjaran harian memastikan anak rasa seronok kembali belajar setiap hari. Hari ke-7 membuka Peti Misteri.</p>
+    <div class="feature-actions">
+      <button class="primary-btn" data-claim-daily>Claim Ganjaran Hari Ini</button>
+      <a class="secondary-btn" href="achievement.html">Lihat Achievement</a>
+    </div>
+  </div>
+  <div class="feature-icon-card premium-card"><div class="feature-big-icon">🎁</div></div>
+</section>
+
+<section class="reward-calendar">
+  <article class="reward-day claimed"><div class="reward-icon">⭐</div><h3>Hari 1</h3><p>+10 XP</p><span class="status-chip unlocked">Claimed</span></article>
+  <article class="reward-day claimed"><div class="reward-icon">⭐</div><h3>Hari 2</h3><p>+20 XP</p><span class="status-chip unlocked">Claimed</span></article>
+  <article class="reward-day claimed"><div class="reward-icon">⭐</div><h3>Hari 3</h3><p>+30 XP</p><span class="status-chip unlocked">Claimed</span></article>
+  <article class="reward-day today"><div class="reward-icon">⭐</div><h3>Hari 4</h3><p>+40 XP</p><span class="status-chip">Hari Ini</span></article>
+  <article class="reward-day"><div class="reward-icon">⭐</div><h3>Hari 5</h3><p>+50 XP</p><span class="status-chip locked">Locked</span></article>
+  <article class="reward-day"><div class="reward-icon">⭐</div><h3>Hari 6</h3><p>+60 XP</p><span class="status-chip locked">Locked</span></article>
+  <article class="reward-day mystery-chest"><div class="reward-icon">🧰</div><h3>Hari 7</h3><p>Mystery Chest</p><span class="status-chip locked">Locked</span></article>
+</section>
+
+<section class="premium-card app-card" style="margin-top:18px">
+  <h2>Flow Sistem</h2>
+  <p>Apabila parent/anak claim ganjaran, sistem akan tambah XP, kemas kini streak, simpan rekod dalam daily_rewards dan hantar notifikasi ke Parent Inbox.</p>
+</section>
+
+  </main>
+  <div class="footer-mini">© 2026 JawiKids. Daily Reward System</div>
+  <script src="js/beta-features.js"></script>
+</body>
+</html>

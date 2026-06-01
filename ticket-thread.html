@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="ms">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Ticket Thread - JawiKids</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@500;600;700;800;900&family=Noto+Sans+Arabic:wght@600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="app.css" />
+  <link rel="stylesheet" href="css/support.css" />
+</head>
+<body class="support-page">
+  <div class="app-shell">
+    <header class="app-header">
+      <a class="brand" href="index.html"><span class="brand-mark">ج</span><span><strong>JawiKids</strong><small>Support Thread</small></span></a>
+      <nav class="app-nav"><a href="support.html">← Kembali ke Support</a><a href="parent-dashboard.html">Dashboard</a></nav>
+    </header>
+
+    <main class="thread-shell">
+      <article class="thread-card">
+        <div class="thread-head">
+          <div>
+            <div class="pill">Ticket Thread</div>
+            <h1 id="threadSubject">Pembayaran premium belum aktif</h1>
+            <p class="small-note" id="threadMeta">Kategori: Pembayaran · Status: Open</p>
+          </div>
+          <span class="ticket-status open" id="threadStatus">Open</span>
+        </div>
+        <div class="message-list" id="messageList"></div>
+        <form class="reply-box" id="replyForm">
+          <textarea id="replyMessage" placeholder="Tulis balasan anda..." required></textarea>
+          <button class="primary-btn" type="submit">Hantar Balasan</button>
+        </form>
+      </article>
+    </main>
+  </div>
+  <div class="support-toast" id="supportToast"><span>🔔</span><b>Notifikasi</b></div>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="js/supabase-client.js"></script>
+  <script src="js/support.js"></script>
+</body>
+</html>

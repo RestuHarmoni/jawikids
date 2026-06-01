@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="ms">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>JawiKids Admin Content Manager</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Nunito:wght@400;600;700;800&family=Noto+Sans+Arabic:wght@500;700;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="admin.css" />
+</head>
+<body>
+  <div class="admin-shell">
+    <aside class="sidebar" id="sidebar">
+      <a class="brand" href="admin.html" aria-label="JawiKids Admin Home">
+        <span class="brand-mark">ج</span>
+        <span><strong>JawiKids</strong><small>Content Manager</small></span>
+      </a>
+      <nav class="admin-nav" aria-label="Admin navigation">
+        <a class="active" href="#overview">Overview</a>
+        <a href="#users">Users / Parents</a>
+        <a href="#children">Children</a>
+        <a href="#modules">Learning Modules</a>
+        <a href="#lessons">Lessons</a>
+        <a href="#questions">Questions Bank</a>
+        <a href="#payments">Payments</a>
+        <a href="admin-support.html">Support Center</a>
+        <a href="admin-affiliate.html">Affiliate</a>
+        <a href="#notifications">Notifications</a>
+        <a href="#settings">Settings</a>
+      </nav>
+    </aside>
+
+    <main class="admin-main">
+      <header class="topbar">
+        <button class="menu-toggle" id="menuToggle" type="button">☰</button>
+        <div>
+          <p class="eyebrow">Premium Kids Education Control Center</p>
+          <h1>Admin Content Manager</h1>
+        </div>
+        <div class="top-actions">
+          <a class="ghost-btn" href="index.html">Lihat Landing</a>
+          <a class="primary-btn" href="#questions">+ Tambah Soalan</a>
+        </div>
+      </header>
+
+      <section class="metric-grid" id="overview">
+        <article class="metric-card"><span>Parent</span><strong>1,248</strong><small>+42 minggu ini</small></article>
+        <article class="metric-card"><span>Children</span><strong>2,931</strong><small>Purata 2.3 anak / akaun</small></article>
+        <article class="metric-card"><span>Aktif Hari Ini</span><strong>418</strong><small>Streak meningkat</small></article>
+        <article class="metric-card"><span>Premium</span><strong>326</strong><small>FPX / ToyyibPay</small></article>
+        <article class="metric-card warning"><span>Support Open</span><strong>12</strong><small>Perlu tindakan admin</small></article>
+        <article class="metric-card success"><span>Revenue</span><strong>RM 16,267</strong><small>Bulan semasa</small></article>
+      </section>
+
+      <section class="dashboard-grid">
+        <article class="panel large">
+          <div class="panel-head">
+            <div><p class="eyebrow">Learning Operations</p><h2>Progress Pulau Pembelajaran</h2></div>
+            <button class="ghost-btn small">Manage Modules</button>
+          </div>
+          <div class="island-progress-list">
+            <div><b>Pulau Huruf</b><span><i style="width:92%"></i></span><em>92%</em></div>
+            <div><b>Pulau Bunyi</b><span><i style="width:76%"></i></span><em>76%</em></div>
+            <div><b>Pulau Suku Kata</b><span><i style="width:54%"></i></span><em>54%</em></div>
+            <div><b>Pulau Perkataan</b><span><i style="width:38%"></i></span><em>38%</em></div>
+          </div>
+        </article>
+
+        <article class="panel">
+          <div class="panel-head"><div><p class="eyebrow">Admin Alert</p><h2>Perlu Semakan</h2></div></div>
+          <ul class="alert-list">
+            <li><strong>5</strong> pembayaran pending</li>
+            <li><strong>12</strong> tiket support terbuka</li>
+            <li><strong>18</strong> soalan draft belum publish</li>
+            <li><strong>3</strong> audio quiz belum dimuat naik</li>
+          </ul>
+        </article>
+      </section>
+
+      <section class="panel" id="users">
+        <div class="panel-head">
+          <div><p class="eyebrow">Users / Parents</p><h2>Akaun Ibu Bapa Terkini</h2></div>
+          <input class="search" type="search" placeholder="Cari parent..." />
+        </div>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Nama</th><th>Status</th><th>Anak</th><th>Daftar</th><th>Tindakan</th></tr></thead>
+            <tbody>
+              <tr><td>Nur Aisyah</td><td><span class="pill premium">Premium</span></td><td>3</td><td>31 Mei 2026</td><td><button class="mini-btn">View</button></td></tr>
+              <tr><td>Encik Hafiz</td><td><span class="pill free">Free</span></td><td>1</td><td>30 Mei 2026</td><td><button class="mini-btn">View</button></td></tr>
+              <tr><td>Puan Huda</td><td><span class="pill premium">Premium</span></td><td>2</td><td>29 Mei 2026</td><td><button class="mini-btn">View</button></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <section class="dashboard-grid two content-manager-grid">
+        <article class="panel content-form-panel" id="questions">
+          <div class="panel-head">
+            <div>
+              <p class="eyebrow">Questions Bank</p>
+              <h2>Content Manager Soalan</h2>
+            </div>
+            <span class="status-chip draft">Draft Mode</span>
+          </div>
+
+          <form class="admin-form question-builder" id="questionBuilder">
+            <div class="form-row two-col">
+              <label>Pulau / Modul
+                <select id="moduleSelect" required>
+                  <option value="Pulau Huruf">Pulau Huruf</option>
+                  <option value="Pulau Bunyi">Pulau Bunyi</option>
+                  <option value="Pulau Suku Kata">Pulau Suku Kata</option>
+                  <option value="Pulau Perkataan">Pulau Perkataan</option>
+                  <option value="Pulau Jawi Harian">Pulau Jawi Harian</option>
+                </select>
+              </label>
+              <label>Lesson
+                <select id="lessonSelect" required>
+                  <option value="Lesson 1">Lesson 1</option>
+                  <option value="Lesson 2">Lesson 2</option>
+                  <option value="Lesson 3">Lesson 3</option>
+                </select>
+              </label>
+            </div>
+
+            <div class="form-row two-col">
+              <label>Game Type
+                <select id="gameType" required>
+                  <option value="Ketuk Belon">Ketuk Belon</option>
+                  <option value="Flashcard Matching">Flashcard Matching</option>
+                  <option value="Kereta Api Suku Kata">Kereta Api Suku Kata</option>
+                  <option value="Topeng Huruf">Topeng Huruf</option>
+                  <option value="Audio Matching">Audio Matching</option>
+                </select>
+              </label>
+              <label>Status
+                <select id="questionStatus">
+                  <option value="draft">Draft</option>
+                  <option value="published">Published</option>
+                </select>
+              </label>
+            </div>
+
+            <label>Arahan Soalan
+              <input id="questionText" type="text" value="Ketuk huruf Ba" required />
+            </label>
+
+            <div class="form-row two-col">
+              <label>Jawapan Jawi
+                <input id="correctAnswer" class="jawi-input" dir="rtl" type="text" value="ب" required />
+              </label>
+              <label>XP Reward
+                <input id="xpReward" type="number" value="10" min="1" max="100" />
+              </label>
+            </div>
+
+            <label>Pilihan Jawapan (pisahkan dengan koma)
+              <input id="answerOptions" class="jawi-input smaller" dir="rtl" type="text" value="ا,ب,ت,ج" />
+            </label>
+
+            <div class="form-row two-col">
+              <label>Audio Path
+                <input id="audioPath" type="text" value="assets/audio/quiz/ketuk-huruf-ba.mp3" />
+              </label>
+              <label>Image Path
+                <input id="imagePath" type="text" value="assets/images/flashcards/ayam.webp" />
+              </label>
+            </div>
+
+            <label>Klu Zainab
+              <textarea id="zainabHint">Huruf ini ada satu titik di bawah.</textarea>
+            </label>
+
+            <div class="form-actions">
+              <button class="ghost-btn" type="button" id="previewQuestionBtn">Preview</button>
+              <button class="primary-btn" type="submit">Simpan Soalan</button>
+            </div>
+          </form>
+        </article>
+
+        <article class="panel preview-panel">
+          <div class="panel-head"><div><p class="eyebrow">Live Preview</p><h2>Preview Soalan Anak</h2></div></div>
+          <div class="kid-preview-card" id="questionPreview">
+            <div class="preview-top"><span>❤️❤️❤️❤️❤️</span><span>⭐ +10 XP</span></div>
+            <p class="preview-instruction">Ketuk huruf Ba</p>
+            <div class="balloon-preview" dir="rtl">
+              <button>ا</button><button class="correct">ب</button><button>ت</button><button>ج</button>
+            </div>
+            <div class="zainab-tip">💡 Zainab: Huruf ini ada satu titik di bawah.</div>
+          </div>
+
+          <div class="content-list-head">
+            <h3>Soalan Terkini</h3>
+            <button class="mini-btn" type="button" id="exportQuestionsBtn">Export JSON</button>
+          </div>
+          <div class="content-list" id="questionList">
+            <div class="content-item"><b>Ketuk huruf Ba</b><span>Pulau Huruf · Ketuk Belon · Draft</span></div>
+            <div class="content-item"><b>Pilih huruf awal Ayam</b><span>Pulau Jawi Harian · Flashcard · Published</span></div>
+            <div class="content-item"><b>Susun باجو</b><span>Pulau Perkataan · Kereta Api · Draft</span></div>
+          </div>
+        </article>
+      </section>
+
+      <section class="dashboard-grid two" id="notifications">
+        <article class="panel content-form-panel">
+          <div class="panel-head">
+            <div><p class="eyebrow">Notification Center</p><h2>Hantar Notifikasi Parent</h2></div>
+            <span class="status-chip live">Slide Down Ready</span>
+          </div>
+          <form class="admin-form" id="notificationForm">
+            <div class="form-row two-col">
+              <label>Jenis Notifikasi
+                <select id="notificationType">
+                  <option value="announcement">📢 Pengumuman</option>
+                  <option value="reward">🎁 Reward</option>
+                  <option value="payment">💳 Pembayaran</option>
+                  <option value="support">🛟 Support Reply</option>
+                  <option value="maintenance">🛠️ Maintenance</option>
+                </select>
+              </label>
+              <label>Sasaran
+                <select id="notificationTarget">
+                  <option value="all">Semua Parent</option>
+                  <option value="premium">Parent Premium</option>
+                  <option value="free">Parent Free</option>
+                  <option value="single">User Tertentu</option>
+                </select>
+              </label>
+            </div>
+            <label>Tajuk
+              <input id="notificationTitle" type="text" value="Ganjaran Harian Baharu!" />
+            </label>
+            <label>Mesej
+              <textarea id="notificationMessage">Log masuk hari ini untuk menerima 50 XP percuma.</textarea>
+            </label>
+            <div class="form-actions">
+              <button class="ghost-btn" type="button" id="previewNotificationBtn">Preview Slide</button>
+              <button class="primary-btn" type="submit">Hantar Notifikasi</button>
+            </div>
+          </form>
+        </article>
+
+        <article class="panel inbox-flow-panel">
+          <div class="panel-head"><div><p class="eyebrow">Parent Inbox Flow</p><h2>Notifikasi Disimpan</h2></div></div>
+          <div class="flow-steps">
+            <div><strong>1</strong><span>Admin hantar notifikasi</span></div>
+            <div><strong>2</strong><span>Slide turun dari atas dalam Parent Dashboard</span></div>
+            <div><strong>3</strong><span>Mesej masuk ke 🔔 Inbox Parent</span></div>
+            <div><strong>4</strong><span>Status unread hilang selepas dibaca</span></div>
+          </div>
+          <div class="inbox-preview">
+            <div class="inbox-badge">🔔 3</div>
+            <div class="inbox-card unread"><b>Ganjaran Harian Baharu!</b><span>Log masuk hari ini untuk menerima 50 XP percuma.</span></div>
+            <div class="inbox-card"><b>Premium Berjaya Aktif</b><span>Terima kasih. Akaun lifetime anda telah aktif.</span></div>
+          </div>
+        </article>
+      </section>
+
+      <section class="panel" id="support">
+        <div class="panel-head"><div><p class="eyebrow">Support Center</p><h2>Tiket Terbaru</h2></div></div>
+        <div class="ticket-list">
+          <div class="ticket"><b>Pembayaran belum aktif</b><span>Puan Huda · 8 min lalu</span><a class="mini-btn" href="admin-support.html">Balas</a></div>
+          <div class="ticket"><b>Anak tersangkut di Pulau 2</b><span>Encik Hafiz · 21 min lalu</span><a class="mini-btn" href="admin-support.html">Balas</a></div>
+          <div class="ticket"><b>Audio huruf tidak keluar</b><span>Nur Aisyah · 1 jam lalu</span><a class="mini-btn" href="admin-support.html">Balas</a></div>
+        </div>
+      </section>
+
+      <section class="panel" id="children">
+        <div class="panel-head"><div><p class="eyebrow">Children</p><h2>Prestasi Anak</h2></div></div>
+        <div class="child-cards">
+          <article><span>Ahmad</span><strong>1,250 XP</strong><small>🔥 7 hari · Pulau Bunyi</small></article>
+          <article><span>Aina</span><strong>890 XP</strong><small>🔥 4 hari · Pulau Huruf</small></article>
+          <article><span>Iman</span><strong>2,410 XP</strong><small>🔥 21 hari · Pulau Perkataan</small></article>
+        </div>
+      </section>
+
+      <section class="panel admin-sections" id="modules">
+        <h2>Module Management</h2>
+        <p>Manage pulau, lessons, premium lock, order index, badges, dan reward.</p>
+        <div class="section-tags">
+          <span id="lessons">Lessons</span><span id="payments">Payments</span><span id="settings">Settings</span><span>Audio Upload</span><span>Image Upload</span>
+        </div>
+      </section>
+    </main>
+  </div>
+  <div class="slide-notification hidden" id="slideNotification"><b>🔔 JawiKids</b><span>Notifikasi baharu</span></div>
+  <script src="admin.js"></script>
+</body>
+</html>

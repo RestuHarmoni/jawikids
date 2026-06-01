@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="ms">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Peta Pulau Pembelajaran - JawiKids</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@500;600;700;800;900&family=Noto+Sans+Arabic:wght@600;700;800;900&family=Amiri:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="app.css">
+</head>
+<body class="game-map-body">
+  <div class="game-map-shell">
+    <header class="map-topbar" aria-label="Status pembelajaran anak">
+      <a class="map-brand" href="index.html" aria-label="Kembali ke laman utama JawiKids">
+        <span class="brand-mark">ج</span>
+        <span><strong>JawiKids</strong><small>Peta Pulau Pembelajaran</small></span>
+      </a>
+
+      <div class="player-status" aria-label="Status permainan">
+        <div class="status-bubble heart">❤️ <strong>5</strong></div>
+        <div class="status-bubble xp">⭐ <strong>1,250 XP</strong></div>
+        <div class="status-bubble streak">🔥 <strong>7 Hari</strong></div>
+      </div>
+
+      <a class="map-profile" href="child-select.html" aria-label="Tukar profil anak">
+        <img src="assets/avatars/zafri/zafri-default.svg" alt="Avatar Zafri">
+        <span>Ahmad</span>
+      </a>
+    </header>
+
+    <main class="world-map-layout">
+      <section class="map-intro-card" aria-label="Ringkasan pengembaraan">
+        <div class="pill">TASK 02</div>
+        <h1>Teruskan Pengembaraan Jawi!</h1>
+        <p>Selesaikan setiap pulau, kumpul XP, buka badge dan jadikan pembelajaran Jawi menyeronokkan setiap hari.</p>
+        <div class="daily-reward-card">
+          <div class="reward-icon">🎁</div>
+          <div>
+            <strong>Daily Reward tersedia</strong>
+            <span>Buka peti untuk tambah hati atau XP.</span>
+          </div>
+          <button type="button" class="mini-3d-btn" id="claimRewardBtn">Claim</button>
+        </div>
+        <div class="map-legend">
+          <span><i class="dot unlocked"></i> Selesai</span>
+          <span><i class="dot current"></i> Semasa</span>
+          <span><i class="dot locked"></i> Terkunci</span>
+        </div>
+      </section>
+
+      <section class="adventure-map-card" aria-label="Peta 10 Pulau Pembelajaran JawiKids">
+        <div class="map-cloud cloud-one">☁️</div>
+        <div class="map-cloud cloud-two">☁️</div>
+        <div class="map-cloud cloud-three">☁️</div>
+        <div class="map-sun">☀️</div>
+        <svg class="island-route" viewBox="0 0 760 1320" preserveAspectRatio="none" aria-hidden="true">
+          <path d="M365 1195 C185 1105 185 1010 342 950 S605 872 458 780 S160 706 320 615 S610 545 468 462 S210 380 360 300 S590 225 410 130" />
+        </svg>
+
+        <div class="sea-waves wave-a"></div>
+        <div class="sea-waves wave-b"></div>
+
+        <button class="learning-island island-done" style="left:19%;top:82%" data-island="1" data-title="Pulau Huruf" data-status="Selesai" data-xp="200 XP">
+          <span class="island-number">1</span><span class="island-land"><span class="trees">🌴</span><span class="hut">🏠</span><span class="flag">🚩</span></span><strong>Pulau Huruf</strong><small>⭐⭐⭐</small>
+        </button>
+
+        <button class="learning-island island-done" style="left:54%;top:73%" data-island="2" data-title="Pulau Bunyi" data-status="Selesai" data-xp="200 XP">
+          <span class="island-number">2</span><span class="island-land"><span class="trees">🌴</span><span class="hut">🏡</span><span class="flag">🚩</span></span><strong>Pulau Bunyi</strong><small>⭐⭐</small>
+        </button>
+
+        <button class="learning-island island-current" style="left:26%;top:63%" data-island="3" data-title="Pulau Suku Kata" data-status="Sedang Dipelajari" data-xp="80% untuk buka pulau seterusnya">
+          <span class="island-number">3</span><span class="island-land"><span class="trees">🌴</span><span class="hut">🚂</span><span class="flag">⭐</span></span><strong>Pulau Suku Kata</strong><small>Semasa</small>
+        </button>
+
+        <button class="learning-island island-locked" style="left:57%;top:53%" data-island="4" data-title="Pulau Perkataan" data-status="Terkunci" data-xp="Selesaikan Pulau 3">
+          <span class="island-number">🔒</span><span class="island-land"><span class="trees">🌴</span><span class="hut">📚</span><span class="flag">⭐</span></span><strong>Pulau Perkataan</strong><small>Terkunci</small>
+        </button>
+
+        <button class="learning-island island-locked" style="left:22%;top:44%" data-island="5" data-title="Pulau Jawi Harian" data-status="Terkunci" data-xp="Selesaikan Pulau 4">
+          <span class="island-number">🔒</span><span class="island-land"><span class="trees">🌴</span><span class="hut">🧺</span><span class="flag">⭐</span></span><strong>Pulau Jawi Harian</strong><small>Terkunci</small>
+        </button>
+
+        <button class="learning-island island-locked" style="left:58%;top:35%" data-island="6" data-title="Pulau Keluarga" data-status="Terkunci" data-xp="Selesaikan Pulau 5">
+          <span class="island-number">🔒</span><span class="island-land"><span class="trees">🌴</span><span class="hut">👨‍👩‍👧</span><span class="flag">⭐</span></span><strong>Pulau Keluarga</strong><small>Terkunci</small>
+        </button>
+
+        <button class="learning-island island-locked" style="left:25%;top:27%" data-island="7" data-title="Pulau Haiwan" data-status="Terkunci" data-xp="Selesaikan Pulau 6">
+          <span class="island-number">🔒</span><span class="island-land"><span class="trees">🌴</span><span class="hut">🐓</span><span class="flag">⭐</span></span><strong>Pulau Haiwan</strong><small>Terkunci</small>
+        </button>
+
+        <button class="learning-island island-locked" style="left:56%;top:20%" data-island="8" data-title="Pulau Cerita" data-status="Terkunci" data-xp="Selesaikan Pulau 7">
+          <span class="island-number">🔒</span><span class="island-land"><span class="trees">🌴</span><span class="hut">📖</span><span class="flag">⭐</span></span><strong>Pulau Cerita</strong><small>Terkunci</small>
+        </button>
+
+        <button class="learning-island island-locked" style="left:26%;top:11%" data-island="9" data-title="Pulau Cabaran" data-status="Terkunci" data-xp="Selesaikan Pulau 8">
+          <span class="island-number">🔒</span><span class="island-land"><span class="trees">🌴</span><span class="hut">🏆</span><span class="flag">⭐</span></span><strong>Pulau Cabaran</strong><small>Terkunci</small>
+        </button>
+
+        <button class="learning-island island-locked final-island" style="left:56%;top:3%" data-island="10" data-title="Pulau Lagenda Jawi" data-status="Final Challenge" data-xp="Selesaikan Pulau 9">
+          <span class="island-number">👑</span><span class="island-land"><span class="trees">🌴</span><span class="hut">🏰</span><span class="flag">⭐</span></span><strong>Pulau Lagenda</strong><small>Final</small>
+        </button>
+
+        <div class="map-mascot zafri-map"><img src="assets/avatars/zafri/zafri-happy.svg" alt="Zafri memberi semangat"><span>Jom buka pulau baru!</span></div>
+        <div class="map-mascot zainab-map"><img src="assets/avatars/zainab/zainab-help.svg" alt="Zainab memberi klu"><span>Belajar sikit-sikit pun hebat.</span></div>
+      </section>
+
+      <aside class="island-detail-card" aria-live="polite">
+        <div class="detail-badge" id="detailBadge">Pulau 3</div>
+        <h2 id="detailTitle">Pulau Suku Kata</h2>
+        <p id="detailStatus">Status: Sedang Dipelajari</p>
+        <div class="detail-progress">
+          <div class="progress-strip"><span class="progress-fill" style="width:64%"></span></div>
+          <small>64% siap • Sasaran unlock 80%</small>
+        </div>
+        <div class="lesson-preview">
+          <span dir="rtl" class="jawi-preview">با</span>
+          <div><strong>Lesson seterusnya</strong><small>Kereta Api Suku Kata</small></div>
+        </div>
+        <a class="primary-btn" href="lesson-game.html">Mula Lesson</a>
+      </aside>
+    </main>
+
+    <nav class="kid-bottom-nav" aria-label="Navigasi anak">
+      <a class="active" href="game-map.html">🏝️<span>Map</span></a>
+      <a href="#">🎒<span>Koleksi</span></a>
+      <a href="#">🏆<span>Badge</span></a>
+      <a href="child-select.html">👤<span>Profil</span></a>
+    </nav>
+  </div>
+  <script src="js/game-map.js"></script>
+</body>
+</html>

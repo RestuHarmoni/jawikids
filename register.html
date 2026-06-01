@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="ms">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Daftar Akaun Parent | JawiKids</title>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="app.css" />
+</head>
+<body class="auth-page">
+  <main class="auth-shell">
+    <section class="auth-card">
+      <a class="brand-mini" href="index.html">🌙 JawiKids</a>
+      <p class="eyebrow">Daftar Premium Family</p>
+      <h1>Cipta Akaun Parent</h1>
+      <p class="auth-subtitle">Satu akaun parent boleh urus sehingga 3 anak secara default.</p>
+
+      <div id="authMessage" class="auth-message" hidden></div>
+
+      <form id="registerForm" class="auth-form">
+        <label>Nama Penuh
+          <input id="fullName" type="text" autocomplete="name" placeholder="Contoh: Nur Aisyah" required />
+        </label>
+        <label>No Telefon
+          <input id="phoneNumber" type="tel" autocomplete="tel" placeholder="0123456789" />
+        </label>
+        <label>Email
+          <input id="email" type="email" autocomplete="email" placeholder="email@example.com" required />
+        </label>
+        <label>Kata Laluan
+          <input id="password" type="password" autocomplete="new-password" placeholder="Minimum 6 aksara" required />
+        </label>
+        <label>Sahkan Kata Laluan
+          <input id="confirmPassword" type="password" autocomplete="new-password" placeholder="Ulang kata laluan" required />
+        </label>
+        <button id="registerBtn" class="btn btn-primary btn-full" type="submit">Daftar Akaun</button>
+      </form>
+
+      <button class="btn btn-google btn-full" type="button" onclick="JawiKidsAuth.loginGoogle()">Daftar dengan Google</button>
+
+      <div class="auth-links">
+        <a href="login.html">Sudah ada akaun? Log masuk</a>
+      </div>
+    </section>
+
+    <section class="auth-side-card">
+      <h2>Premium Lifetime RM49.90</h2>
+      <ul class="clean-list">
+        <li>✅ 3 anak termasuk</li>
+        <li>✅ Tambah slot anak RM10</li>
+        <li>✅ Maksimum 5 anak</li>
+        <li>✅ 5 sesi serentak</li>
+      </ul>
+    </section>
+  </main>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="js/supabase-client.js"></script>
+  <script src="js/auth.js"></script>
+  <script>document.getElementById('registerForm').addEventListener('submit', JawiKidsAuth.registerParent);</script>
+</body>
+</html>
