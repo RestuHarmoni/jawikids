@@ -1,4 +1,4 @@
-/* JawiKids Dashboard Live Sync v1.54.0 - Parent Dashboard Premium Redesign */
+/* JawiKids Dashboard Live Sync v1.55.0 - Parent Dashboard Premium Redesign + Child Profile Link */
 (function () {
   let dashboardState = {
     children: [],
@@ -128,7 +128,10 @@
             <span>🏆 ${Number(st.longest_streak || 0)} terbaik</span>
             <span>⭐ ${formatNumber(child.total_xp)} XP</span>
           </div>
-          <a class="primary-btn continue-learning-btn" href="game-map.html" data-select-child="${child.id}">▶️ Sambung Belajar</a>
+          <div class="rotator-actions">
+            <a class="primary-btn continue-learning-btn" href="game-map.html" data-select-child="${child.id}">▶️ Sambung Belajar</a>
+            <a class="secondary-btn child-profile-btn" href="child-profile.html" data-profile-child="${child.id}">👦 Lihat Profil</a>
+          </div>
         </div>
       </div>
       <button class="rotator-btn" type="button" data-rotate-child="next" aria-label="Anak seterusnya">›</button>
@@ -152,6 +155,9 @@
     });
     holder.querySelectorAll('[data-select-child]').forEach(link => {
       link.addEventListener('click', () => localStorage.setItem('jawikids_selected_child_id', link.dataset.selectChild));
+    });
+    holder.querySelectorAll('[data-profile-child]').forEach(link => {
+      link.addEventListener('click', () => localStorage.setItem('jawikids_selected_child_id', link.dataset.profileChild));
     });
   }
 
