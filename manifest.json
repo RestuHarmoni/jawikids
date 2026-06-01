@@ -1,7 +1,7 @@
 {
   "name": "JawiKids - Main, Belajar, Bijak Jawi!",
   "short_name": "JawiKids",
-  "description": "Aplikasi pembelajaran Jawi kanak-kanak. PWA dibuka melalui splash, terus ke dashboard jika parent masih login.",
+  "description": "Aplikasi pembelajaran Jawi kanak-kanak. Parent pages normal; wide mode hanya untuk halaman permainan selepas Mula Main.",
   "start_url": "./pwa-start.html?source=pwa",
   "scope": "./",
   "display": "standalone",
@@ -28,7 +28,6 @@
   ],
   "display_override": [
     "standalone",
-    "fullscreen",
     "minimal-ui"
   ],
   "prefer_related_applications": false

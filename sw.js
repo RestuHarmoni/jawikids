@@ -1,8 +1,8 @@
-/* JawiKids Service Worker v1.45.0
-   Network-first for HTML/JS/CSS to avoid stale patch issues.
+/* JawiKids Service Worker v1.47.0
+   Network-first for HTML/JS/CSS to avoid stale patch issues; v1.47.0 fixes dashboard auto-rotate.
    Cache-first for static images/icons/audio after first load.
 */
-const CACHE_VERSION = 'v1.45.0';
+const CACHE_VERSION = 'v1.47.0';
 const STATIC_CACHE = `${CACHE_VERSION}-static`;
 const APP_SHELL = [
   './','./index.html','./pwa-start.html','./login.html','./register.html','./parent-dashboard.html','./child-select.html','./game-map.html','./letter-intro.html','./lesson-practice.html','./lesson-game.html','./lesson-2.html','./boss-challenge.html',
