@@ -2,7 +2,7 @@
    Network-first for HTML/JS/CSS to avoid stale patch issues.
    Cache-first for static images/icons/audio after first load.
 */
-const CACHE_VERSION = 'jawikids-v1.31.0';
+const CACHE_VERSION = 'jawikids-v1.32.0';
 const STATIC_CACHE = `${CACHE_VERSION}-static`;
 const APP_SHELL = [
   './', './index.html', './login.html', './register.html', './parent-dashboard.html', './child-select.html',

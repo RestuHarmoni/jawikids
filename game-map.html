@@ -7,10 +7,10 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@500;600;700;800;900&family=Noto+Sans+Arabic:wght@600;700;800;900&family=Amiri:wght@400;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css?v=1.31.0">
-  <link rel="stylesheet" href="app.css?v=1.31.0">
+  <link rel="stylesheet" href="style.css?v=1.32.0">
+  <link rel="stylesheet" href="app.css?v=1.32.0">
 
-  <link rel="manifest" href="manifest.json?v=1.31.0">
+  <link rel="manifest" href="manifest.json?v=1.32.0">
   <meta name="theme-color" content="#A7E92F">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-title" content="JawiKids">
@@ -76,8 +76,8 @@
           <span class="island-number">2</span><span class="island-land"><span class="trees">🌴</span><span class="hut">🏡</span><span class="flag">🚩</span></span><strong>Pulau Bunyi</strong><small>⭐⭐</small>
         </button>
 
-        <button class="learning-island island-current" style="left:26%;top:63%" data-island="3" data-title="Pulau Suku Kata" data-status="Sedang Dipelajari" data-xp="80% untuk buka pulau seterusnya">
-          <span class="island-number">3</span><span class="island-land"><span class="trees">🌴</span><span class="hut">🚂</span><span class="flag">⭐</span></span><strong>Pulau Suku Kata</strong><small>Semasa</small>
+        <button class="learning-island island-current" style="left:26%;top:63%" data-island="3" data-title="Pulau Suku Kata" data-status="Belum Mula" data-xp="0% siap • Sasaran unlock 80%">
+          <span class="island-number">3</span><span class="island-land"><span class="trees">🌴</span><span class="hut">🚂</span><span class="flag">⭐</span></span><strong>Pulau Suku Kata</strong><small>Belum Mula</small>
         </button>
 
         <button class="learning-island island-locked" style="left:57%;top:53%" data-island="4" data-title="Pulau Perkataan" data-status="Terkunci" data-xp="Selesaikan Pulau 3">
@@ -115,10 +115,10 @@
       <aside class="island-detail-card" aria-live="polite">
         <div class="detail-badge" id="detailBadge">Pulau 3</div>
         <h2 id="detailTitle">Pulau Suku Kata</h2>
-        <p id="detailStatus">Status: Sedang Dipelajari</p>
+        <p id="detailStatus">Status: Belum Mula</p>
         <div class="detail-progress">
-          <div class="progress-strip"><span class="progress-fill" style="width:64%"></span></div>
-          <small>64% siap • Sasaran unlock 80%</small>
+          <div class="progress-strip"><span id="detailProgressFill" class="progress-fill" style="width:0%"></span></div>
+          <small id="detailProgressText">0% siap • Sasaran unlock 80%</small>
         </div>
         <div class="lesson-preview">
           <span dir="rtl" class="jawi-preview">با</span>
@@ -136,10 +136,10 @@
     </nav>
   </div>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-  <script src="js/supabase-client.js?v=1.31.0"></script>
-  <script src="character-assets.js?v=1.31.0"></script>
-  <script src="js/game-map.js?v=1.31.0"></script>
+  <script src="js/supabase-client.js?v=1.32.0"></script>
+  <script src="character-assets.js?v=1.32.0"></script>
+  <script src="js/game-map.js?v=1.32.0"></script>
 
-  <script src="pwa-register.js?v=1.31.0"></script>
+  <script src="pwa-register.js?v=1.32.0"></script>
 </body>
 </html>
