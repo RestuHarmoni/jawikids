@@ -1,4 +1,4 @@
-// JawiKids v1.53.0 - Orientation reset for non-game pages
+// JawiKids v1.54.0 - Orientation reset for non-game pages
 (function(){
   'use strict';
   const GAME_PAGES = new Set(['game-map.html','lesson-game.html','lesson-practice.html','lesson-2.html','letter-intro.html','boss-challenge.html','future-mini-games.html']);

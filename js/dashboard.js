@@ -1,4 +1,4 @@
-/* JawiKids Dashboard Live Sync v1.53.0 - Parent Dashboard Premium Redesign */
+/* JawiKids Dashboard Live Sync v1.54.0 - Parent Dashboard Premium Redesign */
 (function () {
   let dashboardState = {
     children: [],

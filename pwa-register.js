@@ -1,4 +1,4 @@
-// JawiKids v1.53.0 - PWA register, game force-landscape aware
+// JawiKids v1.54.0 - PWA register, game force-landscape aware
 (function(){
   'use strict';
   const BUILD_VERSION = '1.51.0';

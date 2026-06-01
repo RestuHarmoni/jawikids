@@ -2,7 +2,7 @@
   "name": "JawiKids",
   "short_name": "JawiKids",
   "description": "JawiKids official PWA.",
-  "start_url": "./pwa-start.html?source=pwa&v=1.53.0",
+  "start_url": "./pwa-start.html?source=pwa&v=1.54.0",
   "scope": "./",
   "display": "standalone",
   "orientation": "portrait-primary",
