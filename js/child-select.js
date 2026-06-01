@@ -86,8 +86,6 @@
         event.preventDefault();
         localStorage.setItem('jawikids_selected_child_id', link.dataset.selectChild);
         localStorage.setItem('selected_child_id', link.dataset.selectChild);
-        localStorage.setItem('jawikids_game_wide_mode', '1');
-        localStorage.setItem('jawikids_game_mode', '1');
 
         // Do NOT lock orientation on child-select/dashboard.
         // The game page itself will activate wide mode after navigation.

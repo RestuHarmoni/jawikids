@@ -1,8 +1,8 @@
 {
   "name": "JawiKids - Main, Belajar, Bijak Jawi!",
   "short_name": "JawiKids",
-  "description": "Aplikasi pembelajaran Jawi kanak-kanak. No force rotate; portrait stays portrait.",
-  "start_url": "./pwa-start.html?source=pwa&v=1.49.2",
+  "description": "JawiKids app. Portrait follows device setting; no forced auto rotate.",
+  "start_url": "./pwa-start.html?source=pwa&v=1.49.3",
   "scope": "./",
   "display": "standalone",
   "orientation": "any",
@@ -31,5 +31,5 @@
     "minimal-ui"
   ],
   "prefer_related_applications": false,
-  "id": "/jawikids-app-v1-49-no-force-parent"
+  "id": "/jawikids-app-v1-49-3-parent-any"
 }

@@ -1,8 +1,8 @@
 {
   "name": "JawiKids Game Mode",
   "short_name": "JawiKids Game",
-  "description": "JawiKids game mode. No force rotate; user may rotate device manually for wider game view.",
-  "start_url": "./game-map.html?source=pwa-game&v=1.49.2",
+  "description": "JawiKids app. Portrait follows device setting; no forced auto rotate.",
+  "start_url": "./game-map.html?source=pwa-game&v=1.49.3",
   "scope": "./",
   "display": "standalone",
   "orientation": "any",
@@ -31,5 +31,5 @@
     "minimal-ui"
   ],
   "prefer_related_applications": false,
-  "id": "/jawikids-app-v1-49-no-force-game"
+  "id": "/jawikids-app-v1-49-3-game-any"
 }

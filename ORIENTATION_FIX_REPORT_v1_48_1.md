@@ -1,4 +1,4 @@
-# JawiKids Orientation Fix Report v1.48.1
+# JawiKids Orientation Fix Report v1.49.3
 
 ## Punca ditemui
 
@@ -15,7 +15,7 @@
 - Buang direct `screen.orientation.lock('landscape')` daripada `js/child-select.js` dan `child-select.js`.
 - Wide mode kini hanya aktif pada page game yang ada `data-jk-orientation="game"`.
 - Parent/dashboard/profile/admin/support/payment pages akan clear localStorage game mode dan unlock orientation.
-- Naikkan cache/version query ke `v=1.48.1` supaya browser/PWA lebih mudah ambil fail baru.
+- Naikkan cache/version query ke `v=1.49.3` supaya browser/PWA lebih mudah ambil fail baru.
 
 ## Page yang kekal normal portrait
 
