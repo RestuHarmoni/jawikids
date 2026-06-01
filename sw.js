@@ -1,8 +1,8 @@
-/* JawiKids Service Worker v1.43.0
+/* JawiKids Service Worker v1.44.0
    Network-first for HTML/JS/CSS to avoid stale patch issues.
    Cache-first for static images/icons/audio after first load.
 */
-const CACHE_VERSION = 'v1.43.0';
+const CACHE_VERSION = 'v1.44.0';
 const STATIC_CACHE = `${CACHE_VERSION}-static`;
 const APP_SHELL = [
   './','./index.html','./login.html','./register.html','./parent-dashboard.html','./child-select.html','./game-map.html','./letter-intro.html','./lesson-practice.html','./lesson-game.html','./lesson-2.html','./boss-challenge.html',
