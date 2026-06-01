@@ -1,12 +1,12 @@
-/* JawiKids Service Worker v1.41
+/* JawiKids Service Worker v1.42
    Network-first for HTML/JS/CSS to avoid stale patch issues.
    Cache-first for static images/icons/audio after first load.
 */
-const CACHE_VERSION = 'jawikids-v1.41.0';
+const CACHE_VERSION = 'jawikids-v1.42.0';
 const STATIC_CACHE = `${CACHE_VERSION}-static`;
 const APP_SHELL = [
   './','./index.html','./login.html','./register.html','./parent-dashboard.html','./child-select.html','./game-map.html','./letter-intro.html','./lesson-practice.html','./lesson-game.html','./lesson-2.html','./boss-challenge.html',
-  './app.css','./style.css','./js/supabase-client.js','./js/auth.js','./js/dashboard.js','./js/child-select.js','./js/game-map.js','./js/letter-intro.js','./js/lesson-game.js','./character-assets.js','./manifest.json'
+  './app.css','./style.css','./js/supabase-client.js','./js/auth.js','./js/dashboard.js','./js/child-select.js','./js/game-map.js','./js/letter-intro.js','./js/lesson-game.js','./js/orientation-lock.js','./character-assets.js','./manifest.json'
 ];
 self.addEventListener('install', (event) => { self.skipWaiting(); event.waitUntil(caches.open(STATIC_CACHE).then((cache) => cache.addAll(APP_SHELL).catch(() => null))); });
 self.addEventListener('activate', (event) => { event.waitUntil((async () => { const keys = await caches.keys(); await Promise.all(keys.filter((key) => !key.startsWith(CACHE_VERSION)).map((key) => caches.delete(key))); await self.clients.claim(); })()); });

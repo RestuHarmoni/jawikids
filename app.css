@@ -650,3 +650,68 @@
   .victory-badge{width:82px;height:82px;font-size:46px;}
   .portal-line{width:72px;}
 }
+
+/* JawiKids v1.42 - Phone/Tablet Wide Mode Helper */
+.jk-rotate-overlay{
+  position: fixed;
+  inset: 0;
+  z-index: 99999;
+  display: none;
+  place-items: center;
+  padding: 22px;
+  background: linear-gradient(135deg, rgba(235,248,255,.96), rgba(167,233,47,.92));
+  backdrop-filter: blur(12px);
+}
+.jk-rotate-overlay.show{display:grid;}
+.jk-rotate-card{
+  width: min(420px, 92vw);
+  text-align: center;
+  background: rgba(255,255,255,.92);
+  border: 3px solid rgba(30,41,59,.08);
+  border-radius: 32px;
+  padding: 24px;
+  box-shadow: 0 24px 70px rgba(30,41,59,.20);
+  color: #1E293B;
+}
+.jk-rotate-phone{
+  width: 78px;
+  height: 78px;
+  margin: 0 auto 12px;
+  border-radius: 26px;
+  display: grid;
+  place-items: center;
+  background: linear-gradient(135deg,#3ABEF9,#A7E92F);
+  color: white;
+  font-size: 42px;
+  font-weight: 900;
+  box-shadow: 0 14px 32px rgba(58,190,249,.35);
+  animation: jkRotateWiggle 1.3s ease-in-out infinite;
+}
+.jk-rotate-card h2{margin: 4px 0 8px; font-size: 1.7rem;}
+.jk-rotate-card p{margin: 0 0 16px; color:#475569; font-weight:800;}
+.jk-rotate-card button{
+  border:0;
+  border-radius: 999px;
+  padding: 13px 20px;
+  background: #A7E92F;
+  color: #1E293B;
+  font-weight: 900;
+  box-shadow: 0 10px 22px rgba(167,233,47,.35);
+}
+.jk-rotate-card small{display:block; margin-top:12px; color:#64748b; font-weight:700;}
+@keyframes jkRotateWiggle{0%,100%{transform:rotate(0deg)}50%{transform:rotate(90deg)}}
+
+@media (orientation: landscape) and (hover: none) and (pointer: coarse){
+  .game-compact-shell .app-header{padding-top:8px;padding-bottom:8px;}
+  .compact-game-main{padding-top:8px; padding-bottom:8px;}
+  .player-hud{position: sticky; top: 6px; z-index: 20; margin-bottom:8px;}
+  .lesson-stage-compact{gap:10px;}
+  .compact-question-card{padding:12px 14px;}
+  .compact-coach-panel{padding:12px;}
+  .compact-coach-panel img{max-height:82px;}
+  .compact-answer-grid{grid-template-columns: repeat(4, minmax(72px, 1fr)); gap:10px;}
+  .compact-answer{min-height:74px; font-size:2.5rem;}
+  .compact-jawi-focus{min-height:106px; font-size:4.4rem;}
+  .compact-audio-card{padding:10px;}
+  .footer-mini.compact-footer{display:none;}
+}

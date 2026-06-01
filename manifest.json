@@ -2,10 +2,10 @@
   "name": "JawiKids - Main, Belajar, Bijak Jawi!",
   "short_name": "JawiKids",
   "description": "Aplikasi pembelajaran Jawi kanak-kanak dengan peta pulau, XP, streak dan ganjaran.",
-  "start_url": "./index.html",
+  "start_url": "./parent-dashboard.html",
   "scope": "./",
   "display": "standalone",
-  "orientation": "portrait-primary",
+  "orientation": "landscape",
   "background_color": "#EBF8FF",
   "theme_color": "#A7E92F",
   "categories": [
