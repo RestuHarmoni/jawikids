@@ -1,7 +1,8 @@
-// JawiKids v1.41 - Boss Challenge victory overlay + auto return to map unlock effect
+// JawiKids v1.42 - Consistent player + XP/Heart persistence fix
 (function(){
   'use strict';
 
+  const VERSION = '1.42.0';
   const COMMON_CHOICES = ['ا','ب','ت','ث','ج','ح','خ','د','ذ','ر','ز','س','ش','ص','ض','ط','ظ','ع','غ','ف','ق','ك','ل','م','ن','و','ه','ء','ي'];
   const BASE = [
     ['ا','Alif','Alif bentuknya tegak.'],['ب','Ba','Ba ada satu titik di bawah.'],['ت','Ta','Ta ada dua titik di atas.'],['ث','Tha','Tha ada tiga titik di atas.'],
@@ -44,7 +45,26 @@
   const $ = id => document.getElementById(id);
   const setText = (id,v) => { const el=$(id); if(el) el.textContent = v; };
   const qNow = () => LESSON.questions[currentQuestionIndex] || LESSON.questions[0];
-  const childId = () => localStorage.getItem('jawikids_selected_child_id') || localStorage.getItem('selected_child_id') || sessionStorage.getItem('jawikids_selected_child_id') || sessionStorage.getItem('selected_child_id') || '';
+
+  function selectedChildId(){
+    const urlId = new URLSearchParams(location.search).get('child') || '';
+    const id = urlId || localStorage.getItem('jawikids_selected_child_id') || localStorage.getItem('selected_child_id') || sessionStorage.getItem('jawikids_selected_child_id') || sessionStorage.getItem('selected_child_id') || '';
+    if(id) persistSelectedChildId(id);
+    return id;
+  }
+  function persistSelectedChildId(id){
+    if(!id) return;
+    localStorage.setItem('jawikids_selected_child_id', id);
+    localStorage.setItem('selected_child_id', id);
+    sessionStorage.setItem('jawikids_selected_child_id', id);
+    sessionStorage.setItem('selected_child_id', id);
+  }
+  function avatarSrc(child){
+    const key = (child?.avatar_key || '').toLowerCase();
+    if(child?.avatar_url) return child.avatar_url;
+    if(key.includes('zainab')) return `assets/characters/zainab-happy.svg?v=${VERSION}`;
+    return `assets/characters/zafri-happy.svg?v=${VERSION}`;
+  }
 
   async function initAuth(){
     if(!window.jawiSupabase && window.getJawiSupabase) window.jawiSupabase = window.getJawiSupabase();
@@ -55,11 +75,19 @@
     return currentUser;
   }
   async function loadSelectedChild(){
-    const id = childId();
-    if(!id || !window.jawiSupabase || !currentUser) return null;
-    const { data, error } = await window.jawiSupabase.from('children').select('id,name,avatar,total_xp,current_island,hearts,parent_id').eq('id',id).eq('parent_id',currentUser.id).maybeSingle();
-    if(error) console.warn('[JawiKids] child load error', error.message);
-    selectedChild = data || null;
+    const id = selectedChildId();
+    if(!id){ location.href = 'child-select.html?select=1'; return null; }
+    if(!window.jawiSupabase || !currentUser) return null;
+    const { data, error } = await window.jawiSupabase
+      .from('children')
+      .select('id,name,age,gender,avatar_key,avatar_url,total_xp,current_island,hearts,parent_id')
+      .eq('id',id)
+      .eq('parent_id',currentUser.id)
+      .maybeSingle();
+    if(error){ console.warn('[JawiKids] child load error', error.message); }
+    if(!data){ location.href = 'child-select.html?select=1'; return null; }
+    selectedChild = data;
+    persistSelectedChildId(data.id);
     return selectedChild;
   }
   async function loadAudioSettings(){
@@ -72,16 +100,20 @@
   }
   async function loadProgress(){
     if(!LESSON.trackProgress || !window.jawiSupabase || !selectedChild) return;
-    const { data } = await window.jawiSupabase.from('child_progress').select('progress_percent,is_completed').eq('child_id',selectedChild.id).eq('lesson_id',LESSON.id).maybeSingle();
-    if(data && !data.is_completed){ currentQuestionIndex = Math.max(0, Math.min(LESSON.questions.length - 1, Math.floor((Number(data.progress_percent||0)/100)*LESSON.questions.length))); }
+    const { data } = await window.jawiSupabase.from('child_progress').select('progress_percent,is_completed,score').eq('child_id',selectedChild.id).eq('lesson_id',LESSON.id).maybeSingle();
+    if(data && !data.is_completed){
+      const pct = Number(data.progress_percent || 0);
+      currentQuestionIndex = Math.max(0, Math.min(LESSON.questions.length - 1, Math.floor((pct/100)*LESSON.questions.length)));
+      score = Number(data.score || 0);
+    }
   }
 
   function renderHud(){
     setText('hudChildName', selectedChild?.name || 'Anak');
-    setText('hudXp', `${selectedChild?.total_xp || 0} XP`);
-    const hearts = Math.max(0, Math.min(5, selectedChild?.hearts || 5));
-    setText('hudHearts', '❤️'.repeat(hearts));
-    const av = $('hudAvatar'); if(av) av.src = selectedChild?.avatar || 'assets/characters/zafri-happy.svg?v=1.41.0';
+    setText('hudXp', `${Number(selectedChild?.total_xp || 0).toLocaleString('ms-MY')} XP`);
+    const hearts = Math.max(0, Math.min(5, Number(selectedChild?.hearts ?? 5)));
+    setText('hudHearts', hearts > 0 ? '❤️'.repeat(hearts) : '♡');
+    const av = $('hudAvatar'); if(av) av.src = avatarSrc(selectedChild);
   }
   function updateProgress(pct){
     pct = Math.max(0, Math.min(100, Number(pct||0)));
@@ -128,50 +160,108 @@
   function setPlaying(on){ const card=$('lessonAudioCard'), btn=$('playAudioBtn'); if(card) card.classList.toggle('is-playing',!!on); if(btn){ btn.classList.toggle('is-playing',!!on); const label=btn.querySelector('strong'); if(label) label.textContent=on?'Sedang Main...':'Mainkan Audio'; } showAudioStatus(on?'Audio sedang dimainkan...':'Tekan butang main untuk ulang audio.'); }
   function showAudioStatus(msg){ setText('audioStatus',msg); }
 
+  async function persistChildPatch(patch){
+    if(!window.jawiSupabase || !selectedChild || !currentUser) return false;
+    const { error } = await window.jawiSupabase.from('children').update(patch).eq('id',selectedChild.id).eq('parent_id',currentUser.id);
+    if(error){ console.warn('[JawiKids] child save error:', error.message); return false; }
+    Object.assign(selectedChild, patch);
+    renderHud();
+    return true;
+  }
+  async function loseHeartOnce(){
+    if(!selectedChild || wrongThisQuestion) return;
+    wrongThisQuestion = true;
+    const current = Math.max(0, Math.min(5, Number(selectedChild.hearts ?? 5)));
+    const next = Math.max(0, current - 1);
+    await persistChildPatch({ hearts: next });
+  }
+
   async function answer(choice,btn){
     if(answeredCurrent) return;
     const q=qNow(), correct=choice===q.correct;
     btn.classList.add(correct?'is-correct':'is-wrong');
-    if(!correct){ wrongThisQuestion=true; btn.disabled=true; setText('coachTitle','Cuba lagi ya.'); setText('coachNote',q.hint||'Dengar semula audio dan cuba lagi.'); playAudioKey('feedback_wrong',`Cuba lagi. ${q.hint||''}`); return; }
+    if(!correct){
+      btn.disabled=true;
+      await loseHeartOnce();
+      setText('coachTitle','Cuba lagi ya.');
+      setText('coachNote',q.hint||'Dengar semula audio dan cuba lagi.');
+      playAudioKey('feedback_wrong',`Cuba lagi. ${q.hint||''}`);
+      return;
+    }
     answeredCurrent=true; lockAnswers(); score++; if(LESSON.trackProgress) xpEarnedThisRun += LESSON.xpReward;
     setText('mainJawi', q.correct); setText('coachTitle','Tahniah! Jawapan betul.'); setText('coachNote', currentQuestionIndex<LESSON.questions.length-1?'Bagus! Soalan seterusnya muncul sekejap lagi.':'Hebat! Aktiviti selesai.');
     playAudioKey('feedback_correct',`Tahniah. Jawapan betul. Ini huruf ${q.correct}.`);
     await savePartialProgress(); setTimeout(nextQuestion, 900);
   }
   async function nextQuestion(){ if(currentQuestionIndex < LESSON.questions.length-1){ currentQuestionIndex++; renderQuestion(); return; } await completeLesson(); }
+
+  async function upsertProgress(payload){
+    if(!window.jawiSupabase || !selectedChild) return;
+    const { error } = await window.jawiSupabase.from('child_progress').upsert(payload,{onConflict:'child_id,lesson_id'});
+    if(error){
+      console.warn('[JawiKids] progress save fallback:', error.message);
+      await window.jawiSupabase.from('child_progress').upsert({
+        child_id: payload.child_id,
+        lesson_id: payload.lesson_id,
+        is_completed: payload.is_completed,
+        score: payload.score || score,
+        completed_at: new Date().toISOString()
+      },{onConflict:'child_id,lesson_id'});
+    }
+  }
+
   async function savePartialProgress(){
-    if(!LESSON.trackProgress || !window.jawiSupabase || !selectedChild || !currentUser) return;
-    const answeredCount=Math.min(LESSON.questions.length,currentQuestionIndex+1), pct=Math.round((answeredCount/LESSON.questions.length)*100), newXp=(selectedChild.total_xp||0)+LESSON.xpReward;
-    await window.jawiSupabase.from('children').update({total_xp:newXp,current_island:Math.max(selectedChild.current_island||1,LESSON.island)}).eq('id',selectedChild.id).eq('parent_id',currentUser.id);
-    await window.jawiSupabase.from('child_progress').upsert({child_id:selectedChild.id,lesson_id:LESSON.id,progress_percent:pct,is_completed:pct>=100,xp_earned:xpEarnedThisRun,updated_at:new Date().toISOString()},{onConflict:'child_id,lesson_id'});
-    selectedChild.total_xp=newXp; renderHud(); updateProgress(pct);
+    if(!LESSON.trackProgress || !selectedChild || !currentUser) return;
+    const answeredCount=Math.min(LESSON.questions.length,currentQuestionIndex+1);
+    const pct=Math.round((answeredCount/LESSON.questions.length)*100);
+    const newXp=Number(selectedChild.total_xp||0)+Number(LESSON.xpReward||0);
+    await persistChildPatch({total_xp:newXp,current_island:Math.max(Number(selectedChild.current_island||1),Number(LESSON.island||1))});
+    await upsertProgress({
+      child_id:selectedChild.id,
+      lesson_id:LESSON.id,
+      progress_percent:pct,
+      is_completed:pct>=100,
+      xp_earned:xpEarnedThisRun,
+      score,
+      updated_at:new Date().toISOString(),
+      completed_at:pct>=100 ? new Date().toISOString() : null
+    });
+    updateProgress(pct);
   }
   function isBossChallenge(){ return LESSON.id === 'pulau-1-boss-challenge'; }
+
+  async function awardBossBadge(){
+    if(!window.jawiSupabase || !selectedChild || !isBossChallenge()) return;
+    try{
+      const { data: achievement } = await window.jawiSupabase
+        .from('achievements')
+        .select('id')
+        .eq('trigger_type','pulau_1_boss_complete')
+        .maybeSingle();
+      if(achievement?.id){
+        await window.jawiSupabase.from('child_achievements').upsert({child_id:selectedChild.id, achievement_id:achievement.id},{onConflict:'child_id,achievement_id'});
+      }
+    }catch(e){ console.warn('[JawiKids] badge save skipped:', e.message); }
+  }
 
   async function completeLesson(){
     const bonus=LESSON.trackProgress?LESSON.bonusXp:0;
     const shouldUnlockNextIsland = isBossChallenge();
-    if(LESSON.trackProgress && window.jawiSupabase && selectedChild && currentUser){
-      const finalXp=(selectedChild.total_xp||0)+bonus;
-      const nextIsland = shouldUnlockNextIsland ? (LESSON.unlockIsland || 2) : Math.max(selectedChild.current_island || 1, LESSON.island || 1);
-      await window.jawiSupabase
-        .from('children')
-        .update({total_xp:finalXp,current_island:nextIsland})
-        .eq('id',selectedChild.id)
-        .eq('parent_id',currentUser.id);
-
-      await window.jawiSupabase.from('child_progress').upsert({
+    if(LESSON.trackProgress && selectedChild && currentUser){
+      const finalXp=Number(selectedChild.total_xp||0)+Number(bonus||0);
+      const nextIsland = shouldUnlockNextIsland ? (LESSON.unlockIsland || 2) : Math.max(Number(selectedChild.current_island || 1), Number(LESSON.island || 1));
+      await persistChildPatch({total_xp:finalXp,current_island:nextIsland});
+      await upsertProgress({
         child_id:selectedChild.id,
         lesson_id:LESSON.id,
         progress_percent:100,
         is_completed:true,
         xp_earned:xpEarnedThisRun+bonus,
-        updated_at:new Date().toISOString()
-      },{onConflict:'child_id,lesson_id'});
-
-      selectedChild.total_xp=finalXp;
-      selectedChild.current_island=nextIsland;
-      renderHud();
+        score,
+        updated_at:new Date().toISOString(),
+        completed_at:new Date().toISOString()
+      });
+      if(shouldUnlockNextIsland) await awardBossBadge();
     }
     updateProgress(100);
     renderSummary(bonus);
@@ -209,8 +299,8 @@
     overlay.innerHTML = `
       <div class="boss-victory-card">
         <div class="victory-glow"></div>
-        <img src="assets/characters/zafri-happy.svg?v=1.41.0" alt="Zafri" class="victory-avatar victory-zafri">
-        <img src="assets/characters/zainab-happy.svg?v=1.41.0" alt="Zainab" class="victory-avatar victory-zainab">
+        <img src="assets/characters/zafri-happy.svg?v=${VERSION}" alt="Zafri" class="victory-avatar victory-zafri">
+        <img src="assets/characters/zainab-happy.svg?v=${VERSION}" alt="Zainab" class="victory-avatar victory-zainab">
         <div class="victory-badge">🏅</div>
         <h2>Pulau 1 Selesai!</h2>
         <p class="victory-subtitle">Kamu dapat <strong>Badge Wira Huruf</strong></p>
@@ -230,7 +320,11 @@
     setTimeout(()=>{ window.location.href='game-map.html?unlocked=pulau-2'; }, 4200);
   }
   async function boot(){
-    await initAuth(); await Promise.all([loadSelectedChild(),loadAudioSettings()]); await loadProgress(); renderQuestion();
+    await initAuth();
+    await Promise.all([loadSelectedChild(),loadAudioSettings()]);
+    if(!selectedChild) return;
+    await loadProgress();
+    renderQuestion();
     const audioBtn=$('playAudioBtn'); if(audioBtn) audioBtn.addEventListener('click',()=>{ const q=qNow(); playAudioKey(q.audioKey,q.audioText); });
   }
   document.addEventListener('DOMContentLoaded', boot);
