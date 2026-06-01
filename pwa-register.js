@@ -1,11 +1,20 @@
-// JawiKids PWA Register v1.47
+// JawiKids PWA Register v1.48
 (function () {
-  const VERSION = 'v1.47.0';
+  const VERSION = 'v1.48.0';
   window.JAWIKIDS_APP_VERSION = VERSION;
+  async function clearOldCaches(){
+    try{
+      if(!('caches' in window)) return;
+      const keys = await caches.keys();
+      await Promise.all(keys.filter(k => !k.startsWith(VERSION)).map(k => caches.delete(k)));
+    }catch(e){}
+  }
+  clearOldCaches();
   if (!('serviceWorker' in navigator)) return;
   window.addEventListener('load', async () => {
     try {
-      const registration = await navigator.serviceWorker.register('./sw.js?v=' + encodeURIComponent(VERSION), { scope: './' });
+      const registration = await navigator.serviceWorker.register('./sw.js?v=' + encodeURIComponent(VERSION), { scope: './', updateViaCache: 'none' });
+      await registration.update();
       registration.addEventListener('updatefound', () => {
         const newWorker = registration.installing;
         if (!newWorker) return;

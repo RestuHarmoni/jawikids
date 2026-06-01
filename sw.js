@@ -1,17 +1,17 @@
-/* JawiKids Service Worker v1.47.0
-   Network-first for HTML/JS/CSS to avoid stale patch issues; v1.47.0 fixes dashboard auto-rotate.
-   Cache-first for static images/icons/audio after first load.
+/* JawiKids Service Worker v1.48.0
+   Deep orientation fix: parent pages use normal manifest; game pages use game manifest.
+   Network-first for HTML/JS/CSS/JSON to avoid stale patch issues.
 */
-const CACHE_VERSION = 'v1.47.0';
+const CACHE_VERSION = 'v1.48.0';
 const STATIC_CACHE = `${CACHE_VERSION}-static`;
 const APP_SHELL = [
   './','./index.html','./pwa-start.html','./login.html','./register.html','./parent-dashboard.html','./child-select.html','./game-map.html','./letter-intro.html','./lesson-practice.html','./lesson-game.html','./lesson-2.html','./boss-challenge.html',
-  './app.css','./style.css','./js/supabase-client.js','./js/auth.js','./js/dashboard.js','./js/child-select.js','./js/game-map.js','./js/letter-intro.js','./js/lesson-game.js','./js/orientation-lock.js','./js/pwa-launch.js','./character-assets.js','./manifest.json'
+  './app.css','./style.css','./js/supabase-client.js','./js/auth.js','./js/dashboard.js','./js/child-select.js','./js/game-map.js','./js/letter-intro.js','./js/lesson-game.js','./js/orientation-lock.js','./js/orientation-reset.js','./js/pwa-launch.js','./character-assets.js','./manifest.json','./manifest-game.json'
 ];
 self.addEventListener('install', (event) => { self.skipWaiting(); event.waitUntil(caches.open(STATIC_CACHE).then((cache) => cache.addAll(APP_SHELL).catch(() => null))); });
 self.addEventListener('activate', (event) => { event.waitUntil((async () => { const keys = await caches.keys(); await Promise.all(keys.filter((key) => !key.startsWith(CACHE_VERSION)).map((key) => caches.delete(key))); await self.clients.claim(); })()); });
 function isNavigationRequest(request) { return request.mode === 'navigate' || (request.headers.get('accept') || '').includes('text/html'); }
-function isFreshFile(url) { return /\.(html|js|css|json)$/i.test(url.pathname); }
+function isFreshFile(url) { return /\.(html|js|css|json|webmanifest)$/i.test(url.pathname); }
 function isStaticAsset(url) { return /\.(svg|png|jpg|jpeg|webp|gif|mp3|wav|ogg|woff2?)$/i.test(url.pathname); }
 async function networkFirst(request) { const cache = await caches.open(STATIC_CACHE); try { const fresh = await fetch(request, { cache: 'no-store' }); if (fresh && fresh.ok) cache.put(request, fresh.clone()); return fresh; } catch (error) { const cached = await cache.match(request); if (cached) return cached; if (isNavigationRequest(request)) return cache.match('./index.html'); throw error; } }
 async function cacheFirst(request) { const cache = await caches.open(STATIC_CACHE); const cached = await cache.match(request); if (cached) return cached; const fresh = await fetch(request); if (fresh && fresh.ok) cache.put(request, fresh.clone()); return fresh; }
