@@ -29,20 +29,32 @@
     const fullName = meta.full_name || meta.name || meta.display_name || user.email || 'Parent JawiKids';
     const phoneNumber = meta.phone_number || meta.phone || null;
 
-    const { error } = await supabase
-      .from('profiles')
-      .upsert({
-        id: user.id,
-        full_name: fullName,
-        phone_number: phoneNumber,
-        subscription_type: 'free',
-        subscription_status: 'inactive',
-        premium_lifetime: false,
-        max_children: 3,
-        concurrent_session_limit: 5
-      }, { onConflict: 'id', ignoreDuplicates: true });
+    const defaultProfile = {
+      id: user.id,
+      full_name: fullName,
+      phone_number: phoneNumber,
+      subscription_type: 'free',
+      subscription_status: 'inactive',
+      premium_lifetime: false,
+      max_children: 3,
+      concurrent_session_limit: 5
+    };
 
-    if (error) console.warn('Profile sync warning:', error.message);
+    const { data: existing, error: selectError } = await supabase
+      .from('profiles')
+      .select('id')
+      .eq('id', user.id)
+      .maybeSingle();
+
+    if (selectError) console.warn('Profile select warning:', selectError.message);
+
+    if (!existing) {
+      const { error: insertError } = await supabase
+        .from('profiles')
+        .insert(defaultProfile);
+      if (insertError) console.warn('Profile insert warning:', insertError.message);
+    }
+
     return user;
   }
 

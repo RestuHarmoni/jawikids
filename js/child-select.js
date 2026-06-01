@@ -27,12 +27,34 @@
       return null;
     }
     if (window.JawiKidsAuth?.ensureParentProfile) await window.JawiKidsAuth.ensureParentProfile();
-    const { data: profile, error } = await supabase
+    let { data: profile, error } = await supabase
       .from('profiles')
       .select('id,full_name,premium_lifetime,max_children,subscription_status')
       .eq('id', session.user.id)
-      .single();
+      .maybeSingle();
+
     if (error) throw error;
+
+    if (!profile) {
+      const meta = session.user.user_metadata || {};
+      const fallbackProfile = {
+        id: session.user.id,
+        full_name: meta.full_name || meta.name || session.user.email || 'Parent JawiKids',
+        subscription_type: 'free',
+        subscription_status: 'inactive',
+        premium_lifetime: false,
+        max_children: 3,
+        concurrent_session_limit: 5
+      };
+      const { data: createdProfile, error: createError } = await supabase
+        .from('profiles')
+        .insert(fallbackProfile)
+        .select('id,full_name,premium_lifetime,max_children,subscription_status')
+        .maybeSingle();
+      if (createError) throw createError;
+      profile = createdProfile || fallbackProfile;
+    }
+
     return { user: session.user, profile };
   }
 

@@ -71,12 +71,20 @@
     if (window.JawiKidsAuth?.ensureParentProfile) await window.JawiKidsAuth.ensureParentProfile();
 
     const [{ data: profile, error: profileError }, { data: children, error: childrenError }, inboxItems] = await Promise.all([
-      supabase.from('profiles').select('id,full_name,subscription_type,subscription_status,premium_lifetime,max_children,concurrent_session_limit').eq('id', user.id).single(),
+      supabase.from('profiles').select('id,full_name,subscription_type,subscription_status,premium_lifetime,max_children,concurrent_session_limit').eq('id', user.id).maybeSingle(),
       supabase.from('children').select('id,name,age,gender,avatar_key,total_xp,current_island,hearts,created_at').eq('parent_id', user.id).order('created_at', { ascending: true }),
       loadUnreadNotifications(supabase, user.id)
     ]);
 
     if (profileError) console.warn('Profile warning:', profileError.message);
+    const safeProfile = profile || {
+      id: user.id,
+      full_name: user.user_metadata?.full_name || user.user_metadata?.name || user.email || 'Parent JawiKids',
+      subscription_status: 'inactive',
+      premium_lifetime: false,
+      max_children: 3,
+      concurrent_session_limit: 5
+    };
     if (childrenError) {
       status('Gagal baca profil anak: ' + childrenError.message, 'error');
       return;
@@ -104,12 +112,12 @@
       return acc;
     }, {});
 
-    const maxChildren = profile?.max_children || 3;
+    const maxChildren = safeProfile?.max_children || 3;
     const totalXp = childRows.reduce((sum, c) => sum + Number(c.total_xp || 0), 0);
     const bestStreak = streaks.reduce((max, s) => Math.max(max, Number(s.current_streak || 0), Number(s.longest_streak || 0)), 0);
-    const premiumText = profile?.premium_lifetime ? 'Premium' : (profile?.subscription_status === 'active' ? 'Active' : 'Free');
+    const premiumText = safeProfile?.premium_lifetime ? 'Premium' : (safeProfile?.subscription_status === 'active' ? 'Active' : 'Free');
 
-    setTextAll('[data-parent-name]', profile?.full_name || user.user_metadata?.full_name || user.email || 'Parent JawiKids');
+    setTextAll('[data-parent-name]', safeProfile?.full_name || user.user_metadata?.full_name || user.email || 'Parent JawiKids');
     setTextAll('[data-child-count]', childRows.length);
     setTextAll('[data-max-children]', maxChildren);
     setTextAll('[data-total-xp]', formatNumber(totalXp));
