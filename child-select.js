@@ -1,4 +1,4 @@
-/* JawiKids Child Select Live Sync v1.49.3 - Mula Main starts game mode only */
+/* JawiKids Child Select Live Sync v1.47 - Mula Main starts game mode only */
 (function () {
   let currentProfile = null;
   let currentChildren = [];
@@ -86,6 +86,8 @@
         event.preventDefault();
         localStorage.setItem('jawikids_selected_child_id', link.dataset.selectChild);
         localStorage.setItem('selected_child_id', link.dataset.selectChild);
+        
+        
         window.location.href = link.getAttribute('href') || 'game-map.html';
       });
     });

@@ -1,11 +1,11 @@
 {
   "name": "JawiKids - Main, Belajar, Bijak Jawi!",
   "short_name": "JawiKids",
-  "description": "JawiKids app. Portrait follows device setting; no forced auto rotate.",
-  "start_url": "./pwa-start.html?source=pwa&v=1.49.3",
+  "description": "JawiKids portrait-safe PWA. No forced auto rotate.",
+  "start_url": "./pwa-start.html?source=pwa&v=1.50.0",
   "scope": "./",
   "display": "standalone",
-  "orientation": "any",
+  "orientation": "portrait-primary",
   "background_color": "#EBF8FF",
   "theme_color": "#A7E92F",
   "categories": [
@@ -31,5 +31,5 @@
     "minimal-ui"
   ],
   "prefer_related_applications": false,
-  "id": "/jawikids-app-v1-49-3-parent-any"
+  "id": "/jawikids-app-v1-50-portrait-safe"
 }
