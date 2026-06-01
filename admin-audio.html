@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="ms">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Audio Manager - JawiKids Admin</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Nunito:wght@400;600;700;800&family=Noto+Sans+Arabic:wght@500;700;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="admin.css?v=1.34.0" />
+  <link rel="manifest" href="manifest.json?v=1.34.0">
+  <meta name="theme-color" content="#A7E92F">
+</head>
+<body>
+  <div class="admin-shell">
+    <aside class="sidebar" id="sidebar">
+      <a class="brand" href="admin.html" aria-label="JawiKids Admin Home">
+        <span class="brand-mark">ج</span>
+        <span><strong>JawiKids</strong><small>Audio Manager</small></span>
+      </a>
+      <nav class="admin-nav" aria-label="Admin navigation">
+        <a href="admin.html#overview">Overview</a>
+        <a href="admin.html#questions">Questions Bank</a>
+        <a class="active" href="admin-audio.html">Audio Manager</a>
+        <a href="admin-support.html">Support Center</a>
+        <a href="admin-affiliate.html">Affiliate</a>
+        <a href="index.html">Lihat Landing</a>
+      </nav>
+    </aside>
+
+    <main class="admin-main">
+      <header class="topbar">
+        <button class="menu-toggle" id="menuToggle" type="button">☰</button>
+        <div>
+          <p class="eyebrow">JawiKids Sound Control</p>
+          <h1>Admin Audio Manager</h1>
+          <p class="admin-muted">Tukar audio arahan, huruf, jawapan betul/salah, reward dan lesson tanpa edit coding.</p>
+        </div>
+        <div class="top-actions">
+          <button class="ghost-btn" id="refreshAudioBtn" type="button">Refresh</button>
+          <button class="primary-btn" id="seedDefaultAudioBtn" type="button">Seed Default</button>
+        </div>
+      </header>
+
+      <section class="metric-grid audio-metric-grid">
+        <article class="metric-card"><span>Total Audio</span><strong id="audioCount">0</strong><small>Dalam Supabase</small></article>
+        <article class="metric-card success"><span>Active</span><strong id="audioActiveCount">0</strong><small>Sedang digunakan</small></article>
+        <article class="metric-card warning"><span>Fallback TTS</span><strong id="audioFallbackCount">0</strong><small>Jika tiada MP3</small></article>
+      </section>
+
+      <section class="dashboard-grid two content-manager-grid">
+        <article class="panel content-form-panel">
+          <div class="panel-head">
+            <div><p class="eyebrow">Tambah / Edit Audio</p><h2>Audio Setting</h2></div>
+            <span class="status-chip live">Supabase Sync</span>
+          </div>
+
+          <form class="admin-form" id="audioForm">
+            <label>Audio Key
+              <select id="audioKey" required>
+                <option value="lesson_instruction_pulau_alif_ba_01">Lesson: Pulau Alif - Huruf Ba</option>
+                <option value="feedback_correct">Feedback: Jawapan Betul</option>
+                <option value="feedback_wrong">Feedback: Jawapan Salah</option>
+                <option value="daily_reward_claim">Daily Reward</option>
+                <option value="achievement_unlock">Achievement Unlock</option>
+                <option value="dashboard_welcome">Dashboard Welcome</option>
+                <option value="custom">Custom Key...</option>
+              </select>
+            </label>
+
+            <label id="customKeyWrap" class="hidden">Custom Key
+              <input id="customAudioKey" type="text" placeholder="contoh: huruf_alif_instruction" />
+            </label>
+
+            <div class="form-row two-col">
+              <label>Kategori
+                <select id="audioCategory">
+                  <option value="lesson">Lesson</option>
+                  <option value="letter">Huruf</option>
+                  <option value="feedback">Feedback</option>
+                  <option value="reward">Reward</option>
+                  <option value="system">System</option>
+                </select>
+              </label>
+              <label>Status
+                <select id="audioIsActive">
+                  <option value="true">Active</option>
+                  <option value="false">Off</option>
+                </select>
+              </label>
+            </div>
+
+            <label>Tajuk Audio
+              <input id="audioTitle" type="text" value="Arahan Huruf Ba" required />
+            </label>
+
+            <label>Teks Audio / Fallback TTS
+              <textarea id="audioText" placeholder="Pilih huruf Ba. Cari huruf Ba jawi.">Pilih huruf Ba. Cari huruf Ba jawi.</textarea>
+            </label>
+
+            <label>Audio URL / Path
+              <input id="audioUrl" type="url" placeholder="https://...mp3 atau public URL dari Supabase Storage" />
+            </label>
+
+            <label>Upload MP3/WebM ke bucket audio
+              <input id="audioFile" type="file" accept="audio/*" />
+              <small class="field-help">Maksimum dicadangkan 2MB. Jika upload gagal, pastikan bucket <b>audio</b> dan storage policy admin sudah aktif.</small>
+            </label>
+
+            <div class="form-actions">
+              <button class="ghost-btn" type="button" id="testAudioBtn">🔊 Test Audio</button>
+              <button class="primary-btn" type="submit">Simpan Audio</button>
+            </div>
+          </form>
+        </article>
+
+        <article class="panel preview-panel">
+          <div class="panel-head"><div><p class="eyebrow">Senarai Audio</p><h2>Audio Yang Aktif</h2></div></div>
+          <div class="content-list" id="audioList">
+            <div class="content-item"><b>Memuatkan audio...</b><span>Sila tunggu</span></div>
+          </div>
+        </article>
+      </section>
+
+      <section class="panel">
+        <div class="panel-head"><div><p class="eyebrow">Panduan</p><h2>Cara Sistem Audio Berfungsi</h2></div></div>
+        <div class="flow-steps">
+          <div><strong>1</strong><span>Admin isi teks fallback atau upload audio.</span></div>
+          <div><strong>2</strong><span>Audio disimpan dalam table <b>audio_settings</b>.</span></div>
+          <div><strong>3</strong><span>Lesson/Game baca audio key yang sepadan.</span></div>
+          <div><strong>4</strong><span>Jika tiada MP3, sistem guna suara browser sebagai fallback.</span></div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <div class="slide-notification hidden" id="slideNotification"><b>🔔 JawiKids</b><span>Notifikasi baharu</span></div>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="js/supabase-client.js?v=1.34.0"></script>
+  <script src="js/admin-audio.js?v=1.34.0"></script>
+  <script src="pwa-register.js?v=1.34.0"></script>
+</body>
+</html>
