@@ -1,8 +1,8 @@
 {
-  "name": "JawiKids - Main, Belajar, Bijak Jawi!",
+  "name": "JawiKids",
   "short_name": "JawiKids",
-  "description": "JawiKids portrait-safe PWA. No forced auto rotate.",
-  "start_url": "./pwa-start.html?source=pwa&v=1.50.0",
+  "description": "JawiKids official PWA.",
+  "start_url": "./pwa-start.html?source=pwa&v=1.51.0",
   "scope": "./",
   "display": "standalone",
   "orientation": "portrait-primary",
@@ -31,5 +31,5 @@
     "minimal-ui"
   ],
   "prefer_related_applications": false,
-  "id": "/jawikids-app-v1-50-portrait-safe"
+  "id": "/jawikids-app-v1-51-0"
 }

@@ -803,7 +803,7 @@
 @keyframes pwaDot{0%,100%{transform:translateY(0);opacity:.55}50%{transform:translateY(-8px);opacity:1}}
 
 
-/* JawiKids v1.50.0 - PORTRAIT SAFE HARD OVERRIDE */
+/* JawiKids v1.51.0 - PORTRAIT SAFE HARD OVERRIDE */
 .jk-rotate-overlay{display:none!important;visibility:hidden!important;pointer-events:none!important;}
 html.jk-wide-preferred,
 html.jk-child-game-mode,
@@ -830,5 +830,99 @@ body.jk-child-game-mode-body{
     min-height:100svh!important;
     overflow-x:hidden!important;
     transform:none!important;
+  }
+}
+
+
+/* JawiKids v1.51.0 - Force Landscape Game Overlay */
+body[data-jk-orientation="game"] .jk-rotate-overlay,
+html.jk-force-landscape .jk-rotate-overlay{
+  position: fixed !important;
+  inset: 0 !important;
+  z-index: 999999 !important;
+  display: none !important;
+  place-items: center !important;
+  visibility: visible !important;
+  pointer-events: auto !important;
+  padding: 22px !important;
+  background: linear-gradient(135deg, rgba(235,248,255,.98), rgba(167,233,47,.94)) !important;
+}
+body[data-jk-orientation="game"] .jk-rotate-overlay.show,
+html.jk-force-landscape .jk-rotate-overlay.show{
+  display: grid !important;
+}
+body[data-jk-orientation="game"] .jk-rotate-card,
+html.jk-force-landscape .jk-rotate-card{
+  width: min(92vw, 520px) !important;
+  background: #fff !important;
+  border: 4px solid rgba(30,41,59,.12) !important;
+  border-radius: 34px !important;
+  padding: 26px !important;
+  text-align: center !important;
+  box-shadow: 0 24px 60px rgba(30,41,59,.22) !important;
+  color: #1E293B !important;
+}
+body[data-jk-orientation="game"] .jk-rotate-visual,
+html.jk-force-landscape .jk-rotate-visual{
+  min-height: 100px !important;
+  display: grid !important;
+  place-items: center !important;
+  position: relative !important;
+}
+body[data-jk-orientation="game"] .jk-rotate-device,
+html.jk-force-landscape .jk-rotate-device{
+  width: 58px !important;
+  height: 92px !important;
+  border: 6px solid #1E293B !important;
+  border-radius: 18px !important;
+  background: #EBF8FF !important;
+  animation: jkRotateToLandscape 1.7s ease-in-out infinite !important;
+}
+body[data-jk-orientation="game"] .jk-rotate-arrow,
+html.jk-force-landscape .jk-rotate-arrow{
+  position: absolute !important;
+  right: 38% !important;
+  top: 8px !important;
+  font-size: 42px !important;
+  font-weight: 900 !important;
+  color: #3ABEF9 !important;
+}
+body[data-jk-orientation="game"] .jk-rotate-card h2,
+html.jk-force-landscape .jk-rotate-card h2{
+  margin: 8px 0 !important;
+  font-size: clamp(1.45rem, 5vw, 2.1rem) !important;
+  color: #1E293B !important;
+}
+body[data-jk-orientation="game"] .jk-rotate-card p,
+html.jk-force-landscape .jk-rotate-card p{
+  color: #475569 !important;
+  font-weight: 800 !important;
+  line-height: 1.55 !important;
+}
+body[data-jk-orientation="game"] .jk-rotate-card button,
+html.jk-force-landscape .jk-rotate-card button{
+  border: 0 !important;
+  border-radius: 999px !important;
+  padding: 14px 20px !important;
+  background: #FFD93D !important;
+  color: #1E293B !important;
+  font-weight: 900 !important;
+  box-shadow: 0 8px 0 #E5B900 !important;
+}
+body[data-jk-orientation="game"] .jk-rotate-card small,
+html.jk-force-landscape .jk-rotate-card small{
+  display: block !important;
+  margin-top: 14px !important;
+  color: #64748b !important;
+  font-weight: 700 !important;
+}
+@keyframes jkRotateToLandscape{
+  0%,25%{transform: rotate(0deg)}
+  65%,100%{transform: rotate(90deg)}
+}
+@media (orientation: landscape){
+  body[data-jk-orientation="game"] .jk-rotate-overlay.show,
+  html.jk-force-landscape .jk-rotate-overlay.show{
+    display:none !important;
   }
 }

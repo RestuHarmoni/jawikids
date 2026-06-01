@@ -1,7 +1,14 @@
-// JawiKids v1.50.0 - Orientation reset / portrait safe
+// JawiKids v1.51.0 - Orientation reset for non-game pages
 (function(){
   'use strict';
+  const GAME_PAGES = new Set(['game-map.html','lesson-game.html','lesson-practice.html','lesson-2.html','letter-intro.html','boss-challenge.html','future-mini-games.html']);
+  function pageName(){
+    const raw=(location.pathname.split('/').pop()||'index.html').toLowerCase();
+    return raw.includes('.') ? raw : (raw ? raw+'.html' : 'index.html');
+  }
+  function isGamePage(){ return GAME_PAGES.has(pageName()) || document.body?.dataset?.jkOrientation === 'game'; }
   function reset(){
+    if(isGamePage()) return;
     try{
       localStorage.removeItem('jawikids_game_wide_mode');
       localStorage.removeItem('jawikids_game_mode');

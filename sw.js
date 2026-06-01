@@ -1,10 +1,10 @@
-/* JawiKids Service Worker v1.50.0 - portrait safe */
-const CACHE_NAME = 'jawikids-v1-50-0-portrait-safe';
+/* JawiKids Service Worker v1.51.0 - force landscape game mode aware */
+const CACHE_NAME = 'jawikids-v1-51-0-force-landscape-game';
 const CORE_ASSETS = [
-  './', './index.html', './pwa-start.html', './manifest.json', './manifest.json',
-  './style.css?v=1.50.0', './app.css?v=1.50.0', './pwa-register.js?v=1.50.0',
-  './js/orientation-lock.js?v=1.50.0', './js/orientation-reset.js?v=1.50.0',
-  './orientation-lock.js?v=1.50.0', './orientation-reset.js?v=1.50.0'
+  './', './index.html', './pwa-start.html', './manifest.json', './manifest-game.json',
+  './style.css?v=1.51.0', './app.css?v=1.51.0', './pwa-register.js?v=1.51.0',
+  './js/orientation-lock.js?v=1.51.0', './js/orientation-reset.js?v=1.51.0',
+  './orientation-lock.js?v=1.51.0', './orientation-reset.js?v=1.51.0'
 ];
 self.addEventListener('install', event => {
   self.skipWaiting();

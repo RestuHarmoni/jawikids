@@ -1,4 +1,4 @@
-# JawiKids v1.50.0 Portrait Safe Fix
+# JawiKids v1.51.0 Portrait Safe Fix
 
 Tujuan: hentikan auto rotate / force landscape sepenuhnya.
 
@@ -14,7 +14,7 @@ Fail utama dikemaskini:
 - child-select.js
 - js/child-select.js
 - app.css
-- semua HTML version query dinaikkan ke v=1.50.0
+- semua HTML version query dinaikkan ke v=1.51.0
 
 Perubahan penting:
 1. Semua manifest ditukar kepada `orientation: portrait-primary`.
@@ -22,7 +22,7 @@ Perubahan penting:
 3. `screen.orientation.lock('landscape')` dibuang sepenuhnya.
 4. `requestFullscreen()` untuk orientation lock dibuang.
 5. LocalStorage `jawikids_game_wide_mode` dan `jawikids_game_mode` tidak lagi diset dari child-select.
-6. Service worker guna cache baru `jawikids-v1-50-0-portrait-safe` dan delete cache lama.
+6. Service worker guna cache baru `jawikids-v1-51-0-portrait-safe` dan delete cache lama.
 7. CSS overlay rotate disembunyikan secara hard override.
 
 Nota deployment:
