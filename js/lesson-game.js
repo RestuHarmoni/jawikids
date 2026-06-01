@@ -1,4 +1,4 @@
-// JawiKids v1.40 - Compact age-friendly Pulau 1 games UI + selected child top HUD
+// JawiKids v1.41 - Boss Challenge victory overlay + auto return to map unlock effect
 (function(){
   'use strict';
 
@@ -30,10 +30,10 @@
   }
 
   const LESSONS = {
-    practice: { id:'pulau-1-practice-01', label:'Latihan Ringkas', moduleTitle:'Pulau Huruf', title:'Padankan Bunyi Huruf', instruction:'Latihan santai tanpa XP. Tekan audio, pilih huruf yang betul.', xpReward:0, bonusXp:0, trackProgress:false, mode:'match', questions: buildQuestions(BASE.slice(0,5),'practice','match') },
-    lesson1: { id:'pulau-1-lesson-1', label:'Lesson 1', moduleTitle:'Pulau Huruf', title:'Pilih Huruf Yang Disebut', instruction:'Dengar audio dan pilih huruf. 10 soalan.', xpReward:10, bonusXp:20, trackProgress:true, mode:'audio-pick', questions: buildQuestions(BASE,'lesson1','audio-pick') },
-    lesson2: { id:'pulau-1-lesson-2', label:'Lesson 2', moduleTitle:'Pulau Huruf', title:'Cari Huruf Hampir Sama', instruction:'Bezakan huruf yang hampir sama. 10 soalan.', xpReward:10, bonusXp:20, trackProgress:true, mode:'look-find', questions: buildQuestions(SECOND,'lesson2','look-find') },
-    boss: { id:'pulau-1-boss-challenge', label:'Boss Challenge', moduleTitle:'Pulau Huruf', title:'Cabaran Zafri', instruction:'Cabaran campuran Alif sampai Ya. 20 soalan.', xpReward:15, bonusXp:50, trackProgress:true, mode:'boss', questions: buildQuestions(ALL_BOSS.slice(0,20),'boss','boss') }
+    practice: { id:'pulau-1-practice-01', island:1, label:'Latihan Ringkas', moduleTitle:'Pulau Huruf', title:'Padankan Bunyi Huruf', instruction:'Latihan santai tanpa XP. Tekan audio, pilih huruf yang betul.', xpReward:0, bonusXp:0, trackProgress:false, mode:'match', questions: buildQuestions(BASE.slice(0,5),'practice','match') },
+    lesson1: { id:'pulau-1-lesson-1', island:1, label:'Lesson 1', moduleTitle:'Pulau Huruf', title:'Pilih Huruf Yang Disebut', instruction:'Dengar audio dan pilih huruf. 10 soalan.', xpReward:10, bonusXp:20, trackProgress:true, mode:'audio-pick', questions: buildQuestions(BASE,'lesson1','audio-pick') },
+    lesson2: { id:'pulau-1-lesson-2', island:1, label:'Lesson 2', moduleTitle:'Pulau Huruf', title:'Cari Huruf Hampir Sama', instruction:'Bezakan huruf yang hampir sama. 10 soalan.', xpReward:10, bonusXp:20, trackProgress:true, mode:'look-find', questions: buildQuestions(SECOND,'lesson2','look-find') },
+    boss: { id:'pulau-1-boss-challenge', island:1, unlockIsland:2, label:'Boss Challenge', moduleTitle:'Pulau Huruf', title:'Cabaran Zafri', instruction:'Cabaran campuran Alif sampai Ya. 20 soalan.', xpReward:15, bonusXp:50, trackProgress:true, mode:'boss', questions: buildQuestions(ALL_BOSS.slice(0,20),'boss','boss') }
   };
 
   function pageLessonKey(){ const p = location.pathname.toLowerCase(); if(p.includes('lesson-practice')) return 'practice'; if(p.includes('lesson-2')) return 'lesson2'; if(p.includes('boss-challenge')) return 'boss'; return 'lesson1'; }
@@ -81,7 +81,7 @@
     setText('hudXp', `${selectedChild?.total_xp || 0} XP`);
     const hearts = Math.max(0, Math.min(5, selectedChild?.hearts || 5));
     setText('hudHearts', '❤️'.repeat(hearts));
-    const av = $('hudAvatar'); if(av) av.src = selectedChild?.avatar || 'assets/characters/zafri-happy.svg?v=1.40.0';
+    const av = $('hudAvatar'); if(av) av.src = selectedChild?.avatar || 'assets/characters/zafri-happy.svg?v=1.41.0';
   }
   function updateProgress(pct){
     pct = Math.max(0, Math.min(100, Number(pct||0)));
@@ -146,24 +146,88 @@
     await window.jawiSupabase.from('child_progress').upsert({child_id:selectedChild.id,lesson_id:LESSON.id,progress_percent:pct,is_completed:pct>=100,xp_earned:xpEarnedThisRun,updated_at:new Date().toISOString()},{onConflict:'child_id,lesson_id'});
     selectedChild.total_xp=newXp; renderHud(); updateProgress(pct);
   }
+  function isBossChallenge(){ return LESSON.id === 'pulau-1-boss-challenge'; }
+
   async function completeLesson(){
     const bonus=LESSON.trackProgress?LESSON.bonusXp:0;
+    const shouldUnlockNextIsland = isBossChallenge();
     if(LESSON.trackProgress && window.jawiSupabase && selectedChild && currentUser){
       const finalXp=(selectedChild.total_xp||0)+bonus;
-      await window.jawiSupabase.from('children').update({total_xp:finalXp,current_island:Math.max(selectedChild.current_island||1,LESSON.island)}).eq('id',selectedChild.id).eq('parent_id',currentUser.id);
-      await window.jawiSupabase.from('child_progress').upsert({child_id:selectedChild.id,lesson_id:LESSON.id,progress_percent:100,is_completed:true,xp_earned:xpEarnedThisRun+bonus,updated_at:new Date().toISOString()},{onConflict:'child_id,lesson_id'});
-      selectedChild.total_xp=finalXp; renderHud();
+      const nextIsland = shouldUnlockNextIsland ? (LESSON.unlockIsland || 2) : Math.max(selectedChild.current_island || 1, LESSON.island || 1);
+      await window.jawiSupabase
+        .from('children')
+        .update({total_xp:finalXp,current_island:nextIsland})
+        .eq('id',selectedChild.id)
+        .eq('parent_id',currentUser.id);
+
+      await window.jawiSupabase.from('child_progress').upsert({
+        child_id:selectedChild.id,
+        lesson_id:LESSON.id,
+        progress_percent:100,
+        is_completed:true,
+        xp_earned:xpEarnedThisRun+bonus,
+        updated_at:new Date().toISOString()
+      },{onConflict:'child_id,lesson_id'});
+
+      selectedChild.total_xp=finalXp;
+      selectedChild.current_island=nextIsland;
+      renderHud();
     }
-    updateProgress(100); renderSummary(bonus); playAudioKey('lesson_complete',LESSON.trackProgress?'Tahniah. Lesson selesai.':'Latihan selesai. Jom teruskan.');
+    updateProgress(100);
+    renderSummary(bonus);
+    playAudioKey('lesson_complete', shouldUnlockNextIsland ? 'Tahniah. Cabaran selesai. Pulau baru telah dibuka.' : (LESSON.trackProgress?'Tahniah. Lesson selesai.':'Latihan selesai. Jom teruskan.'));
+    if(shouldUnlockNextIsland) showBossVictoryOverlay(bonus);
   }
   function nextPath(){ if(LESSON.id==='pulau-1-practice-01') return 'lesson-game.html'; if(LESSON.id==='pulau-1-lesson-1') return 'lesson-2.html'; if(LESSON.id==='pulau-1-lesson-2') return 'boss-challenge.html'; return 'game-map.html'; }
   function nextLabel(){ if(LESSON.id==='pulau-1-practice-01') return 'Mula Lesson 1'; if(LESSON.id==='pulau-1-lesson-1') return 'Mula Lesson 2'; if(LESSON.id==='pulau-1-lesson-2') return 'Mula Boss Challenge'; return 'Kembali ke Peta'; }
   function renderSummary(bonus){
-    setText('lessonPill', `${LESSON.label} · Selesai`); setText('lessonTitle', LESSON.trackProgress?'Tahniah! Lesson Selesai':'Latihan Selesai');
-    setText('lessonInstruction', LESSON.trackProgress?'Kamu sudah menjawab semua soalan.':'Latihan ringkas selesai. Tiada XP diberikan.'); setText('audioPromptTitle','Zafri bangga dengan usaha kamu!'); setText('mainJawi','🏆');
-    setText('coachTitle',`Skor ${score}/${LESSON.questions.length}`); setText('coachNote', LESSON.trackProgress?`XP: +${xpEarnedThisRun} · Bonus: +${bonus}`:'Latihan sahaja sebelum kuiz.');
-    const grid=$('answerGrid'); if(grid) grid.innerHTML=`<div class="lesson-summary-actions"><a class="primary-btn" href="${nextPath()}">${nextLabel()}</a><a class="secondary-btn" href="game-map.html">Kembali ke Peta</a><button class="secondary-btn" type="button" id="retryLessonBtn">Ulang</button></div>`;
+    const boss = isBossChallenge();
+    setText('lessonPill', boss ? 'Boss Challenge · Pulau 1 Selesai' : `${LESSON.label} · Selesai`);
+    setText('lessonTitle', boss ? 'Pulau Huruf Berjaya Ditawan!' : (LESSON.trackProgress?'Tahniah! Lesson Selesai':'Latihan Selesai'));
+    setText('lessonInstruction', boss ? 'Zafri dan Zainab sedang membuka laluan ke Pulau 2.' : (LESSON.trackProgress?'Kamu sudah menjawab semua soalan.':'Latihan ringkas selesai. Tiada XP diberikan.'));
+    setText('audioPromptTitle', boss ? 'Pulau 2 dibuka!' : 'Zafri bangga dengan usaha kamu!');
+    setText('mainJawi', boss ? '🔓' : '🏆');
+    setText('coachTitle', boss ? `Skor ${score}/${LESSON.questions.length} · Badge Wira Huruf` : `Skor ${score}/${LESSON.questions.length}`);
+    setText('coachNote', boss ? `XP: +${xpEarnedThisRun} · Bonus: +${bonus}. Kamu akan kembali ke peta secara automatik.` : (LESSON.trackProgress?`XP: +${xpEarnedThisRun} · Bonus: +${bonus}`:'Latihan sahaja sebelum kuiz.'));
+    const grid=$('answerGrid');
+    if(grid){
+      if(boss){
+        grid.innerHTML=`<div class="lesson-summary-actions"><div class="unlock-note">🏅 Badge Wira Huruf diperoleh · 🔓 Pulau 2 dibuka</div><a class="primary-btn" href="game-map.html">Pergi Ke Peta Sekarang</a></div>`;
+      }else{
+        grid.innerHTML=`<div class="lesson-summary-actions"><a class="primary-btn" href="${nextPath()}">${nextLabel()}</a><a class="secondary-btn" href="game-map.html">Kembali ke Peta</a><button class="secondary-btn" type="button" id="retryLessonBtn">Ulang</button></div>`;
+      }
+    }
     const retry=$('retryLessonBtn'); if(retry) retry.addEventListener('click',()=>{currentQuestionIndex=0;score=0;xpEarnedThisRun=0;renderQuestion();});
+  }
+
+  function showBossVictoryOverlay(bonus){
+    const old = document.getElementById('bossVictoryOverlay');
+    if(old) old.remove();
+    const overlay = document.createElement('div');
+    overlay.id = 'bossVictoryOverlay';
+    overlay.className = 'boss-victory-overlay';
+    overlay.innerHTML = `
+      <div class="boss-victory-card">
+        <div class="victory-glow"></div>
+        <img src="assets/characters/zafri-happy.svg?v=1.41.0" alt="Zafri" class="victory-avatar victory-zafri">
+        <img src="assets/characters/zainab-happy.svg?v=1.41.0" alt="Zainab" class="victory-avatar victory-zainab">
+        <div class="victory-badge">🏅</div>
+        <h2>Pulau 1 Selesai!</h2>
+        <p class="victory-subtitle">Kamu dapat <strong>Badge Wira Huruf</strong></p>
+        <div class="victory-rewards">
+          <span>⭐ +${xpEarnedThisRun + bonus} XP</span>
+          <span>🔓 Pulau 2 Dibuka</span>
+        </div>
+        <div class="map-portal">
+          <span class="island-dot done">1</span>
+          <span class="portal-line"></span>
+          <span class="island-dot unlocked">2</span>
+        </div>
+        <small>Menuju ke peta...</small>
+      </div>`;
+    document.body.appendChild(overlay);
+    setTimeout(()=>overlay.classList.add('show'), 30);
+    setTimeout(()=>{ window.location.href='game-map.html?unlocked=pulau-2'; }, 4200);
   }
   async function boot(){
     await initAuth(); await Promise.all([loadSelectedChild(),loadAudioSettings()]); await loadProgress(); renderQuestion();
