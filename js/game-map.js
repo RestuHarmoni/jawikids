@@ -2,6 +2,8 @@ const islands = document.querySelectorAll('.learning-island');
 const detailBadge = document.getElementById('detailBadge');
 const detailTitle = document.getElementById('detailTitle');
 const detailStatus = document.getElementById('detailStatus');
+const detailProgressFill = document.getElementById('detailProgressFill');
+const detailProgressText = document.getElementById('detailProgressText');
 const claimRewardBtn = document.getElementById('claimRewardBtn');
 
 const mapChildName = document.getElementById('mapChildName');
@@ -13,6 +15,73 @@ const mapStreak = document.getElementById('mapStreak');
 
 const setText = (el, text) => { if (el) el.textContent = text; };
 const formatNumber = (value) => Number(value || 0).toLocaleString('ms-MY');
+const clampPercent = (value) => Math.max(0, Math.min(100, Number(value || 0)));
+
+function getProgressStatus(percent, islandNo, currentIsland) {
+  if (islandNo < currentIsland) return 'Selesai';
+  if (islandNo > currentIsland) return 'Terkunci';
+  if (percent <= 0) return 'Belum Mula';
+  if (percent >= 80) return 'Sedia Unlock';
+  return 'Sedang Dipelajari';
+}
+
+async function getIslandProgressMap(supabase, childId) {
+  const progressByIsland = {};
+  for (let i = 1; i <= 10; i += 1) progressByIsland[i] = { total: 0, done: 0, percent: 0 };
+
+  const { data: modules, error: moduleError } = await supabase
+    .from('learning_modules')
+    .select('id,order_index')
+    .order('order_index', { ascending: true });
+  if (moduleError) throw moduleError;
+
+  const moduleToIsland = {};
+  (modules || []).forEach((mod) => {
+    moduleToIsland[mod.id] = Number(mod.order_index || 0);
+  });
+
+  const { data: lessons, error: lessonError } = await supabase
+    .from('lessons')
+    .select('id,module_id');
+  if (lessonError) throw lessonError;
+
+  const lessonToIsland = {};
+  (lessons || []).forEach((lesson) => {
+    const islandNo = moduleToIsland[lesson.module_id];
+    if (!islandNo) return;
+    lessonToIsland[lesson.id] = islandNo;
+    progressByIsland[islandNo].total += 1;
+  });
+
+  if ((lessons || []).length === 0) return progressByIsland;
+
+  const { data: progress, error: progressError } = await supabase
+    .from('child_progress')
+    .select('lesson_id,is_completed,score')
+    .eq('child_id', childId);
+  if (progressError) throw progressError;
+
+  (progress || []).forEach((row) => {
+    const islandNo = lessonToIsland[row.lesson_id];
+    if (!islandNo) return;
+    if (row.is_completed || Number(row.score || 0) > 0) progressByIsland[islandNo].done += 1;
+  });
+
+  Object.values(progressByIsland).forEach((item) => {
+    item.percent = item.total > 0 ? Math.round((item.done / item.total) * 100) : 0;
+  });
+
+  return progressByIsland;
+}
+
+function updateDetailPanel(islandNo, title, status, percent) {
+  setText(detailBadge, `Pulau ${islandNo}`);
+  setText(detailTitle, title || `Pulau ${islandNo}`);
+  setText(detailStatus, `Status: ${status}`);
+  if (detailProgressFill) detailProgressFill.style.width = `${clampPercent(percent)}%`;
+  setText(detailProgressText, `${clampPercent(percent)}% siap • Sasaran unlock 80%`);
+}
+
 
 function getAvatarForChild(child) {
   const gender = (child?.gender || '').toLowerCase();
@@ -20,8 +89,8 @@ function getAvatarForChild(child) {
   if (window.JawiKidsCharacters?.getChildAvatar) {
     return window.JawiKidsCharacters.getChildAvatar(child);
   }
-  if (key.includes('zainab') || gender === 'female' || gender === 'girl') return 'assets/characters/zainab-main.svg?v=1.31.0';
-  return 'assets/characters/zafri-main.svg?v=1.31.0';
+  if (key.includes('zainab') || gender === 'female' || gender === 'girl') return 'assets/characters/zainab-main.svg?v=1.32.0';
+  return 'assets/characters/zafri-main.svg?v=1.32.0';
 }
 
 async function ensureSelectedChild(supabase, userId) {
@@ -96,15 +165,20 @@ async function loadSelectedChild() {
     }
 
     const currentIsland = Number(child.current_island || 1);
+    const progressByIsland = await getIslandProgressMap(supabase, child.id);
     islands.forEach((island) => {
       const islandNo = Number(island.dataset.island || 0);
       island.classList.remove('island-done', 'island-current', 'island-locked', 'selected-island');
+      const percent = progressByIsland[islandNo]?.percent || 0;
+      const status = getProgressStatus(percent, islandNo, currentIsland);
+      island.dataset.status = status;
+      island.dataset.xp = `${percent}% siap • Sasaran unlock 80%`;
+      const islandSmall = island.querySelector('small');
+      if (islandSmall) islandSmall.textContent = status;
       if (islandNo < currentIsland) island.classList.add('island-done');
       else if (islandNo === currentIsland) {
         island.classList.add('island-current', 'selected-island');
-        detailBadge.textContent = `Pulau ${islandNo}`;
-        detailTitle.textContent = island.dataset.title || `Pulau ${islandNo}`;
-        detailStatus.textContent = `Status: Sedang Dipelajari`;
+        updateDetailPanel(islandNo, island.dataset.title, status, percent);
       } else island.classList.add('island-locked');
     });
   } catch (error) {
@@ -121,10 +195,9 @@ islands.forEach((island) => {
     const number = island.dataset.island;
     const title = island.dataset.title;
     const status = island.dataset.status;
-    const xp = island.dataset.xp;
-    detailBadge.textContent = `Pulau ${number}`;
-    detailTitle.textContent = title;
-    detailStatus.textContent = `Status: ${status} • ${xp}`;
+    const xp = island.dataset.xp || '0% siap • Sasaran unlock 80%';
+    const percent = Number((xp.match(/\d+/) || ['0'])[0]);
+    updateDetailPanel(number, title, status, percent);
     localStorage.setItem('jawikids_selected_island', number);
   });
 });
