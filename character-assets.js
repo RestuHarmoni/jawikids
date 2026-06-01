@@ -1,26 +1,29 @@
 /*
-  JawiKids Character Asset System v1.02
-  Tukar avatar premium nanti dengan menggantikan fail pada path yang sama,
-  atau ubah path di bawah sahaja tanpa mengubah logic game.
+  JawiKids Character Asset System v1.26
+  Untuk tukar avatar seluruh app kemudian, replace fail di assets/characters/ dengan nama fail yang sama.
+  Zafri wajib bersongkok. Zainab wajib bertudung.
 */
 window.JawiKidsAssets = {
   characters: {
     zafri: {
       name: 'Zafri',
       role: 'Ketua Pengembaraan',
-      default: 'assets/avatars/zafri/zafri-default.svg',
-      happy: 'assets/avatars/zafri/zafri-happy.svg',
-      guide: 'assets/avatars/zafri/zafri-guide.svg'
+      main: 'assets/characters/zafri-main.svg',
+      default: 'assets/characters/zafri-main.svg',
+      happy: 'assets/characters/zafri-happy.svg',
+      guide: 'assets/characters/zafri-guide.svg'
     },
     zainab: {
       name: 'Zainab',
       role: 'Tutor Bantuan',
-      default: 'assets/avatars/zainab/zainab-default.svg',
-      help: 'assets/avatars/zainab/zainab-help.svg',
-      happy: 'assets/avatars/zainab/zainab-happy.svg'
+      main: 'assets/characters/zainab-main.svg',
+      default: 'assets/characters/zainab-main.svg',
+      help: 'assets/characters/zainab-help.svg',
+      happy: 'assets/characters/zainab-happy.svg'
     }
   },
   icons: {
+    google: 'assets/icons/google-g.svg',
     family: 'assets/icons/icon-family.svg',
     learning: 'assets/icons/icon-learning.svg',
     reward: 'assets/icons/icon-reward.svg'

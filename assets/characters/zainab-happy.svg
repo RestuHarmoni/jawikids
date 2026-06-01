@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 420 420" role="img" aria-label="Zainab budak perempuan bertudung">
+  <defs>
+    <linearGradient id="bg" x1="0" x2="1" y1="0" y2="1"><stop stop-color="#FFE4F1"/><stop offset="1" stop-color="#E0F2FE"/></linearGradient>
+    <linearGradient id="hijab" x1="0" x2="1" y1="0" y2="1"><stop stop-color="#A78BFA"/><stop offset="1" stop-color="#EC4899"/></linearGradient>
+    <linearGradient id="dress" x1="0" x2="1"><stop stop-color="#F59E0B"/><stop offset="1" stop-color="#F472B6"/></linearGradient>
+  </defs>
+  <circle cx="210" cy="210" r="196" fill="url(#bg)"/>
+  <circle cx="210" cy="216" r="172" fill="#fff" opacity=".45"/>
+  <path d="M111 360c15-64 58-100 99-100s84 36 99 100" fill="url(#dress)"/>
+  <path d="M124 240c-27-91 15-161 86-161s113 70 86 161c-18 61-154 61-172 0z" fill="url(#hijab)"/>
+  <path d="M142 185c0-54 28-88 68-88s68 34 68 88c0 70-31 110-68 110s-68-40-68-110z" fill="#F2B887"/>
+  <path d="M142 172c19-37 44-57 68-57s49 20 68 57c-10-51-36-86-68-86s-58 35-68 86z" fill="#7C3AED" opacity=".85"/>
+  <circle cx="179" cy="188" r="9" fill="#111827"/>
+  <circle cx="241" cy="188" r="9" fill="#111827"/>
+  <path d="M184 229c17 16 35 16 52 0" fill="none" stroke="#7C2D12" stroke-width="10" stroke-linecap="round"/>
+  <circle cx="158" cy="210" r="13" fill="#FB7185" opacity=".34"/>
+  <circle cx="262" cy="210" r="13" fill="#FB7185" opacity=".34"/>
+  <path d="M128 247c18 38 49 58 82 58s64-20 82-58c5 35 2 69-9 100H137c-11-31-14-65-9-100z" fill="#7C3AED" opacity=".9"/>
+  <path d="M115 324c-20-1-37-17-37-37 0-15 10-27 24-32 7 25 17 48 28 69h-15z" fill="#F2B887"/>
+  <path d="M305 324c20-1 37-17 37-37 0-15-10-27-24-32-7 25-17 48-28 69h15z" fill="#F2B887"/>
+</svg>
