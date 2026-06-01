@@ -1,8 +1,8 @@
 {
   "name": "JawiKids - Main, Belajar, Bijak Jawi!",
   "short_name": "JawiKids",
-  "description": "Aplikasi pembelajaran Jawi kanak-kanak dengan peta pulau, XP, streak dan ganjaran. Mode wide bermula apabila anak tekan Mula Main.",
-  "start_url": "./parent-dashboard.html?source=pwa",
+  "description": "Aplikasi pembelajaran Jawi kanak-kanak. PWA dibuka melalui splash, terus ke dashboard jika parent masih login.",
+  "start_url": "./pwa-start.html?source=pwa",
   "scope": "./",
   "display": "standalone",
   "orientation": "any",
