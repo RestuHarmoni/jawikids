@@ -1,4 +1,4 @@
-/* JawiKids Child Select Live Sync v1.27 */
+/* JawiKids Child Select Live Sync v1.44 - Mula Main triggers wide mode */
 (function () {
   let currentProfile = null;
   let currentChildren = [];
@@ -70,7 +70,7 @@
       <div>
         <h2>${escapeHtml(child.name)}</h2>
         <p>Pulau ${child.current_island || 1} · ${Number(child.total_xp || 0).toLocaleString('ms-MY')} XP · ${child.hearts ?? 5} hati</p>
-        <a class="primary-btn" href="game-map.html" data-select-child="${child.id}">Mula Belajar</a>
+        <a class="primary-btn" href="game-map.html" data-select-child="${child.id}">Mula Main</a>
       </div>
     </div>`);
 
@@ -82,7 +82,24 @@
 
     grid.innerHTML = cards.join('');
     grid.querySelectorAll('[data-select-child]').forEach(link => {
-      link.addEventListener('click', () => localStorage.setItem('jawikids_selected_child_id', link.dataset.selectChild));
+      link.addEventListener('click', async (event) => {
+        event.preventDefault();
+        localStorage.setItem('jawikids_selected_child_id', link.dataset.selectChild);
+        localStorage.setItem('selected_child_id', link.dataset.selectChild);
+        localStorage.setItem('jawikids_game_wide_mode', '1');
+
+        // Start wide mode only from this user gesture. Dashboard/profil remain normal.
+        try {
+          const isTouch = matchMedia('(hover: none) and (pointer: coarse)').matches;
+          const isPhoneTabletSize = Math.min(window.screen.width || window.innerWidth, window.screen.height || window.innerHeight) <= 1024;
+          if (isTouch && isPhoneTabletSize && screen.orientation && screen.orientation.lock) {
+            await screen.orientation.lock('landscape');
+          }
+        } catch (e) {
+          // Browser may block orientation lock. The game page will show rotate overlay if needed.
+        }
+        window.location.href = link.getAttribute('href') || 'game-map.html';
+      });
     });
   }
 

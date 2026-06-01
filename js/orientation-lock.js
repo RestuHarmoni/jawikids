@@ -1,10 +1,8 @@
-// JawiKids v1.43 - PWA Landscape Mode + Rotate Overlay
+// JawiKids v1.44 - Landscape starts only after child taps Mula Main
 (function(){
   'use strict';
 
-  const GAME_PAGES = new Set([
-    'parent-dashboard.html',
-    'child-select.html',
+  const LEARNING_PAGES = new Set([
     'game-map.html',
     'letter-intro.html',
     'lesson-practice.html',
@@ -13,17 +11,21 @@
     'boss-challenge.html'
   ]);
 
-  const path = (location.pathname.split('/').pop() || 'index.html').toLowerCase();
-  const shouldRun = GAME_PAGES.has(path) || path === 'game-map' || path === 'lesson-game' || path === 'letter-intro';
-  if(!shouldRun) return;
+  const pathRaw = (location.pathname.split('/').pop() || 'index.html').toLowerCase();
+  const path = pathRaw.includes('.') ? pathRaw : (pathRaw ? pathRaw + '.html' : 'index.html');
+  const isLearningPage = LEARNING_PAGES.has(path);
+  const gameModeRequested = localStorage.getItem('jawikids_game_wide_mode') === '1';
+
+  // Dashboard, profile/child select, support and parent pages stay normal.
+  if(!isLearningPage || !gameModeRequested) return;
 
   const isTouch = matchMedia('(hover: none) and (pointer: coarse)').matches;
   const isPhoneTabletSize = Math.min(window.screen.width || window.innerWidth, window.screen.height || window.innerHeight) <= 1024;
   const isLikelyPc = !isTouch || !isPhoneTabletSize;
   if(isLikelyPc) return;
 
-  document.documentElement.classList.add('jk-touch-device','jk-wide-preferred');
-  document.body && document.body.classList.add('jk-wide-preferred-body');
+  document.documentElement.classList.add('jk-touch-device','jk-wide-preferred','jk-child-game-mode');
+  document.body && document.body.classList.add('jk-wide-preferred-body','jk-child-game-mode-body');
 
   function isStandalonePWA(){
     return window.matchMedia('(display-mode: standalone)').matches ||
@@ -45,10 +47,10 @@
           <div class="jk-rotate-device"></div>
           <div class="jk-rotate-arrow">↻</div>
         </div>
-        <h2>Mode Wide Lebih Selesa</h2>
-        <p>Pusingkan telefon/tablet supaya Zafri, hati, XP dan soalan nampak dalam satu skrin.</p>
+        <h2>Jom Main Dalam Mode Wide</h2>
+        <p>Pusingkan telefon/tablet supaya nama pemain, hati, XP dan soalan nampak dalam satu skrin.</p>
         <button type="button" id="jkTryLandscapeBtn">Aktifkan Wide Mode</button>
-        <small>${isStandalonePWA() ? 'PWA aktif: JawiKids akan cuba buka dalam landscape.' : 'Untuk auto landscape lebih baik, install JawiKids sebagai app PWA.'}</small>
+        <small>${isStandalonePWA() ? 'App mode aktif: JawiKids akan cuba kekal wide semasa bermain.' : 'Dalam browser biasa, pusing manual mungkin diperlukan.'}</small>
       </div>`;
     document.body.appendChild(overlay);
     const btn = overlay.querySelector('#jkTryLandscapeBtn');
@@ -62,7 +64,7 @@
   async function requestFullscreenIfNeeded(){
     try{
       const el = document.documentElement;
-      if(el.requestFullscreen && !document.fullscreenElement && isStandalonePWA()){
+      if(el.requestFullscreen && !document.fullscreenElement){
         await el.requestFullscreen();
       }
     }catch(e){}
@@ -75,7 +77,7 @@
         await screen.orientation.lock('landscape');
       }
     }catch(e){
-      // iOS Safari dan sebahagian browser biasa tidak benarkan lock; overlay kekal sebagai panduan rotate manual.
+      // iOS Safari dan sebahagian browser tidak benarkan lock. Overlay jadi panduan rotate manual.
     }
     refreshOverlay();
   }
