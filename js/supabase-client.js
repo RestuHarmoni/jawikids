@@ -1,4 +1,4 @@
-/* JawiKids Supabase Client - v1.22 Official Sync Patch
+/* JawiKids Supabase Client - v1.23 Google Login + Payment Link Patch
    Cara guna:
    1) Ganti SUPABASE_URL dan SUPABASE_ANON_KEY dengan nilai sebenar dari Supabase Project Settings > API.
    2) Jangan masukkan SERVICE_ROLE key di frontend.

@@ -17,6 +17,35 @@
     button.textContent = loading ? 'Memproses...' : label;
   }
 
+
+  async function ensureParentProfile() {
+    const supabase = client();
+    if (!supabase) return null;
+    const { data: userData, error: userError } = await supabase.auth.getUser();
+    if (userError || !userData?.user) return null;
+
+    const user = userData.user;
+    const meta = user.user_metadata || {};
+    const fullName = meta.full_name || meta.name || meta.display_name || user.email || 'Parent JawiKids';
+    const phoneNumber = meta.phone_number || meta.phone || null;
+
+    const { error } = await supabase
+      .from('profiles')
+      .upsert({
+        id: user.id,
+        full_name: fullName,
+        phone_number: phoneNumber,
+        subscription_type: 'free',
+        subscription_status: 'inactive',
+        premium_lifetime: false,
+        max_children: 3,
+        concurrent_session_limit: 5
+      }, { onConflict: 'id', ignoreDuplicates: true });
+
+    if (error) console.warn('Profile sync warning:', error.message);
+    return user;
+  }
+
   async function registerParent(event) {
     event.preventDefault();
     const supabase = client();
@@ -59,6 +88,7 @@
     showMessage('authMessage', 'Pendaftaran berjaya. Sila semak email untuk pengesahan jika diperlukan.', 'success');
 
     if (data?.user && data?.session) {
+      await ensureParentProfile();
       setTimeout(() => { window.location.href = 'parent-dashboard.html'; }, 800);
     }
   }
@@ -78,6 +108,7 @@
     setLoading(button, false, 'Log Masuk');
 
     if (error) return showMessage('authMessage', error.message, 'error');
+    await ensureParentProfile();
     showMessage('authMessage', 'Log masuk berjaya.', 'success');
     setTimeout(() => { window.location.href = 'parent-dashboard.html'; }, 500);
   }
@@ -87,7 +118,10 @@
     if (!supabase) return showMessage('authMessage', 'Supabase belum dikonfigurasi.', 'error');
     const { error } = await supabase.auth.signInWithOAuth({
       provider: 'google',
-      options: { redirectTo: `${window.location.origin}/parent-dashboard.html` }
+      options: {
+        redirectTo: `${window.location.origin}/parent-dashboard.html`,
+        queryParams: { access_type: 'offline', prompt: 'consent' }
+      }
     });
     if (error) showMessage('authMessage', error.message, 'error');
   }
@@ -123,9 +157,13 @@
     const supabase = client();
     if (!supabase) return;
     const { data } = await supabase.auth.getSession();
-    if (!data.session) window.location.href = 'login.html';
+    if (!data.session) {
+      window.location.href = 'login.html';
+      return;
+    }
+    await ensureParentProfile();
   }
 
-  window.JawiKidsAuth = { registerParent, loginParent, loginGoogle, forgotPassword, logoutParent, protectPage };
+  window.JawiKidsAuth = { registerParent, loginParent, loginGoogle, forgotPassword, logoutParent, protectPage, ensureParentProfile };
   document.addEventListener('DOMContentLoaded', protectPage);
 })();

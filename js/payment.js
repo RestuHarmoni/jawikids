@@ -1,22 +1,7 @@
-const basePrice = 49.90;
-const slotPrice = 10;
-let extraSlots = 0;
-const maxExtraSlots = 2;
-
-const slotLabel = document.getElementById('slotLabel');
-const extraSlot = document.getElementById('extraSlot');
-const totalPrice = document.getElementById('totalPrice');
 const toast = document.getElementById('payToast');
 const toastText = document.getElementById('toastText');
-const payButton = document.getElementById('payButton');
-
-function renderPaymentSummary() {
-  const totalChildren = 3 + extraSlots;
-  const total = basePrice + (extraSlots * slotPrice);
-  if (slotLabel) slotLabel.textContent = `${totalChildren} / 5`;
-  if (extraSlot) extraSlot.textContent = String(extraSlots);
-  if (totalPrice) totalPrice.textContent = `RM${total.toFixed(2)}`;
-}
+const lifetimeButton = document.getElementById('payLifetimeButton');
+const childSlotButton = document.getElementById('payChildSlotButton');
 
 function showToast(message) {
   if (!toast || !toastText) return;
@@ -25,10 +10,10 @@ function showToast(message) {
   window.setTimeout(() => toast.classList.remove('show'), 3200);
 }
 
-function setLoading(isLoading) {
-  if (!payButton) return;
-  payButton.disabled = isLoading;
-  payButton.textContent = isLoading ? 'Sedang cipta bill...' : 'Bayar Dengan ToyyibPay / FPX';
+function setLoading(button, isLoading, normalLabel) {
+  if (!button) return;
+  button.disabled = isLoading;
+  button.textContent = isLoading ? 'Sedang buka FPX...' : normalLabel;
 }
 
 async function getCurrentUser() {
@@ -39,7 +24,20 @@ async function getCurrentUser() {
   return { supabase, user: data?.user || null };
 }
 
-async function createPendingPayment(supabase, userId, product) {
+async function getCurrentProfile(supabase, userId) {
+  const { data } = await supabase
+    .from('profiles')
+    .select('max_children,premium_lifetime,subscription_status')
+    .eq('id', userId)
+    .maybeSingle();
+  return data || null;
+}
+
+async function createPendingPayment(supabase, userId, product, profile) {
+  const maxChildrenAfterPayment = product.id === 'child_slot'
+    ? Math.min(5, Number(profile?.max_children || 3) + 1)
+    : 3;
+
   const { data, error } = await supabase
     .from('payments')
     .insert({
@@ -47,8 +45,8 @@ async function createPendingPayment(supabase, userId, product) {
       amount: product.amount,
       status: 'pending',
       product_type: product.id,
-      max_children_after_payment: product.max_children,
-      raw_payload: { source: 'frontend_payment_page', version: 'v1.22' }
+      max_children_after_payment: maxChildrenAfterPayment,
+      raw_payload: { source: 'frontend_payment_page', version: 'v1.23', mode: 'toyyibpay_direct_link' }
     })
     .select('id')
     .single();
@@ -57,20 +55,18 @@ async function createPendingPayment(supabase, userId, product) {
   return data;
 }
 
-async function handlePayment() {
+async function startPayment(productType, button, normalLabel) {
   try {
-    setLoading(true);
-    const product = window.getJawiKidsProductByExtraSlots
-      ? window.getJawiKidsProductByExtraSlots(extraSlots)
-      : {
-          id: extraSlots === 2 ? 'premium_lifetime_5_children' : extraSlots === 1 ? 'premium_lifetime_4_children' : 'premium_lifetime',
-          amount: basePrice + (extraSlots * slotPrice),
-          max_children: 3 + extraSlots
-        };
+    setLoading(button, true, normalLabel);
+    const product = window.getJawiKidsProductByType
+      ? window.getJawiKidsProductByType(productType)
+      : null;
+
+    if (!product) throw new Error('Produk pembayaran tidak dijumpai.');
 
     const { supabase, user } = await getCurrentUser();
     if (!supabase) {
-      showToast('Supabase belum dikonfigurasi. Sila isi URL dan anon key dahulu.');
+      showToast('Supabase belum dikonfigurasi. Sila semak js/supabase-client.js.');
       return;
     }
 
@@ -80,40 +76,29 @@ async function handlePayment() {
       return;
     }
 
-    const pending = await createPendingPayment(supabase, user.id, product);
+    const profile = await getCurrentProfile(supabase, user.id);
 
-    if (typeof window.createToyyibPayBill !== 'function') {
-      showToast('Endpoint ToyyibPay belum disambungkan. Rekod pending payment telah dibuat untuk semakan admin.');
-      return;
+    if (product.id === 'child_slot') {
+      if (!profile?.premium_lifetime) {
+        showToast('Aktifkan Lifetime Access dahulu sebelum tambah slot anak.');
+        return;
+      }
+      if (Number(profile?.max_children || 3) >= 5) {
+        showToast('Had maksimum 5 anak sudah dicapai.');
+        return;
+      }
     }
 
-    const bill = await window.createToyyibPayBill({
-      productType: product.id,
-      extraSlots,
-      userId: user.id,
-      paymentId: pending.id
-    });
+    await createPendingPayment(supabase, user.id, product, profile);
 
-    const billUrl = bill.bill_url || bill.url || bill.payment_url;
-    if (!billUrl) throw new Error('Serverless ToyyibPay tidak pulangkan bill_url.');
-    window.location.href = billUrl;
+    const bill = await window.createToyyibPayBill({ productType: product.id });
+    window.location.href = bill.bill_url;
   } catch (error) {
     showToast(error.message || 'Pembayaran gagal dimulakan. Sila cuba lagi.');
   } finally {
-    setLoading(false);
+    setLoading(button, false, normalLabel);
   }
 }
 
-document.getElementById('minusSlot')?.addEventListener('click', () => {
-  extraSlots = Math.max(0, extraSlots - 1);
-  renderPaymentSummary();
-});
-
-document.getElementById('plusSlot')?.addEventListener('click', () => {
-  extraSlots = Math.min(maxExtraSlots, extraSlots + 1);
-  renderPaymentSummary();
-  if (extraSlots === maxExtraSlots) showToast('Had maksimum ialah 5 anak untuk satu akaun parent.');
-});
-
-payButton?.addEventListener('click', handlePayment);
-renderPaymentSummary();
+lifetimeButton?.addEventListener('click', () => startPayment('lifetime', lifetimeButton, 'Bayar Lifetime RM49.90 / FPX'));
+childSlotButton?.addEventListener('click', () => startPayment('child_slot', childSlotButton, 'Tambah Slot Anak RM10 / FPX'));

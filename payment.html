@@ -12,7 +12,7 @@
 </head>
 <body>
   <main class="payment-wrap">
-    <div class="mock-alert" id="payToast"><b>💳 Demo pembayaran</b><br><span id="toastText">Dalam production, butang ini akan buka ToyyibPay Bill.</span></div>
+    <div class="mock-alert" id="payToast"><b>💳 Demo pembayaran</b><br><span id="toastText">Butang ini akan buka link FPX ToyyibPay rasmi JawiKids.</span></div>
     <section class="pay-shell">
       <header class="pay-header">
         <div class="brand-badge"><span>جاوي كيدز</span> JawiKids Premium</div>
@@ -39,13 +39,14 @@
         </article>
 
         <aside class="summary-card">
-          <h2 class="summary-title">Ringkasan Pembelian</h2>
-          <div class="plan-row"><div><b>Premium Lifetime</b><small>Akses penuh JawiKids</small></div><b>RM49.90</b></div>
-          <div class="plan-row"><div><b>Slot Anak</b><small>3 anak termasuk pakej asas</small></div><b id="slotLabel">3 / 5</b></div>
-          <div class="plan-row"><div><b>Tambah Slot</b><small>RM10 setiap slot tambahan</small></div><div class="slot-control"><button id="minusSlot">−</button><b id="extraSlot">0</b><button id="plusSlot">+</button></div></div>
-          <div class="plan-row"><div><b>Jumlah Bayaran</b><small>Sekali bayar sahaja</small></div><div class="total-price" id="totalPrice">RM49.90</div></div>
+          <h2 class="summary-title">Pilihan Pembayaran</h2>
+          <div class="plan-row"><div><b>Lifetime Access</b><small>Akses penuh JawiKids + 3 anak default</small></div><b>RM49.90</b></div>
           <div class="pay-actions">
-            <button class="btn-pay" id="payButton">Bayar Dengan ToyyibPay / FPX</button>
+            <button class="btn-pay" id="payLifetimeButton">Bayar Lifetime RM49.90 / FPX</button>
+          </div>
+          <div class="plan-row"><div><b>Tambah Slot Anak</b><small>RM10 untuk tambah 1 slot. Maksimum 5 anak.</small></div><b>RM10.00</b></div>
+          <div class="pay-actions">
+            <button class="btn-pay" id="payChildSlotButton">Tambah Slot Anak RM10 / FPX</button>
             <a class="btn-secondary" href="payment-success.html">Preview Success Page</a>
             <a class="btn-secondary" href="payment-failed.html">Preview Failed Page</a>
           </div>
