@@ -7,14 +7,14 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@500;600;700;800;900&family=Noto+Sans+Arabic:wght@600;700;800;900&family=Amiri:wght@400;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css?v=1.52.0">
-  <link rel="stylesheet" href="app.css?v=1.52.0">
+  <link rel="stylesheet" href="style.css?v=1.53.0">
+  <link rel="stylesheet" href="app.css?v=1.53.0">
 
-  <link rel="manifest" href="manifest.json?v=1.52.0">
+  <link rel="manifest" href="manifest.json?v=1.53.0">
   <meta name="theme-color" content="#A7E92F">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-title" content="JawiKids">
-  <link rel="apple-touch-icon" href="assets/icons/apple-touch-icon.svg?v=1.52.0">
+  <link rel="apple-touch-icon" href="assets/icons/apple-touch-icon.svg?v=1.53.0">
 </head>
 <body>
   <div class="app-shell">
@@ -36,69 +36,97 @@
       </nav>
     </header>
 
-    <main class="app-main">
-      <section class="premium-card app-card dashboard-hero official-dashboard-hero">
+    <main class="app-main parent-dashboard-premium-main">
+      <section class="premium-card app-card dashboard-hero official-dashboard-hero parent-welcome-hero">
         <div>
           <div class="pill">Parent Dashboard</div>
-          <h1>Assalamualaikum, <span data-parent-name>Parent JawiKids</span>.</h1>
-          <p>Pantau slot anak, XP, streak dan perkembangan pembelajaran JawiKids secara live daripada Supabase.</p>
+          <h1>👋 Assalamualaikum, <span data-parent-name>Parent</span>.</h1>
+          <p>Pantau perkembangan anak, aktiviti hari ini, pencapaian terbaru, analitik parent dan mesej penting dalam satu dashboard yang kemas.</p>
           <div class="dashboard-status-line" id="dashboardStatus">Sedang memuatkan dashboard...</div>
         </div>
         <a class="inbox-widget" href="parent-inbox.html" aria-label="Buka inbox parent">
-          <span class="inbox-icon">🔔</span>
+          <span class="inbox-icon">📨</span>
           <span><strong>Inbox Parent</strong><small><b data-inbox-count>0</b> mesej belum dibaca</small></span>
         </a>
       </section>
 
-      <section class="stat-row dashboard-stat-row live-dashboard-stats">
-        <div class="stat-pill"><strong data-subscription-status>-</strong><span>Status Akaun</span></div>
-        <div class="stat-pill"><strong><span data-child-count>0</span>/<span data-max-children>3</span></strong><span>Slot Anak</span></div>
-        <div class="stat-pill"><strong data-total-xp>0</strong><span>Total XP</span></div>
-        <div class="stat-pill"><strong><span data-best-streak>0</span>🔥</strong><span>Best Streak</span></div>
-      </section>
-
-      <section class="parent-dashboard-feature-row">
-        <a href="achievement.html"><span>🏆</span>Achievement</a>
-        <a href="daily-reward.html"><span>🎁</span>Daily Reward</a>
-        <a href="avatar-shop.html"><span>🎒</span>Kedai Avatar</a>
-        <a href="parent-analytics.html"><span>📊</span>Analytics</a>
-        <a href="payment.html"><span>💳</span>Bayaran</a>
-      </section>
-
-      <section class="dashboard-section-head">
-        <div>
-          <div class="pill">Profil Anak</div>
-          <h2>Anak & Progress</h2>
-        </div>
-        <a class="primary-btn" href="child-select.html">Urus Anak</a>
-      </section>
-
-      <section class="app-grid two" id="dashboardChildrenGrid" style="margin-top:18px">
-        <div class="premium-card app-card dashboard-loading-card">Memuatkan profil anak...</div>
-      </section>
-
-      <section class="app-grid two dashboard-panels" style="margin-top:18px">
-        <div class="premium-card app-card inbox-preview-card">
-          <div class="section-title-row">
+      <section class="parent-dashboard-stack">
+        <section class="premium-card app-card child-rotate-card" aria-labelledby="childRotateTitle">
+          <div class="section-title-row dashboard-card-title-row">
             <div>
-              <div class="pill">Notification</div>
-              <h2>Inbox Terkini</h2>
+              <div class="pill">👦 Pilih Anak</div>
+              <h2 id="childRotateTitle">Profil Anak</h2>
             </div>
-            <a class="mini-link" href="parent-inbox.html">Lihat Semua</a>
+            <a class="mini-link" href="child-select.html">Urus Anak</a>
           </div>
-          <div class="mini-inbox-list" id="dashboardInboxList">
-            <div class="mini-inbox-item"><span>🔔</span><div><strong>Tiada mesej baru</strong><small>Notifikasi akan muncul di sini.</small></div></div>
+          <div id="dashboardChildRotator" class="child-rotator-shell">
+            <div class="dashboard-loading-card">Memuatkan profil anak...</div>
           </div>
-        </div>
+        </section>
 
-        <div class="premium-card app-card child-card family-slot-card">
-          <div class="child-face">👨‍👩‍👧‍👦</div>
-          <div>
-            <h2>Family Slot</h2>
-            <p><span data-child-count>0</span> daripada <span data-max-children>3</span> slot anak digunakan. Tambah slot anak sehingga maksimum 5 anak.</p>
-            <a class="secondary-btn" href="payment.html?type=child_slot">Tambah Slot RM10</a>
+        <section class="premium-card app-card learning-progress-card" aria-labelledby="learningProgressTitle">
+          <div class="section-title-row dashboard-card-title-row">
+            <div>
+              <div class="pill">📊 Kemajuan Pembelajaran</div>
+              <h2 id="learningProgressTitle">Progress Anak</h2>
+            </div>
+            <span class="dashboard-chip" id="selectedChildChip">-</span>
           </div>
-        </div>
+          <div id="learningProgressCard" class="learning-progress-list">
+            <div class="dashboard-loading-card">Menunggu data anak...</div>
+          </div>
+        </section>
+
+        <section class="dashboard-premium-grid">
+          <section class="premium-card app-card daily-activity-card" aria-labelledby="dailyActivityTitle">
+            <div class="pill">🔥 Aktiviti Hari Ini</div>
+            <h2 id="dailyActivityTitle">Ringkasan Harian</h2>
+            <div id="todayActivityCard" class="activity-metrics-grid">
+              <div class="dashboard-loading-card">Memuatkan aktiviti...</div>
+            </div>
+          </section>
+
+          <section class="premium-card app-card achievement-preview-card" aria-labelledby="achievementPreviewTitle">
+            <div class="section-title-row dashboard-card-title-row">
+              <div>
+                <div class="pill">🏆 Pencapaian Terbaru</div>
+                <h2 id="achievementPreviewTitle">Badge Anak</h2>
+              </div>
+              <a class="mini-link" href="achievement.html">Lihat Semua</a>
+            </div>
+            <div id="latestAchievementsCard" class="achievement-mini-list">
+              <div class="dashboard-loading-card">Memuatkan pencapaian...</div>
+            </div>
+          </section>
+        </section>
+
+        <section class="dashboard-premium-grid analytics-inbox-grid">
+          <section class="premium-card app-card parent-analytics-card" aria-labelledby="parentAnalyticsTitle">
+            <div class="section-title-row dashboard-card-title-row">
+              <div>
+                <div class="pill">📈 Analitik Parent</div>
+                <h2 id="parentAnalyticsTitle">Minggu Ini</h2>
+              </div>
+              <a class="mini-link" href="parent-analytics.html">Analitik</a>
+            </div>
+            <div id="parentAnalyticsCard" class="analytics-mini-dashboard">
+              <div class="dashboard-loading-card">Memuatkan analitik...</div>
+            </div>
+          </section>
+
+          <section class="premium-card app-card inbox-preview-card" aria-labelledby="dashboardInboxTitle">
+            <div class="section-title-row dashboard-card-title-row">
+              <div>
+                <div class="pill">📨 Inbox</div>
+                <h2 id="dashboardInboxTitle">Mesej Terkini</h2>
+              </div>
+              <a class="mini-link" href="parent-inbox.html">Lihat Semua</a>
+            </div>
+            <div class="mini-inbox-list" id="dashboardInboxList">
+              <div class="mini-inbox-item"><span>📨</span><div><strong>Tiada mesej baru</strong><small>Notifikasi akan muncul di sini.</small></div></div>
+            </div>
+          </section>
+        </section>
       </section>
     </main>
     <div class="footer-mini">© 2026 JawiKids. Live Dashboard Supabase Sync.</div>
@@ -110,11 +138,11 @@
     <button onclick="document.getElementById('slideNotification').classList.remove('show')">×</button>
   </div>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-  <script src="js/supabase-client.js?v=1.52.0"></script>
-  <script src="js/auth.js?v=1.52.0"></script>
-  <script src="js/inbox.js?v=1.52.0"></script>
-  <script src="js/dashboard.js?v=1.52.0"></script>
-  <script src="js/quick-menu.js?v=1.52.0"></script>
-<script src="js/orientation-reset.js?v=1.52.0"></script><script src="pwa-register.js?v=1.52.0"></script>
+  <script src="js/supabase-client.js?v=1.53.0"></script>
+  <script src="js/auth.js?v=1.53.0"></script>
+  <script src="js/inbox.js?v=1.53.0"></script>
+  <script src="js/dashboard.js?v=1.53.0"></script>
+  <script src="js/quick-menu.js?v=1.53.0"></script>
+<script src="js/orientation-reset.js?v=1.53.0"></script><script src="pwa-register.js?v=1.53.0"></script>
 </body>
 </html>

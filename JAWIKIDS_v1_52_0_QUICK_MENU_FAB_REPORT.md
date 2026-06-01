@@ -1,4 +1,4 @@
-# JawiKids v1.52.0 — Quick Menu FAB Update
+# JawiKids v1.53.0 — Quick Menu FAB Update
 
 ## Status
 Siap dipasang untuk system pages dan admin pages.
@@ -13,7 +13,7 @@ Siap dipasang untuk system pages dan admin pages.
 - `app.css`
 - `admin.css`
 - `sw.js`
-- semua system/admin HTML untuk load `js/quick-menu.js?v=1.52.0`
+- semua system/admin HTML untuk load `js/quick-menu.js?v=1.53.0`
 
 ## Menu Parent Seragam
 - Dashboard
@@ -41,4 +41,4 @@ Siap dipasang untuk system pages dan admin pages.
 - Settings
 
 ## Nota PWA
-Cache version dinaikkan kepada `jawikids-v1-52-0-quick-menu-force-landscape-game` supaya PWA ambil fail menu baru.
+Cache version dinaikkan kepada `jawikids-v1-53-0-quick-menu-force-landscape-game` supaya PWA ambil fail menu baru.

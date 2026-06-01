@@ -2,7 +2,7 @@
   "name": "JawiKids Game Mode",
   "short_name": "JawiKids",
   "description": "JawiKids game pages force landscape when supported.",
-  "start_url": "./pwa-start.html?source=pwa&v=1.52.0",
+  "start_url": "./pwa-start.html?source=pwa&v=1.53.0",
   "scope": "./",
   "display": "standalone",
   "orientation": "landscape-primary",

@@ -1,4 +1,4 @@
-// JawiKids Quick Menu FAB v1.52.0
+// JawiKids Quick Menu FAB v1.53.0
 // Mobile/tablet compact menu for system pages only. Game pages stay distraction-free.
 (function(){
   'use strict';
