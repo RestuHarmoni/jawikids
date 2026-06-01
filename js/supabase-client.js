@@ -6,8 +6,8 @@
       https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2
 */
 (function () {
-  const SUPABASE_URL = 'https://YOUR_PROJECT_ID.supabase.co';
-  const SUPABASE_ANON_KEY = 'YOUR_SUPABASE_ANON_KEY';
+  const SUPABASE_URL = 'https://tuwbamxobhkbbkaodvkg.supabase.co';
+  const SUPABASE_ANON_KEY = 'sb_publishable_zuXeYtmjbpYaFCJq9Ker7A_ngs5_VOu';
 
   const isPlaceholder =
     SUPABASE_URL.includes('YOUR_PROJECT_ID') ||
