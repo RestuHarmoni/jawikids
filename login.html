@@ -4,8 +4,14 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Log Masuk Parent | JawiKids</title>
-  <link rel="stylesheet" href="style.css" />
-  <link rel="stylesheet" href="app.css" />
+  <link rel="stylesheet" href="style.css?v=1.29.0" />
+  <link rel="stylesheet" href="app.css?v=1.29.0" />
+
+  <link rel="manifest" href="manifest.json?v=1.29.0">
+  <meta name="theme-color" content="#A7E92F">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-title" content="JawiKids">
+  <link rel="apple-touch-icon" href="assets/icons/apple-touch-icon.svg?v=1.29.0">
 </head>
 <body class="auth-page auth-premium-page">
   <main class="auth-shell auth-premium-shell">
@@ -22,7 +28,7 @@
       </div>
 
       <button class="btn btn-google btn-full google-premium-btn" type="button" onclick="JawiKidsAuth.loginGoogle()">
-        <span class="google-icon"><img src="assets/icons/google-g.svg" alt="Google"></span>
+        <span class="google-icon"><img src="assets/icons/google-g.svg?v=1.29.0" alt="Google"></span>
         <span>Teruskan Dengan Google</span>
       </button>
 
@@ -50,8 +56,8 @@
       <div class="auth-orbit auth-orbit-a">🏝️</div>
       <div class="auth-orbit auth-orbit-b">⭐</div>
       <div class="auth-character-row">
-        <div class="kid-avatar-card"><img src="assets/characters/zafri-main.svg" alt="Zafri budak lelaki bersongkok"><strong>Zafri</strong></div>
-        <div class="kid-avatar-card girl"><img src="assets/characters/zainab-main.svg" alt="Zainab budak perempuan bertudung"><strong>Zainab</strong></div>
+        <div class="kid-avatar-card"><img src="assets/characters/zafri-main.svg?v=1.29.0" alt="Zafri budak lelaki bersongkok"><strong>Zafri</strong></div>
+        <div class="kid-avatar-card girl"><img src="assets/characters/zainab-main.svg?v=1.29.0" alt="Zainab budak perempuan bertudung"><strong>Zainab</strong></div>
       </div>
       <h2>Belajar Jawi macam pengembaraan pulau!</h2>
       <p>Aktiviti ringkas, visual ceria dan progress yang parent boleh pantau setiap hari.</p>
@@ -65,8 +71,10 @@
   </main>
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-  <script src="js/supabase-client.js"></script>
-  <script src="js/auth.js"></script>
+  <script src="js/supabase-client.js?v=1.29.0"></script>
+  <script src="js/auth.js?v=1.29.0"></script>
   <script>document.getElementById('loginForm').addEventListener('submit', JawiKidsAuth.loginParent);</script>
+
+  <script src="pwa-register.js?v=1.29.0"></script>
 </body>
 </html>
