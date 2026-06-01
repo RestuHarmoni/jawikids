@@ -7,10 +7,10 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@500;600;700;800;900&family=Noto+Sans+Arabic:wght@600;700;800;900&family=Amiri:wght@400;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css?v=1.29.0">
-  <link rel="stylesheet" href="app.css?v=1.29.0">
+  <link rel="stylesheet" href="style.css?v=1.31.0">
+  <link rel="stylesheet" href="app.css?v=1.31.0">
 
-  <link rel="manifest" href="manifest.json?v=1.29.0">
+  <link rel="manifest" href="manifest.json?v=1.31.0">
   <meta name="theme-color" content="#A7E92F">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-title" content="JawiKids">
@@ -25,21 +25,21 @@
       </a>
 
       <div class="player-status" aria-label="Status permainan">
-        <div class="status-bubble heart">❤️ <strong>5</strong></div>
-        <div class="status-bubble xp">⭐ <strong>1,250 XP</strong></div>
-        <div class="status-bubble streak">🔥 <strong>7 Hari</strong></div>
+        <div class="status-bubble heart">❤️ <strong id="mapHearts">-</strong></div>
+        <div class="status-bubble xp">⭐ <strong id="mapXp">- XP</strong></div>
+        <div class="status-bubble streak">🔥 <strong id="mapStreak">- Hari</strong></div>
       </div>
 
       <a class="map-profile" href="child-select.html" aria-label="Tukar profil anak">
-        <img src="assets/characters/zafri-main.svg?v=1.29.0" alt="Avatar Zafri">
-        <span>Ahmad</span>
+        <img id="mapChildAvatar" src="assets/characters/zafri-main.svg?v=1.29.0" alt="Avatar anak">
+        <span id="mapChildName">Memuat...</span>
       </a>
     </header>
 
     <main class="world-map-layout">
       <section class="map-intro-card" aria-label="Ringkasan pengembaraan">
         <div class="pill">TASK 02</div>
-        <h1>Teruskan Pengembaraan Jawi!</h1>
+        <h1>Teruskan Pengembaraan Jawi, <span id="mapIntroName">anak hebat</span>!</h1>
         <p>Selesaikan setiap pulau, kumpul XP, buka badge dan jadikan pembelajaran Jawi menyeronokkan setiap hari.</p>
         <div class="daily-reward-card">
           <div class="reward-icon">🎁</div>
@@ -135,8 +135,11 @@
       <a href="child-select.html">👤<span>Profil</span></a>
     </nav>
   </div>
-  <script src="js/game-map.js?v=1.29.0"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="js/supabase-client.js?v=1.31.0"></script>
+  <script src="character-assets.js?v=1.31.0"></script>
+  <script src="js/game-map.js?v=1.31.0"></script>
 
-  <script src="pwa-register.js?v=1.29.0"></script>
+  <script src="pwa-register.js?v=1.31.0"></script>
 </body>
 </html>
