@@ -1,4 +1,4 @@
-// JawiKids v1.34 - Admin Audio Manager
+// JawiKids v1.38 - Admin Audio Manager + Letter Audio Keys
 (function(){
   'use strict';
 
@@ -8,7 +8,41 @@
     { audio_key:'feedback_wrong', category:'feedback', title:'Jawapan Salah', audio_text:'Cuba lagi ya. Kamu hampir berjaya.', audio_url:'', is_active:true },
     { audio_key:'daily_reward_claim', category:'reward', title:'Ganjaran Harian', audio_text:'Tahniah. Kamu dapat ganjaran harian.', audio_url:'', is_active:true },
     { audio_key:'achievement_unlock', category:'reward', title:'Achievement Unlock', audio_text:'Hebat. Kamu membuka pencapaian baharu.', audio_url:'', is_active:true },
-    { audio_key:'dashboard_welcome', category:'system', title:'Selamat Datang', audio_text:'Selamat datang ke JawiKids. Jom belajar Jawi.', audio_url:'', is_active:true }
+    { audio_key:'dashboard_welcome', category:'system', title:'Selamat Datang', audio_text:'Selamat datang ke JawiKids. Jom belajar Jawi.', audio_url:'', is_active:true },
+    { audio_key:'letter_alif', category:'letter', title:'Huruf Alif', audio_text:'Ini huruf Alif.', audio_url:'', is_active:true },
+    { audio_key:'letter_ba', category:'letter', title:'Huruf Ba', audio_text:'Ini huruf Ba.', audio_url:'', is_active:true },
+    { audio_key:'letter_ta', category:'letter', title:'Huruf Ta', audio_text:'Ini huruf Ta.', audio_url:'', is_active:true },
+    { audio_key:'letter_tha', category:'letter', title:'Huruf Tha', audio_text:'Ini huruf Tha.', audio_url:'', is_active:true },
+    { audio_key:'letter_jim', category:'letter', title:'Huruf Jim', audio_text:'Ini huruf Jim.', audio_url:'', is_active:true },
+    { audio_key:'letter_cha', category:'letter', title:'Huruf Cha', audio_text:'Ini huruf Cha.', audio_url:'', is_active:true },
+    { audio_key:'letter_ha', category:'letter', title:'Huruf Ha', audio_text:'Ini huruf Ha.', audio_url:'', is_active:true },
+    { audio_key:'letter_kha', category:'letter', title:'Huruf Kha', audio_text:'Ini huruf Kha.', audio_url:'', is_active:true },
+    { audio_key:'letter_dal', category:'letter', title:'Huruf Dal', audio_text:'Ini huruf Dal.', audio_url:'', is_active:true },
+    { audio_key:'letter_zal', category:'letter', title:'Huruf Zal', audio_text:'Ini huruf Zal.', audio_url:'', is_active:true },
+    { audio_key:'letter_ra', category:'letter', title:'Huruf Ra', audio_text:'Ini huruf Ra.', audio_url:'', is_active:true },
+    { audio_key:'letter_zai', category:'letter', title:'Huruf Zai', audio_text:'Ini huruf Zai.', audio_url:'', is_active:true },
+    { audio_key:'letter_sin', category:'letter', title:'Huruf Sin', audio_text:'Ini huruf Sin.', audio_url:'', is_active:true },
+    { audio_key:'letter_syin', category:'letter', title:'Huruf Syin', audio_text:'Ini huruf Syin.', audio_url:'', is_active:true },
+    { audio_key:'letter_sad', category:'letter', title:'Huruf Sad', audio_text:'Ini huruf Sad.', audio_url:'', is_active:true },
+    { audio_key:'letter_dad', category:'letter', title:'Huruf Dad', audio_text:'Ini huruf Dad.', audio_url:'', is_active:true },
+    { audio_key:'letter_to', category:'letter', title:'Huruf To', audio_text:'Ini huruf To.', audio_url:'', is_active:true },
+    { audio_key:'letter_zo', category:'letter', title:'Huruf Zo', audio_text:'Ini huruf Zo.', audio_url:'', is_active:true },
+    { audio_key:'letter_ain', category:'letter', title:'Huruf Ain', audio_text:'Ini huruf Ain.', audio_url:'', is_active:true },
+    { audio_key:'letter_ghain', category:'letter', title:'Huruf Ghain', audio_text:'Ini huruf Ghain.', audio_url:'', is_active:true },
+    { audio_key:'letter_nga', category:'letter', title:'Huruf Nga', audio_text:'Ini huruf Nga.', audio_url:'', is_active:true },
+    { audio_key:'letter_fa', category:'letter', title:'Huruf Fa', audio_text:'Ini huruf Fa.', audio_url:'', is_active:true },
+    { audio_key:'letter_pa', category:'letter', title:'Huruf Pa', audio_text:'Ini huruf Pa.', audio_url:'', is_active:true },
+    { audio_key:'letter_qaf', category:'letter', title:'Huruf Qaf', audio_text:'Ini huruf Qaf.', audio_url:'', is_active:true },
+    { audio_key:'letter_kaf', category:'letter', title:'Huruf Kaf', audio_text:'Ini huruf Kaf.', audio_url:'', is_active:true },
+    { audio_key:'letter_ga', category:'letter', title:'Huruf Ga', audio_text:'Ini huruf Ga.', audio_url:'', is_active:true },
+    { audio_key:'letter_lam', category:'letter', title:'Huruf Lam', audio_text:'Ini huruf Lam.', audio_url:'', is_active:true },
+    { audio_key:'letter_mim', category:'letter', title:'Huruf Mim', audio_text:'Ini huruf Mim.', audio_url:'', is_active:true },
+    { audio_key:'letter_nun', category:'letter', title:'Huruf Nun', audio_text:'Ini huruf Nun.', audio_url:'', is_active:true },
+    { audio_key:'letter_wau', category:'letter', title:'Huruf Wau', audio_text:'Ini huruf Wau.', audio_url:'', is_active:true },
+    { audio_key:'letter_va', category:'letter', title:'Huruf Va', audio_text:'Ini huruf Va.', audio_url:'', is_active:true },
+    { audio_key:'letter_ha2', category:'letter', title:'Huruf Ha', audio_text:'Ini huruf Ha.', audio_url:'', is_active:true },
+    { audio_key:'letter_hamzah', category:'letter', title:'Huruf Hamzah', audio_text:'Ini huruf Hamzah.', audio_url:'', is_active:true },
+    { audio_key:'letter_ya', category:'letter', title:'Huruf Ya', audio_text:'Ini huruf Ya.', audio_url:'', is_active:true }
   ];
 
   let currentUser = null;

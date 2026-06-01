@@ -1,4 +1,4 @@
-// JawiKids v1.36 - Lesson question flow fix: next question, summary, XP/progress sync
+// JawiKids v1.37 - Lesson quiz after letter intro: no '?' card, quiz flow sync
 (function(){
   'use strict';
 
@@ -12,44 +12,104 @@
     bonusXp: 20,
     questions: [
       {
-        id: 'q1-ba',
-        audioKey: 'lesson_instruction_pulau_alif_ba_01',
-        title: 'Soalan 1: Pilih huruf Ba',
-        promptTitle: 'Dengar huruf Ba, kemudian pilih jawapan.',
-        audioText: 'Pilih huruf Ba. Cari huruf Ba jawi.',
-        correct: 'ب',
-        choices: ['ا','ب','ت','ث'],
-        hint: 'Bentuk Ba ada satu titik di bawah.'
-      },
-      {
-        id: 'q2-alif',
-        audioKey: 'lesson_instruction_pulau_alif_01',
-        title: 'Soalan 2: Pilih huruf Alif',
+        id: 'q1-alif',
+        audioKey: 'lesson_instruction_alif_01',
+        title: 'Soalan 1: Pilih huruf Alif',
         promptTitle: 'Dengar huruf Alif, kemudian pilih jawapan.',
         audioText: 'Pilih huruf Alif. Cari huruf Alif jawi.',
         correct: 'ا',
-        choices: ['ب','ا','ت','ث'],
+        choices: ['ا', 'ب', 'ت', 'ث'],
         hint: 'Alif bentuknya tegak seperti batang.'
       },
       {
+        id: 'q2-ba',
+        audioKey: 'lesson_instruction_ba_01',
+        title: 'Soalan 2: Pilih huruf Ba',
+        promptTitle: 'Dengar huruf Ba, kemudian pilih jawapan.',
+        audioText: 'Pilih huruf Ba. Cari huruf Ba jawi.',
+        correct: 'ب',
+        choices: ['ا', 'ب', 'ت', 'ث'],
+        hint: 'Ba ada satu titik di bawah.'
+      },
+      {
         id: 'q3-ta',
-        audioKey: 'lesson_instruction_pulau_ta_01',
+        audioKey: 'lesson_instruction_ta_01',
         title: 'Soalan 3: Pilih huruf Ta',
         promptTitle: 'Dengar huruf Ta, kemudian pilih jawapan.',
         audioText: 'Pilih huruf Ta. Cari huruf Ta jawi.',
         correct: 'ت',
-        choices: ['ث','ب','ت','ا'],
+        choices: ['ث', 'ب', 'ت', 'ا'],
         hint: 'Ta ada dua titik di atas.'
       },
       {
         id: 'q4-tha',
-        audioKey: 'lesson_instruction_pulau_tha_01',
+        audioKey: 'lesson_instruction_tha_01',
         title: 'Soalan 4: Pilih huruf Tha',
         promptTitle: 'Dengar huruf Tha, kemudian pilih jawapan.',
         audioText: 'Pilih huruf Tha. Cari huruf Tha jawi.',
         correct: 'ث',
-        choices: ['ا','ت','ب','ث'],
+        choices: ['ا', 'ت', 'ب', 'ث'],
         hint: 'Tha ada tiga titik di atas.'
+      },
+      {
+        id: 'q5-ba',
+        audioKey: 'lesson_instruction_ba_02',
+        title: 'Soalan 5: Ulang Huruf Ba',
+        promptTitle: 'Dengar semula huruf Ba, kemudian pilih jawapan.',
+        audioText: 'Pilih huruf Ba.',
+        correct: 'ب',
+        choices: ['ت', 'ث', 'ب', 'ا'],
+        hint: 'Ba ada satu titik di bawah.'
+      },
+      {
+        id: 'q6-alif',
+        audioKey: 'lesson_instruction_alif_02',
+        title: 'Soalan 6: Ulang Huruf Alif',
+        promptTitle: 'Dengar semula huruf Alif, kemudian pilih jawapan.',
+        audioText: 'Pilih huruf Alif.',
+        correct: 'ا',
+        choices: ['ب', 'ا', 'ث', 'ت'],
+        hint: 'Alif bentuknya tegak.'
+      },
+      {
+        id: 'q7-ta',
+        audioKey: 'lesson_instruction_ta_02',
+        title: 'Soalan 7: Ulang Huruf Ta',
+        promptTitle: 'Dengar semula huruf Ta, kemudian pilih jawapan.',
+        audioText: 'Pilih huruf Ta.',
+        correct: 'ت',
+        choices: ['ا', 'ث', 'ت', 'ب'],
+        hint: 'Ta ada dua titik di atas.'
+      },
+      {
+        id: 'q8-tha',
+        audioKey: 'lesson_instruction_tha_02',
+        title: 'Soalan 8: Ulang Huruf Tha',
+        promptTitle: 'Dengar semula huruf Tha, kemudian pilih jawapan.',
+        audioText: 'Pilih huruf Tha.',
+        correct: 'ث',
+        choices: ['ث', 'ت', 'ب', 'ا'],
+        hint: 'Tha ada tiga titik di atas.'
+      },
+      {
+        id: 'q9-campur-alif',
+        audioKey: 'lesson_instruction_mix_alif_01',
+        title: 'Soalan 9: Campuran Alif',
+        promptTitle: 'Dengar audio dan pilih huruf yang betul.',
+        audioText: 'Pilih huruf Alif.',
+        correct: 'ا',
+        choices: ['ت', 'ا', 'ث', 'ب'],
+        hint: 'Dengar semula audio dan pilih bentuk yang betul.'
+      },
+      {
+        id: 'q10-campur-ta',
+        audioKey: 'lesson_instruction_mix_ta_01',
+        title: 'Soalan 10: Campuran Ta',
+        promptTitle: 'Dengar audio dan pilih huruf yang betul.',
+        audioText: 'Pilih huruf Ta.',
+        correct: 'ت',
+        choices: ['ب', 'ث', 'ا', 'ت'],
+        hint: 'Dengar semula audio dan pilih bentuk yang betul.'
       }
     ]
   };
@@ -143,7 +203,7 @@
     setText('lessonTitle', q.title || LESSON.title);
     setText('lessonInstruction', LESSON.instruction);
     setText('audioPromptTitle', q.promptTitle || 'Dengar dahulu, kemudian jawab.');
-    setText('mainJawi', '?');
+    setText('mainJawi', '🎧');
     setText('childNameText', selectedChild ? selectedChild.name : 'Anak');
     setText('xpText', selectedChild ? `${selectedChild.total_xp || 0} XP` : '0 XP');
     setText('heartText', selectedChild ? '❤️'.repeat(Math.max(0, Math.min(5, selectedChild.hearts || 5))) : '❤️❤️❤️❤️❤️');
