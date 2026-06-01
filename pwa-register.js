@@ -1,6 +1,6 @@
-// JawiKids PWA Register v1.29
+// JawiKids PWA Register v1.43
 (function () {
-  const VERSION = 'v1.29.0';
+  const VERSION = 'v1.43.0';
   window.JAWIKIDS_APP_VERSION = VERSION;
   if (!('serviceWorker' in navigator)) return;
   window.addEventListener('load', async () => {
