@@ -2,11 +2,11 @@
    Network-first for HTML/JS/CSS to avoid stale patch issues.
    Cache-first for static images/icons/audio after first load.
 */
-const CACHE_VERSION = 'jawikids-v1.32.0';
+const CACHE_VERSION = 'jawikids-v1.37.0';
 const STATIC_CACHE = `${CACHE_VERSION}-static`;
 const APP_SHELL = [
-  './', './index.html', './login.html', './register.html', './parent-dashboard.html', './child-select.html',
-  './app.css', './style.css', './js/supabase-client.js', './js/auth.js', './js/dashboard.js', './js/child-select.js',
+  './', './index.html', './login.html', './register.html', './parent-dashboard.html', './child-select.html', './game-map.html', './letter-intro.html', './lesson-game.html',
+  './app.css', './style.css', './js/supabase-client.js', './js/auth.js', './js/dashboard.js', './js/child-select.js', './js/game-map.js', './js/letter-intro.js', './js/lesson-game.js',
   './character-assets.js', './manifest.json'
 ];
 self.addEventListener('install', (event) => {
