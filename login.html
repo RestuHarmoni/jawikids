@@ -7,39 +7,60 @@
   <link rel="stylesheet" href="style.css" />
   <link rel="stylesheet" href="app.css" />
 </head>
-<body class="auth-page">
-  <main class="auth-shell">
-    <section class="auth-card">
-      <a class="brand-mini" href="index.html">🌙 JawiKids</a>
-      <p class="eyebrow">Portal Ibu Bapa</p>
-      <h1>Log Masuk Akaun Parent</h1>
-      <p class="auth-subtitle">Pantau progress anak, notifikasi, support dan langganan JawiKids.</p>
+<body class="auth-page auth-premium-page">
+  <main class="auth-shell auth-premium-shell">
+    <section class="auth-card auth-premium-card">
+      <a class="brand-mini auth-brand" href="index.html">
+        <span class="brand-badge">جا</span>
+        <span><strong>JawiKids</strong><small>Main, Belajar, Bijak Jawi!</small></span>
+      </a>
+
+      <div class="auth-hero-copy">
+        <p class="eyebrow">Portal Ibu Bapa</p>
+        <h1>Selamat kembali, Parent!</h1>
+        <p class="auth-subtitle">Log masuk untuk pantau progress anak, mesej admin, support dan langganan JawiKids.</p>
+      </div>
+
+      <button class="btn btn-google btn-full google-premium-btn" type="button" onclick="JawiKidsAuth.loginGoogle()">
+        <span class="google-icon">G</span>
+        <span>Teruskan Dengan Google</span>
+      </button>
+
+      <div class="auth-divider"><span>atau guna email</span></div>
 
       <div id="authMessage" class="auth-message" hidden></div>
 
-      <form id="loginForm" class="auth-form">
+      <form id="loginForm" class="auth-form auth-premium-form">
         <label>Email
           <input id="email" type="email" autocomplete="email" placeholder="email@example.com" required />
         </label>
         <label>Kata Laluan
           <input id="password" type="password" autocomplete="current-password" placeholder="••••••••" required />
         </label>
-        <button id="loginBtn" class="btn btn-primary btn-full" type="submit">Log Masuk</button>
+        <button id="loginBtn" class="btn btn-primary btn-full auth-main-btn" type="submit">Log Masuk</button>
       </form>
 
-      <button class="btn btn-google btn-full" type="button" onclick="JawiKidsAuth.loginGoogle()">Log Masuk dengan Google</button>
-
-      <div class="auth-links">
+      <div class="auth-links auth-premium-links">
         <a href="forgot-password.html">Lupa kata laluan?</a>
         <a href="register.html">Daftar akaun baru</a>
       </div>
     </section>
 
-    <section class="auth-side-card">
-      <div class="floating-island-mini">🏝️</div>
-      <h2>Main, Belajar, Bijak Jawi!</h2>
-      <p>Premium lifetime untuk keluarga Malaysia. Device open, maksimum 5 sesi serentak.</p>
-      <div class="trust-row"><span>🚫 Ad-Free</span><span>🔒 Selamat</span><span>🇲🇾 Malaysia</span></div>
+    <section class="auth-side-card auth-premium-side">
+      <div class="auth-orbit auth-orbit-a">🏝️</div>
+      <div class="auth-orbit auth-orbit-b">⭐</div>
+      <div class="auth-character-row">
+        <div class="kid-avatar-card"><span>👦🏻</span><strong>Zafri</strong></div>
+        <div class="kid-avatar-card girl"><span>👧🏻</span><strong>Zainab</strong></div>
+      </div>
+      <h2>Belajar Jawi macam pengembaraan pulau!</h2>
+      <p>Aktiviti ringkas, visual ceria dan progress yang parent boleh pantau setiap hari.</p>
+      <div class="auth-feature-grid">
+        <span>🔒 Akaun Selamat</span>
+        <span>🎮 Game Jawi</span>
+        <span>👨‍👩‍👧 3 Anak Default</span>
+        <span>💳 FPX Ready</span>
+      </div>
     </section>
   </main>
 

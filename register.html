@@ -7,17 +7,30 @@
   <link rel="stylesheet" href="style.css" />
   <link rel="stylesheet" href="app.css" />
 </head>
-<body class="auth-page">
-  <main class="auth-shell">
-    <section class="auth-card">
-      <a class="brand-mini" href="index.html">🌙 JawiKids</a>
-      <p class="eyebrow">Daftar Premium Family</p>
-      <h1>Cipta Akaun Parent</h1>
-      <p class="auth-subtitle">Satu akaun parent boleh urus sehingga 3 anak secara default.</p>
+<body class="auth-page auth-premium-page">
+  <main class="auth-shell auth-premium-shell register-shell">
+    <section class="auth-card auth-premium-card">
+      <a class="brand-mini auth-brand" href="index.html">
+        <span class="brand-badge">جا</span>
+        <span><strong>JawiKids</strong><small>Main, Belajar, Bijak Jawi!</small></span>
+      </a>
+
+      <div class="auth-hero-copy">
+        <p class="eyebrow">Daftar Premium Family</p>
+        <h1>Cipta Akaun Parent</h1>
+        <p class="auth-subtitle">Satu akaun parent boleh urus 3 anak secara default. Tambah slot anak boleh dibuat kemudian.</p>
+      </div>
+
+      <button class="btn btn-google btn-full google-premium-btn" type="button" onclick="JawiKidsAuth.loginGoogle()">
+        <span class="google-icon">G</span>
+        <span>Daftar Dengan Google</span>
+      </button>
+
+      <div class="auth-divider"><span>atau daftar manual</span></div>
 
       <div id="authMessage" class="auth-message" hidden></div>
 
-      <form id="registerForm" class="auth-form">
+      <form id="registerForm" class="auth-form auth-premium-form">
         <label>Nama Penuh
           <input id="fullName" type="text" autocomplete="name" placeholder="Contoh: Nur Aisyah" required />
         </label>
@@ -33,24 +46,28 @@
         <label>Sahkan Kata Laluan
           <input id="confirmPassword" type="password" autocomplete="new-password" placeholder="Ulang kata laluan" required />
         </label>
-        <button id="registerBtn" class="btn btn-primary btn-full" type="submit">Daftar Akaun</button>
+        <button id="registerBtn" class="btn btn-primary btn-full auth-main-btn" type="submit">Daftar Akaun</button>
       </form>
 
-      <button class="btn btn-google btn-full" type="button" onclick="JawiKidsAuth.loginGoogle()">Daftar dengan Google</button>
-
-      <div class="auth-links">
+      <div class="auth-links auth-premium-links single-link">
         <a href="login.html">Sudah ada akaun? Log masuk</a>
       </div>
     </section>
 
-    <section class="auth-side-card">
-      <h2>Premium Lifetime RM49.90</h2>
-      <ul class="clean-list">
+    <section class="auth-side-card auth-premium-side price-side">
+      <div class="price-bubble">RM49.90<br><small>Lifetime</small></div>
+      <h2>Pakej keluarga yang simple.</h2>
+      <ul class="clean-list premium-check-list">
         <li>✅ 3 anak termasuk</li>
         <li>✅ Tambah slot anak RM10</li>
         <li>✅ Maksimum 5 anak</li>
         <li>✅ 5 sesi serentak</li>
+        <li>✅ Device open / unlimited device</li>
       </ul>
+      <div class="auth-feature-grid compact">
+        <span>🚫 Ad-Free</span>
+        <span>🇲🇾 Malaysia</span>
+      </div>
     </section>
   </main>
 
