@@ -87,18 +87,10 @@
         localStorage.setItem('jawikids_selected_child_id', link.dataset.selectChild);
         localStorage.setItem('selected_child_id', link.dataset.selectChild);
         localStorage.setItem('jawikids_game_wide_mode', '1');
+        localStorage.setItem('jawikids_game_mode', '1');
 
         // Start wide mode only from this user gesture. Dashboard/profil remain normal.
-        try {
-          const isTouch = matchMedia('(hover: none) and (pointer: coarse)').matches;
-          const isPhoneTabletSize = Math.min(window.screen.width || window.innerWidth, window.screen.height || window.innerHeight) <= 1024;
-          if (isTouch && isPhoneTabletSize && screen.orientation && screen.orientation.lock) {
-            await screen.orientation.lock('landscape');
-          }
-        } catch (e) {
-          // Browser may block orientation lock. The game page will show rotate overlay if needed.
-        }
-        window.location.href = link.getAttribute('href') || 'game-map.html';
+window.location.href = link.getAttribute('href') || 'game-map.html';
       });
     });
   }

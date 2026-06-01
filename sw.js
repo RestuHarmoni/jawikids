@@ -1,8 +1,8 @@
-/* JawiKids Service Worker v1.48.0
+/* JawiKids Service Worker v1.49.0
    Deep orientation fix: parent pages use normal manifest; game pages use game manifest.
    Network-first for HTML/JS/CSS/JSON to avoid stale patch issues.
 */
-const CACHE_VERSION = 'v1.48.0';
+const CACHE_VERSION = 'v1.49.0';
 const STATIC_CACHE = `${CACHE_VERSION}-static`;
 const APP_SHELL = [
   './','./index.html','./pwa-start.html','./login.html','./register.html','./parent-dashboard.html','./child-select.html','./game-map.html','./letter-intro.html','./lesson-practice.html','./lesson-game.html','./lesson-2.html','./boss-challenge.html',
