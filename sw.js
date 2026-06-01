@@ -5,7 +5,10 @@
 const CACHE_VERSION = 'jawikids-v1.38.0';
 const STATIC_CACHE = `${CACHE_VERSION}-static`;
 const APP_SHELL = [
-  './', './index.html', './login.html', './register.html', './parent-dashboard.html', './child-select.html', './game-map.html', './letter-intro.html', './lesson-game.html',
+  './', './index.html', './login.html', './register.html', './parent-dashboard.html', './child-select.html', './game-map.html', './letter-intro.html', './lesson-game.html
+  ,'lesson-practice.html'
+  ,'lesson-2.html'
+  ,'boss-challenge.html'',
   './app.css', './style.css', './js/supabase-client.js', './js/auth.js', './js/dashboard.js', './js/child-select.js', './js/game-map.js', './js/letter-intro.js', './js/lesson-game.js',
   './character-assets.js', './manifest.json'
 ];
