@@ -23,58 +23,52 @@
         <a href="game-map.html">Peta Pulau</a>
         <a href="achievement.html">Achievement</a>
         <a href="parent-analytics.html">Analytics</a>
-        <a href="parent-inbox.html" class="nav-inbox">🔔 Inbox <span class="nav-badge" data-inbox-count>3</span></a>
+        <a href="parent-inbox.html" class="nav-inbox">🔔 Inbox <span class="nav-badge" data-inbox-count>0</span></a>
         <a href="support.html">Support</a>
         <a href="affiliate.html">Affiliate <span class="soon-dot">Soon</span></a>
+        <button class="mini-logout-btn" type="button" onclick="JawiKidsAuth.logoutParent()">Logout</button>
       </nav>
     </header>
 
     <main class="app-main">
-      <section class="premium-card app-card dashboard-hero">
+      <section class="premium-card app-card dashboard-hero official-dashboard-hero">
         <div>
           <div class="pill">Parent Dashboard</div>
-          <h1>Assalamualaikum, Puan Aisyah.</h1>
-          <p>Pantau perkembangan anak, semak notifikasi JawiKids, dan uruskan sokongan daripada satu tempat.</p>
+          <h1>Assalamualaikum, <span data-parent-name>Parent JawiKids</span>.</h1>
+          <p>Pantau slot anak, XP, streak dan perkembangan pembelajaran JawiKids secara live daripada Supabase.</p>
+          <div class="dashboard-status-line" id="dashboardStatus">Sedang memuatkan dashboard...</div>
         </div>
         <a class="inbox-widget" href="parent-inbox.html" aria-label="Buka inbox parent">
           <span class="inbox-icon">🔔</span>
-          <span><strong>Inbox Parent</strong><small><b data-inbox-count>3</b> mesej belum dibaca</small></span>
+          <span><strong>Inbox Parent</strong><small><b data-inbox-count>0</b> mesej belum dibaca</small></span>
         </a>
       </section>
 
-      <section class="stat-row dashboard-stat-row">
-        <div class="stat-pill"><strong>Premium</strong><span>Lifetime Active</span></div>
-        <div class="stat-pill"><strong>3/3</strong><span>Slot Anak</span></div>
-        <div class="stat-pill"><strong>1,250</strong><span>Total XP</span></div>
-        <div class="stat-pill"><strong>7🔥</strong><span>Streak</span></div>
+      <section class="stat-row dashboard-stat-row live-dashboard-stats">
+        <div class="stat-pill"><strong data-subscription-status>-</strong><span>Status Akaun</span></div>
+        <div class="stat-pill"><strong><span data-child-count>0</span>/<span data-max-children>3</span></strong><span>Slot Anak</span></div>
+        <div class="stat-pill"><strong data-total-xp>0</strong><span>Total XP</span></div>
+        <div class="stat-pill"><strong><span data-best-streak>0</span>🔥</strong><span>Best Streak</span></div>
       </section>
-
 
       <section class="parent-dashboard-feature-row">
         <a href="achievement.html"><span>🏆</span>Achievement</a>
         <a href="daily-reward.html"><span>🎁</span>Daily Reward</a>
         <a href="avatar-shop.html"><span>🎒</span>Kedai Avatar</a>
         <a href="parent-analytics.html"><span>📊</span>Analytics</a>
-        <a href="affiliate.html"><span>🤝</span>Affiliate Soon</a>
+        <a href="payment.html"><span>💳</span>Bayaran</a>
       </section>
 
-      <section class="app-grid two" style="margin-top:18px">
-        <div class="premium-card app-card child-card">
-          <div class="child-face avatar-face"><img src="assets/characters/zafri-main.svg" alt="Zafri"></div>
-          <div>
-            <h2>Zafri Jr.</h2>
-            <p>Level 4 · Pulau Ta · 8/30 bintang</p>
-            <a class="primary-btn" href="game-map.html">Lihat Peta</a>
-          </div>
+      <section class="dashboard-section-head">
+        <div>
+          <div class="pill">Profil Anak</div>
+          <h2>Anak & Progress</h2>
         </div>
-        <div class="premium-card app-card child-card">
-          <div class="child-face avatar-face girl"><img src="assets/characters/zainab-main.svg" alt="Zainab"></div>
-          <div>
-            <h2>Zainab Jr.</h2>
-            <p>Level 2 · Pulau Ba · 12/30 bintang</p>
-            <a class="secondary-btn" href="game-map.html">Lihat Peta</a>
-          </div>
-        </div>
+        <a class="primary-btn" href="child-select.html">Urus Anak</a>
+      </section>
+
+      <section class="app-grid two" id="dashboardChildrenGrid" style="margin-top:18px">
+        <div class="premium-card app-card dashboard-loading-card">Memuatkan profil anak...</div>
       </section>
 
       <section class="app-grid two dashboard-panels" style="margin-top:18px">
@@ -86,10 +80,8 @@
             </div>
             <a class="mini-link" href="parent-inbox.html">Lihat Semua</a>
           </div>
-          <div class="mini-inbox-list">
-            <a href="parent-inbox.html" class="mini-inbox-item unread"><span>🛟</span><div><strong>Admin membalas tiket support</strong><small>Sila cuba refresh aplikasi dan masuk semula.</small></div></a>
-            <a href="parent-inbox.html" class="mini-inbox-item unread"><span>🎁</span><div><strong>Ganjaran harian tersedia</strong><small>Log masuk hari ini untuk claim XP bonus.</small></div></a>
-            <a href="parent-inbox.html" class="mini-inbox-item unread"><span>💳</span><div><strong>Premium Lifetime aktif</strong><small>Terima kasih kerana menyokong JawiKids.</small></div></a>
+          <div class="mini-inbox-list" id="dashboardInboxList">
+            <div class="mini-inbox-item"><span>🔔</span><div><strong>Tiada mesej baru</strong><small>Notifikasi akan muncul di sini.</small></div></div>
           </div>
         </div>
 
@@ -97,20 +89,24 @@
           <div class="child-face">👨‍👩‍👧‍👦</div>
           <div>
             <h2>Family Slot</h2>
-            <p>3 daripada 3 slot anak digunakan. Tambah slot anak sehingga maksimum 5 anak.</p>
+            <p><span data-child-count>0</span> daripada <span data-max-children>3</span> slot anak digunakan. Tambah slot anak sehingga maksimum 5 anak.</p>
             <a class="secondary-btn" href="payment.html?type=child_slot">Tambah Slot RM10</a>
           </div>
         </div>
       </section>
     </main>
-    <div class="footer-mini">© 2026 JawiKids. Parent Dashboard + Beta Completion Features.</div>
+    <div class="footer-mini">© 2026 JawiKids. Live Dashboard Supabase Sync.</div>
   </div>
 
-  <div class="slide-notification show" id="slideNotification">
+  <div class="slide-notification" id="slideNotification">
     <span>🔔</span>
-    <div><strong>JawiKids Inbox</strong><small>Admin telah membalas pertanyaan anda.</small></div>
+    <div><strong>JawiKids Inbox</strong><small id="slideNotificationText">Notifikasi baru diterima.</small></div>
     <button onclick="document.getElementById('slideNotification').classList.remove('show')">×</button>
   </div>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="js/supabase-client.js"></script>
+  <script src="js/auth.js"></script>
   <script src="js/inbox.js"></script>
+  <script src="js/dashboard.js"></script>
 </body>
 </html>

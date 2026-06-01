@@ -1,1 +1,77 @@
-<!DOCTYPE html><html lang="ms"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Pilih Profil Anak - JawiKids</title><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@500;600;700;800;900&family=Noto+Sans+Arabic:wght@600;700;800;900&family=Amiri:wght@400;700&display=swap" rel="stylesheet"><link rel="stylesheet" href="style.css"><link rel="stylesheet" href="app.css"></head><body><div class="app-shell"><header class="app-header"><a class="brand" href="index.html"><span class="brand-mark">ج</span><span><strong>JawiKids</strong><small>Main, Belajar, Bijak Jawi!</small></span></a><nav class="app-nav"><a href="parent-dashboard.html">Dashboard</a><a href="child-select.html">Profil Anak</a><a href="game-map.html">Peta Pulau</a><a href="support.html">Support</a></nav></header><main class="app-main"><section class="premium-card app-card"><div class="pill">Pilih Profil Anak</div><h1>Siapa yang mahu belajar hari ini?</h1><p>Pilih profil anak sebelum masuk ke peta pengembaraan.</p></section><section class="app-grid" style="margin-top:18px"><div class="premium-card app-card child-card"><div class="child-face avatar-face"><img src="assets/characters/zafri-main.svg" alt="Zafri"></div><div><h2>Ali</h2><p>Level 4 · 1,250 XP</p><a class="primary-btn" href="game-map.html">Mula Belajar</a></div></div><div class="premium-card app-card child-card"><div class="child-face avatar-face girl"><img src="assets/characters/zainab-main.svg" alt="Zainab"></div><div><h2>Aisyah</h2><p>Level 2 · 620 XP</p><a class="primary-btn" href="game-map.html">Mula Belajar</a></div></div><div class="premium-card app-card"><h2>Tambah Anak</h2><form class="form-stack"><input placeholder="Nama anak"><select><option>Umur 5</option><option>Umur 6</option><option>Umur 7</option><option>Umur 8</option><option>Umur 9</option><option>Umur 10</option></select><a class="secondary-btn" href="#">Tambah Profil</a></form></div></section></main><div class="footer-mini">© 2026 JawiKids. Phase 1 MVP structure base.</div></div></body></html>
+<!DOCTYPE html>
+<html lang="ms">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pilih Profil Anak - JawiKids</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@500;600;700;800;900&family=Noto+Sans+Arabic:wght@600;700;800;900&family=Amiri:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="app.css">
+</head>
+<body>
+  <div class="app-shell">
+    <header class="app-header">
+      <a class="brand" href="index.html"><span class="brand-mark">ج</span><span><strong>JawiKids</strong><small>Main, Belajar, Bijak Jawi!</small></span></a>
+      <nav class="app-nav">
+        <a href="parent-dashboard.html">Dashboard</a>
+        <a href="child-select.html" class="active">Profil Anak</a>
+        <a href="game-map.html">Peta Pulau</a>
+        <a href="support.html">Support</a>
+        <button class="mini-logout-btn" type="button" onclick="JawiKidsAuth.logoutParent()">Logout</button>
+      </nav>
+    </header>
+    <main class="app-main">
+      <section class="premium-card app-card child-select-hero">
+        <div>
+          <div class="pill">Pilih Profil Anak</div>
+          <h1>Siapa yang mahu belajar hari ini?</h1>
+          <p>Pilih profil anak sebelum masuk ke peta pengembaraan. Slot anak dibaca terus daripada Supabase.</p>
+          <div class="dashboard-status-line" id="childSelectStatus">Sedang memuatkan profil anak...</div>
+        </div>
+        <div class="child-slot-summary">
+          <strong><span data-child-count>0</span>/<span data-max-children>3</span></strong>
+          <span>Slot Anak</span>
+        </div>
+      </section>
+
+      <section class="app-grid" id="childSelectGrid" style="margin-top:18px">
+        <div class="premium-card app-card dashboard-loading-card">Memuatkan anak...</div>
+      </section>
+
+      <section class="premium-card app-card add-child-panel" style="margin-top:18px">
+        <div class="section-title-row">
+          <div>
+            <div class="pill">Tambah Anak</div>
+            <h2>Profil Anak Baru</h2>
+          </div>
+          <a class="secondary-btn" href="payment.html?type=child_slot">Tambah Slot RM10</a>
+        </div>
+        <form class="form-stack" id="addChildForm">
+          <input id="childName" placeholder="Nama anak" required>
+          <select id="childAge" required>
+            <option value="">Pilih umur</option>
+            <option value="5">Umur 5</option>
+            <option value="6">Umur 6</option>
+            <option value="7">Umur 7</option>
+            <option value="8">Umur 8</option>
+            <option value="9">Umur 9</option>
+            <option value="10">Umur 10</option>
+          </select>
+          <select id="childGender" required>
+            <option value="male">Lelaki - Zafri</option>
+            <option value="female">Perempuan - Zainab</option>
+          </select>
+          <button class="primary-btn" id="addChildBtn" type="submit">Tambah Profil</button>
+        </form>
+      </section>
+    </main>
+    <div class="footer-mini">© 2026 JawiKids. Child Profile Supabase Sync.</div>
+  </div>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="js/supabase-client.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/child-select.js"></script>
+</body>
+</html>
