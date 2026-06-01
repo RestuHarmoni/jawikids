@@ -1,4 +1,4 @@
-// JawiKids v1.48.1 - Normal portrait reset for parent/admin/non-game pages
+// JawiKids v1.49.2 - Normal portrait reset for parent/admin/non-game pages
 // This file must exist in /js because HTML pages load js/orientation-reset.js.
 (function(){
   'use strict';

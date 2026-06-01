@@ -1,8 +1,8 @@
-/* JawiKids Service Worker v1.48.2.0
+/* JawiKids Service Worker v1.49.2.0
    PWA cache refresh for orientation fix.
    Purpose: force installed PWA to stop using old orientation-lock/reset/child-select files.
 */
-const CACHE_VERSION = 'v1.48.2.0';
+const CACHE_VERSION = 'v1.49.2.0';
 const STATIC_CACHE = `${CACHE_VERSION}-static`;
 
 const APP_SHELL = [

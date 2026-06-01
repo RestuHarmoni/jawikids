@@ -1,6 +1,6 @@
-// JawiKids PWA Register v1.48.2
+// JawiKids PWA Register v1.49.2
 (function () {
-  const VERSION = 'v1.48.2.0';
+  const VERSION = 'v1.49.2.0';
   window.JAWIKIDS_APP_VERSION = VERSION;
 
   async function clearOldCaches(){

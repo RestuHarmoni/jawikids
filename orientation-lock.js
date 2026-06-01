@@ -1,5 +1,5 @@
-// JawiKids v1.48.1 - Strict game-page-only orientation controller
-// Wide/landscape mode is allowed ONLY on game pages after user taps "Mula Main".
+// JawiKids v1.49.2 - NO FORCE ROTATE orientation helper
+// Purpose: Never force device rotation. Game pages only show a friendly wide-mode guide.
 (function(){
   'use strict';
 
@@ -23,17 +23,6 @@
 
   function isTouchDevice(){
     return window.matchMedia && matchMedia('(hover: none) and (pointer: coarse)').matches;
-  }
-
-  function isSmallDevice(){
-    const minSide = Math.min(window.screen.width || window.innerWidth, window.screen.height || window.innerHeight);
-    return minSide <= 1024;
-  }
-
-  function isStandalonePWA(){
-    return (window.matchMedia && window.matchMedia('(display-mode: standalone)').matches) ||
-      window.navigator.standalone === true ||
-      document.referrer.startsWith('android-app://');
   }
 
   function hasGameModeFlag(){
@@ -65,26 +54,35 @@
       'jk-wide-preferred',
       'jk-child-game-mode',
       'jk-landscape-active',
-      'jk-portrait-blocked'
+      'jk-portrait-blocked',
+      'jk-force-landscape',
+      'jk-game-wide-mode'
     );
     if(document.body){
-      document.body.classList.remove('jk-wide-preferred-body', 'jk-child-game-mode-body');
+      document.body.classList.remove(
+        'jk-wide-preferred-body',
+        'jk-child-game-mode-body',
+        'jk-force-landscape',
+        'jk-game-wide-mode'
+      );
+      document.body.style.transform = '';
+      document.body.style.width = '';
+      document.body.style.height = '';
+      document.body.style.overflow = '';
     }
   }
 
-  async function unlockOrientation(){
+  function unlockOrientation(){
     cleanupClasses();
+    // IMPORTANT: no screen.orientation.lock() is used anywhere in this file.
     try{
       if(screen.orientation && screen.orientation.unlock) screen.orientation.unlock();
     }catch(e){}
-    try{
-      if(document.fullscreenElement && document.exitFullscreen) await document.exitFullscreen();
-    }catch(e){}
   }
 
-  async function stopGameMode(){
+  function stopGameMode(){
     clearGameModeFlag();
-    await unlockOrientation();
+    unlockOrientation();
   }
 
   window.JawiKidsOrientation = {
@@ -94,27 +92,26 @@
     },
     stopGameMode,
     unlockNormalMode: unlockOrientation,
-    refresh(){},
-    isStandalonePWA
+    lockLandscape(){
+      // Backward-compatible function name only. It does NOT lock screen anymore.
+      setGameModeFlag();
+      refreshOverlay();
+    },
+    refresh(){}
   };
 
-  // Safety guard: if this script is accidentally loaded on any non-game page,
-  // immediately clear orientation state instead of locking the screen.
   if(!isGamePage()){
     stopGameMode();
     return;
   }
 
-  const shouldRun = hasGameModeFlag() && isTouchDevice() && isSmallDevice();
-  if(!shouldRun){
+  if(!hasGameModeFlag() || !isTouchDevice()){
     unlockOrientation();
     return;
   }
 
-  document.documentElement.classList.add('jk-touch-device', 'jk-wide-preferred', 'jk-child-game-mode');
-  if(document.body){
-    document.body.classList.add('jk-wide-preferred-body', 'jk-child-game-mode-body');
-  }
+  document.documentElement.classList.add('jk-touch-device', 'jk-child-game-mode');
+  if(document.body) document.body.classList.add('jk-child-game-mode-body');
 
   function ensureOverlay(){
     let overlay = document.getElementById('jkRotateOverlay');
@@ -126,61 +123,29 @@
     overlay.setAttribute('aria-modal','true');
     overlay.innerHTML = '<div class="jk-rotate-card">' +
       '<div class="jk-rotate-visual" aria-hidden="true"><div class="jk-rotate-device"></div><div class="jk-rotate-arrow">↻</div></div>' +
-      '<h2>Jom Main Dalam Mode Wide</h2>' +
-      '<p>Pusingkan telefon/tablet supaya ruang permainan nampak luas dan selesa.</p>' +
-      '<button type="button" id="jkTryLandscapeBtn">Aktifkan Wide Mode</button>' +
-      '<small>' + (isStandalonePWA() ? 'App mode aktif: JawiKids akan cuba kekal wide semasa bermain.' : 'Dalam browser biasa, pusing manual mungkin diperlukan.') + '</small>' +
+      '<h2>Mode Wide Pilihan</h2>' +
+      '<p>Telefon tidak akan dipaksa rotate. Pusing manual jika mahu skrin permainan lebih luas.</p>' +
+      '<button type="button" id="jkContinuePortraitBtn">Teruskan Portrait</button>' +
+      '<small>Dashboard dan profil akan kekal ikut orientation device.</small>' +
       '</div>';
     document.body.appendChild(overlay);
-    const btn = overlay.querySelector('#jkTryLandscapeBtn');
-    if(btn) btn.addEventListener('click', lockLandscapeFromGesture);
+    const btn = overlay.querySelector('#jkContinuePortraitBtn');
+    if(btn) btn.addEventListener('click', () => overlay.classList.remove('show'));
     return overlay;
   }
 
-  async function requestFullscreenIfNeeded(){
-    try{
-      if(document.documentElement.requestFullscreen && !document.fullscreenElement){
-        await document.documentElement.requestFullscreen();
-      }
-    }catch(e){}
-  }
-
-  async function lockLandscapeFromGesture(){
-    setGameModeFlag();
-    try{
-      await requestFullscreenIfNeeded();
-      if(screen.orientation && screen.orientation.lock){
-        await screen.orientation.lock('landscape');
-      }
-    }catch(e){}
-    refreshOverlay();
-  }
-
-  async function softTryLock(){
-    try{
-      if(isStandalonePWA() && screen.orientation && screen.orientation.lock){
-        await screen.orientation.lock('landscape');
-      }
-    }catch(e){}
-  }
-
   function refreshOverlay(){
-    const overlay = ensureOverlay();
     const isPortrait = window.innerHeight > window.innerWidth;
-    overlay.classList.toggle('show', isPortrait);
     document.documentElement.classList.toggle('jk-landscape-active', !isPortrait);
-    document.documentElement.classList.toggle('jk-portrait-blocked', isPortrait);
+    document.documentElement.classList.toggle('jk-wide-preferred', !isPortrait);
+    if(document.body) document.body.classList.toggle('jk-wide-preferred-body', !isPortrait);
+    const overlay = ensureOverlay();
+    overlay.classList.toggle('show', isPortrait);
   }
 
-  window.JawiKidsOrientation.lockLandscape = lockLandscapeFromGesture;
   window.JawiKidsOrientation.refresh = refreshOverlay;
-
   window.addEventListener('orientationchange', () => setTimeout(refreshOverlay, 250));
   window.addEventListener('resize', refreshOverlay);
-  document.addEventListener('visibilitychange', refreshOverlay);
-  document.addEventListener('DOMContentLoaded', () => {
-    ensureOverlay();
-    refreshOverlay();
-    softTryLock().finally(() => setTimeout(refreshOverlay, 600));
-  });
+  document.addEventListener('DOMContentLoaded', refreshOverlay);
+  if(document.readyState !== 'loading') refreshOverlay();
 })();

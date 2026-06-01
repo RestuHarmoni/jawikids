@@ -1,11 +1,11 @@
 {
   "name": "JawiKids Game Mode",
   "short_name": "JawiKids Game",
-  "description": "JawiKids child learning game mode. Landscape only for game pages after Mula Main.",
-  "start_url": "./game-map.html?source=pwa-game&v=1.48.1",
+  "description": "JawiKids game mode. No force rotate; user may rotate device manually for wider game view.",
+  "start_url": "./game-map.html?source=pwa-game&v=1.49.2",
   "scope": "./",
   "display": "standalone",
-  "orientation": "landscape-primary",
+  "orientation": "any",
   "background_color": "#EBF8FF",
   "theme_color": "#A7E92F",
   "categories": [
@@ -31,5 +31,5 @@
     "minimal-ui"
   ],
   "prefer_related_applications": false,
-  "id": "/jawikids-app-v1-48-game"
+  "id": "/jawikids-app-v1-49-no-force-game"
 }
