@@ -495,3 +495,21 @@
 .price-bubble{width:150px;height:150px;border-radius:44px;background:linear-gradient(135deg,var(--sunshine-yellow),#fff2a6);display:grid;place-items:center;text-align:center;font-size:32px;font-weight:1000;color:var(--midnight-navy);box-shadow:0 11px 0 var(--yellow-shadow),0 24px 42px rgba(15,52,74,.12)}
 .price-bubble small{font-size:14px}.premium-check-list{margin:12px 0 0}.premium-check-list li{background:#fff;border:1px solid rgba(30,41,59,.08);border-radius:18px;padding:12px 14px;box-shadow:0 8px 16px rgba(15,52,74,.05)}
 @media(max-width:900px){.auth-premium-shell,.register-shell{grid-template-columns:1fr;width:min(560px,calc(100% - 24px));padding:18px 0}.auth-premium-side{order:-1;min-height:auto}.auth-premium-card,.auth-premium-side{padding:24px;border-radius:28px}.auth-character-row{justify-content:center}.kid-avatar-card{width:112px;height:132px}.auth-feature-grid{grid-template-columns:1fr}.auth-hero-copy h1{font-size:36px}.price-bubble{width:124px;height:124px;font-size:26px}}
+
+
+/* v1.25 Official Avatar + Landing Logo Alignment */
+.auth-brand.landing-brand{justify-content:flex-start;text-decoration:none;color:var(--midnight-navy);margin-bottom:14px}
+.auth-brand.landing-brand .brand-mark{flex:0 0 48px}
+.google-icon{background:#fff!important;border:1px solid #e2e8f0!important;box-shadow:0 4px 10px rgba(15,52,74,.08)}
+.google-icon svg{width:20px;height:20px;display:block}
+.official-character-row{align-items:flex-end}
+.kid-avatar-card{overflow:hidden;position:relative}
+.kid-avatar-card img{width:96px;height:96px;object-fit:contain;filter:drop-shadow(0 10px 12px rgba(15,52,74,.14));margin-top:6px}
+.kid-avatar-card strong{font-size:16px;margin-top:-2px}
+.kid-avatar-card:after{content:'';position:absolute;left:18px;right:18px;bottom:42px;height:16px;background:rgba(58,190,249,.14);border-radius:999px;z-index:0}
+.kid-avatar-card img,.kid-avatar-card strong{position:relative;z-index:1}
+.compact-characters{margin-bottom:18px;justify-content:center}.compact-characters .kid-avatar-card{width:118px;height:136px}.compact-characters .kid-avatar-card img{width:90px;height:90px}
+.child-face{overflow:hidden;padding:4px}.child-face img{width:100%;height:100%;object-fit:contain;filter:drop-shadow(0 8px 10px rgba(15,52,74,.14))}.child-face.family-face{display:flex;gap:0;justify-content:center}.child-face.family-face img{width:52%;margin:0 -7px}
+.shop-preview{display:grid;place-items:center;overflow:hidden}.shop-preview img{width:88px;height:88px;object-fit:contain;filter:drop-shadow(0 8px 10px rgba(15,52,74,.14))}
+.avatar-dot{display:grid!important;place-items:center;overflow:hidden}.avatar-dot img{width:34px;height:34px;object-fit:contain}
+@media(max-width:900px){.kid-avatar-card img{width:84px;height:84px}.compact-characters .kid-avatar-card{width:104px;height:122px}.compact-characters .kid-avatar-card img{width:78px;height:78px}}
