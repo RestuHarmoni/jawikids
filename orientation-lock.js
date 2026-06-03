@@ -1,4 +1,4 @@
-// JawiKids v1.54.0 - FORCE LANDSCAPE FOR GAME PAGES ONLY
+// JawiKids v1.52.0 - FORCE LANDSCAPE FOR GAME PAGES ONLY
 // Official SOP: non-game pages = portrait/reset, game pages = force landscape when supported.
 (function(){
   'use strict';
