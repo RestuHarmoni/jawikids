@@ -1,10 +1,9 @@
-/* JawiKids Service Worker v1.52.0 - force landscape game mode aware */
-const CACHE_NAME = 'pulau-jawi-v2-5-landscape-game-map-fix';
+/* Pulau Jawi Service Worker v2.6 - cleaned duplicate files */
+const CACHE_NAME = 'pulau-jawi-v2-6-clean-structure';
 const CORE_ASSETS = [
   './', './index.html', './game-map.html?v=2.5-landscape-fix', './game-map/', './pwa-start.html', './manifest.json', './manifest-game.json',
   './style.css?v=1.52.0', './app.css?v=2.4-map-spacing', './pwa-register.js?v=1.52.0', './js/quick-menu.js?v=1.52.0',
-  './js/orientation-lock.js?v=1.52.1-game-landscape', './js/orientation-reset.js?v=1.52.0',
-  './orientation-lock.js?v=1.52.1-game-landscape', './orientation-reset.js?v=1.52.0'
+  './js/orientation-lock.js?v=2.6-clean', './js/orientation-reset.js?v=2.6-clean'
 ];
 self.addEventListener('install', event => {
   self.skipWaiting();
