@@ -1,3 +1,4 @@
+// Pulau Jawi v3.5 One-Time Rotate / No In-Game Popup
 // Pulau Jawi v3.3 lesson game HP layout cache refresh
 const CACHE_NAME = "pulau-jawi-v3-3-lesson-game-hp-fix";
 const CORE_ASSETS = [

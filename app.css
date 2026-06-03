@@ -1684,3 +1684,19 @@ body[data-jk-orientation="game"] .island{
     min-height:0;
   }
 }
+
+
+/* Pulau Jawi v3.5 - Game pages never show rotate prompt after Child Profile MAIN */
+html.pj-no-rotate-popup .jk-rotate-overlay,
+body.pj-no-rotate-popup .jk-rotate-overlay,
+html.pj-game-session .jk-rotate-overlay,
+body.pj-game-session .jk-rotate-overlay,
+body[data-jk-orientation="game"] .jk-rotate-overlay,
+html.jk-force-landscape .jk-rotate-overlay,
+body[data-jk-orientation="game"] .jk-rotate-overlay.show,
+html.jk-force-landscape .jk-rotate-overlay.show{
+  display:none!important;
+  visibility:hidden!important;
+  opacity:0!important;
+  pointer-events:none!important;
+}
