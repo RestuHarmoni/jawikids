@@ -1700,3 +1700,172 @@ html.jk-force-landscape .jk-rotate-overlay.show{
   opacity:0!important;
   pointer-events:none!important;
 }
+
+/* Pulau Jawi v3.6 - Phone game one-screen layout, no vertical scroll for Pulau 1 letters */
+@media (max-width: 950px) and (orientation: landscape), (max-height: 540px) {
+  html,
+  body[data-jk-orientation="game"]{
+    width:100% !important;
+    height:100dvh !important;
+    min-height:100dvh !important;
+    max-height:100dvh !important;
+    overflow:hidden !important;
+  }
+  body[data-jk-orientation="game"] .app-shell.game-compact-shell{
+    height:100dvh !important;
+    min-height:100dvh !important;
+    max-height:100dvh !important;
+    padding:4px 6px !important;
+    overflow:hidden !important;
+    display:flex !important;
+    flex-direction:column !important;
+  }
+  body[data-jk-orientation="game"] .compact-game-header{
+    display:none !important;
+  }
+  body[data-jk-orientation="game"] .compact-game-main{
+    flex:1 1 auto !important;
+    height:100% !important;
+    min-height:0 !important;
+    width:100% !important;
+    max-width:none !important;
+    overflow:hidden !important;
+    display:flex !important;
+    flex-direction:column !important;
+  }
+  body[data-jk-orientation="game"] .player-hud{
+    flex:0 0 42px !important;
+    min-height:42px !important;
+    max-height:42px !important;
+    grid-template-columns:minmax(100px,1fr) repeat(3,minmax(54px,.5fr)) !important;
+    gap:4px !important;
+    padding:4px 6px !important;
+    margin:0 0 4px !important;
+    border-radius:16px !important;
+    overflow:hidden !important;
+  }
+  body[data-jk-orientation="game"] .hud-left{gap:6px !important;}
+  body[data-jk-orientation="game"] .hud-left img{width:34px !important;height:34px !important;border-radius:12px !important;}
+  body[data-jk-orientation="game"] .hud-label,
+  body[data-jk-orientation="game"] .hud-stat span{font-size:.56rem !important;line-height:1 !important;}
+  body[data-jk-orientation="game"] .hud-left strong,
+  body[data-jk-orientation="game"] .hud-stat strong{font-size:.72rem !important;line-height:1 !important;white-space:nowrap !important;}
+  body[data-jk-orientation="game"] .hud-stat{min-height:0 !important;height:34px !important;padding:3px !important;border-radius:12px !important;}
+  body[data-jk-orientation="game"] .lesson-stage-compact{
+    flex:1 1 auto !important;
+    min-height:0 !important;
+    height:calc(100dvh - 50px) !important;
+    display:grid !important;
+    grid-template-columns:1fr !important;
+    gap:0 !important;
+    overflow:hidden !important;
+  }
+  body[data-jk-orientation="game"] .compact-coach-panel{
+    display:none !important;
+  }
+  body[data-jk-orientation="game"] .compact-question-card{
+    height:100% !important;
+    min-height:0 !important;
+    padding:6px 8px !important;
+    border-radius:18px !important;
+    overflow:hidden !important;
+    display:flex !important;
+    flex-direction:column !important;
+  }
+  body[data-jk-orientation="game"] .lesson-topline{height:24px !important;min-height:24px !important;}
+  body[data-jk-orientation="game"] .pill,
+  body[data-jk-orientation="game"] .mini-map-link{font-size:.6rem !important;padding:4px 7px !important;}
+  body[data-jk-orientation="game"] .compact-question-card h1{
+    font-size:clamp(.95rem,3.2vw,1.25rem) !important;
+    line-height:1 !important;
+    margin:3px 0 1px !important;
+    white-space:nowrap !important;
+    overflow:hidden !important;
+    text-overflow:ellipsis !important;
+  }
+  body[data-jk-orientation="game"] .compact-question-card p{
+    font-size:.68rem !important;
+    line-height:1.05 !important;
+    margin:0 0 3px !important;
+    max-height:1.2em !important;
+    overflow:hidden !important;
+    white-space:nowrap !important;
+    text-overflow:ellipsis !important;
+  }
+  body[data-jk-orientation="game"] .compact-play-row{
+    flex:0 0 48px !important;
+    min-height:48px !important;
+    max-height:48px !important;
+    grid-template-columns:minmax(0,1fr) 72px !important;
+    gap:5px !important;
+    margin:2px 0 !important;
+  }
+  body[data-jk-orientation="game"] .compact-audio-card{
+    min-height:0 !important;
+    height:48px !important;
+    padding:4px 6px !important;
+    border-radius:14px !important;
+    display:grid !important;
+    grid-template-columns:34px minmax(0,1fr) 38px !important;
+    gap:5px !important;
+  }
+  body[data-jk-orientation="game"] .compact-audio-card .audio-coach-avatar{width:34px !important;height:34px !important;}
+  body[data-jk-orientation="game"] .compact-audio-card .audio-copy strong{font-size:.66rem !important;line-height:1 !important;white-space:nowrap !important;overflow:hidden !important;text-overflow:ellipsis !important;}
+  body[data-jk-orientation="game"] .compact-audio-card .audio-copy small,
+  body[data-jk-orientation="game"] .compact-audio-card .audio-eyebrow{display:none !important;}
+  body[data-jk-orientation="game"] .compact-audio-card .premium-audio-btn{width:38px !important;height:38px !important;min-width:0 !important;padding:0 !important;border-radius:13px !important;display:grid !important;place-items:center !important;}
+  body[data-jk-orientation="game"] .compact-jawi-focus{
+    width:72px !important;
+    height:48px !important;
+    min-height:48px !important;
+    max-height:48px !important;
+    max-width:72px !important;
+    border-radius:15px !important;
+    font-size:clamp(2rem,10vh,2.7rem) !important;
+    margin:0 !important;
+  }
+  body[data-jk-orientation="game"] .compact-progress{height:7px !important;margin:2px 0 0 !important;}
+  body[data-jk-orientation="game"] .progress-caption{font-size:.56rem !important;margin:1px 0 !important;line-height:1 !important;}
+  body[data-jk-orientation="game"] .compact-answer-grid,
+  body[data-jk-orientation="game"] .pulau1-options{
+    flex:1 1 auto !important;
+    min-height:0 !important;
+    height:auto !important;
+    display:grid !important;
+    grid-template-columns:repeat(4,minmax(0,1fr)) !important;
+    grid-auto-rows:minmax(0,1fr) !important;
+    gap:6px !important;
+    margin-top:3px !important;
+    padding:0 !important;
+    align-content:stretch !important;
+    overflow:hidden !important;
+  }
+  body[data-jk-orientation="game"] .pulau1-choice,
+  body[data-jk-orientation="game"] .compact-answer{
+    width:100% !important;
+    height:100% !important;
+    min-height:0 !important;
+    max-height:none !important;
+    padding:2px !important;
+    border-radius:16px !important;
+    font-size:clamp(2rem,18vh,3.15rem) !important;
+    line-height:1 !important;
+    box-shadow:0 4px 9px rgba(15,23,42,.12), inset 0 2px 0 #fff !important;
+    display:grid !important;
+    place-items:center !important;
+  }
+  body[data-jk-orientation="game"] .pulau1-choice:before{inset:6px !important;}
+  body[data-jk-orientation="game"] .pulau1-choice.balloon:after{width:14px !important;height:11px !important;}
+}
+
+@media (max-width: 680px) and (orientation: landscape){
+  body[data-jk-orientation="game"] .player-hud{
+    grid-template-columns:minmax(92px,1fr) repeat(3,minmax(42px,.45fr)) !important;
+  }
+  body[data-jk-orientation="game"] .hud-stat span{display:none !important;}
+  body[data-jk-orientation="game"] .compact-question-card h1{font-size:.92rem !important;}
+  body[data-jk-orientation="game"] .compact-question-card p{display:none !important;}
+  body[data-jk-orientation="game"] .lesson-stage-compact{height:calc(100dvh - 48px) !important;}
+  body[data-jk-orientation="game"] .pulau1-choice,
+  body[data-jk-orientation="game"] .compact-answer{font-size:clamp(1.8rem,17vh,2.85rem) !important;border-radius:14px !important;}
+}
