@@ -1,331 +1,184 @@
-// JawiKids v1.42 - Consistent player + XP/Heart persistence fix
+// Pulau Jawi v3.2 - Pulau 1 Pengenalan Jawi: 10 kids mini games (age 5-8)
 (function(){
   'use strict';
+  const VERSION = '3.2.0';
+  const $ = (id)=>document.getElementById(id);
+  const qs = new URLSearchParams(location.search);
+  const selectedGame = Math.max(0, Math.min(10, parseInt(qs.get('game') || '0', 10) || 0));
+  const selectedChildId = qs.get('child') || localStorage.getItem('jawikids_selected_child_id') || localStorage.getItem('selected_child_id') || sessionStorage.getItem('jawikids_selected_child_id') || '';
 
-  const VERSION = '1.42.0';
-  const COMMON_CHOICES = ['ا','ب','ت','ث','ج','ح','خ','د','ذ','ر','ز','س','ش','ص','ض','ط','ظ','ع','غ','ف','ق','ك','ل','م','ن','و','ه','ء','ي'];
-  const BASE = [
-    ['ا','Alif','Alif bentuknya tegak.'],['ب','Ba','Ba ada satu titik di bawah.'],['ت','Ta','Ta ada dua titik di atas.'],['ث','Tha','Tha ada tiga titik di atas.'],
-    ['ج','Jim','Jim ada titik di bawah.'],['ح','Ha','Ha tiada titik.'],['خ','Kha','Kha ada titik di atas.'],['د','Dal','Dal tiada titik.'],['ذ','Dzal','Dzal ada titik di atas.'],['ر','Ra','Ra tiada titik.']
+  const letters = [
+    {j:'ا', r:'Alif', clue:'bentuk tegak seperti tiang', dots:'tiada titik'},
+    {j:'ب', r:'Ba', clue:'satu titik di bawah', dots:'1 titik bawah'},
+    {j:'ت', r:'Ta', clue:'dua titik di atas', dots:'2 titik atas'},
+    {j:'ث', r:'Tha', clue:'tiga titik di atas', dots:'3 titik atas'},
+    {j:'ج', r:'Jim', clue:'ada titik di bawah', dots:'1 titik bawah'},
+    {j:'ح', r:'Ha', clue:'tiada titik', dots:'tiada titik'},
+    {j:'خ', r:'Kha', clue:'ada titik di atas', dots:'1 titik atas'},
+    {j:'د', r:'Dal', clue:'bentuk pendek tanpa titik', dots:'tiada titik'},
+    {j:'ذ', r:'Dzal', clue:'seperti Dal tetapi ada titik', dots:'1 titik atas'},
+    {j:'ر', r:'Ra', clue:'melengkung tanpa titik', dots:'tiada titik'}
   ];
-  const SECOND = [
-    ['ز','Zai','Zai ada titik di atas.'],['س','Sin','Sin tiada titik.'],['ش','Syin','Syin ada tiga titik.'],['ص','Sod','Sod tiada titik.'],['ض','Dod','Dod ada titik di atas.'],
-    ['ط','To','To tiada titik.'],['ظ','Zo','Zo ada titik di atas.'],['ع','Ain','Ain tiada titik.'],['غ','Ghain','Ghain ada titik di atas.'],['ف','Fa','Fa ada satu titik di atas.']
+  const allChoices = ['ا','ب','ت','ث','ج','ح','خ','د','ذ','ر','ز','س','ش','ص','ض','ط','ظ','ع','غ','ف','ق','ك','ل','م','ن','و','ه','ء','ي'];
+  const gameList = [
+    {id:1, icon:'🎈', title:'Belon Huruf Ajaib', skill:'Kenal huruf pertama', color:'pink'},
+    {id:2, icon:'🎧', title:'Dengar & Pilih', skill:'Dengar bunyi huruf', color:'blue'},
+    {id:3, icon:'🧩', title:'Padan Rumi Jawi', skill:'Padanan nama huruf', color:'mint'},
+    {id:4, icon:'🔎', title:'Misi Cari Titik', skill:'Kenal titik huruf', color:'yellow'},
+    {id:5, icon:'👀', title:'Huruf Hampir Sama', skill:'Bezakan bentuk huruf', color:'purple'},
+    {id:6, icon:'🚂', title:'Kereta Alif Ba Ta', skill:'Susun turutan awal', color:'orange'},
+    {id:7, icon:'🃏', title:'Kad Memori Jawi', skill:'Ingat pasangan huruf', color:'green'},
+    {id:8, icon:'⭐', title:'Tangkap Bintang Huruf', skill:'Pilih huruf sasaran', color:'sky'},
+    {id:9, icon:'🎨', title:'Lukis Bentuk Huruf', skill:'Cam bentuk asas', color:'peach'},
+    {id:10, icon:'👑', title:'Mini Boss Pulau 1', skill:'Ulang kaji semua', color:'gold'}
   ];
-  const ALL_BOSS = [...BASE, ...SECOND, ['ق','Qaf','Qaf ada dua titik di atas.'],['ك','Kaf','Kaf seperti bentuk terbuka.'],['ل','Lam','Lam tinggi dan melengkung.'],['م','Mim','Mim ada bentuk bulat.'],['ن','Nun','Nun ada satu titik di atas.'],['و','Wau','Wau melengkung.'],['ه','Ha','Ha lembut bentuknya.'],['ء','Hamzah','Hamzah kecil.'],['ي','Ya','Ya ada dua titik di bawah.']];
+  const state = { game:selectedGame, qIndex:0, score:0, total:5, locked:false, current:null, childName:'Anak Hebat' };
 
-  function makeChoices(correct, seed, pool = COMMON_CHOICES){
-    const others = pool.filter(x => x !== correct);
-    const picks = [correct];
-    for(let i=0; picks.length<4; i++) picks.push(others[(seed*5+i)%others.length]);
-    return picks.sort((a,b)=> ((a.charCodeAt(0)+seed)%11) - ((b.charCodeAt(0)+seed)%11));
-  }
-  function buildQuestions(list, prefix, mode){
-    return list.map((x,i)=>({
-      id:`${prefix}-q${i+1}`,
-      audioKey:`${prefix}_${x[1].toLowerCase()}_${String(i+1).padStart(2,'0')}`,
-      title: mode === 'boss' ? `Cabaran ${i+1}: Cari ${x[1]}` : `Soalan ${i+1}: Pilih ${x[1]}`,
-      promptTitle: mode === 'match' ? `Padankan bunyi ${x[1]} dengan huruf.` : `Dengar huruf ${x[1]}, kemudian pilih jawapan.`,
-      audioText:`Pilih huruf ${x[1]}.`, correct:x[0], choices: makeChoices(x[0], i), hint:x[2]
-    }));
-  }
+  function persistChildId(id){ if(!id) return; localStorage.setItem('jawikids_selected_child_id',id); localStorage.setItem('selected_child_id',id); sessionStorage.setItem('jawikids_selected_child_id',id); }
+  if(selectedChildId) persistChildId(selectedChildId);
 
-  const LESSONS = {
-    practice: { id:'pulau-1-practice-01', island:1, label:'Latihan Ringkas', moduleTitle:'Pulau Huruf', title:'Padankan Bunyi Huruf', instruction:'Latihan santai tanpa XP. Tekan audio, pilih huruf yang betul.', xpReward:0, bonusXp:0, trackProgress:false, mode:'match', questions: buildQuestions(BASE.slice(0,5),'practice','match') },
-    lesson1: { id:'pulau-1-lesson-1', island:1, label:'Lesson 1', moduleTitle:'Pulau Huruf', title:'Pilih Huruf Yang Disebut', instruction:'Dengar audio dan pilih huruf. 10 soalan.', xpReward:10, bonusXp:20, trackProgress:true, mode:'audio-pick', questions: buildQuestions(BASE,'lesson1','audio-pick') },
-    lesson2: { id:'pulau-1-lesson-2', island:1, label:'Lesson 2', moduleTitle:'Pulau Huruf', title:'Cari Huruf Hampir Sama', instruction:'Bezakan huruf yang hampir sama. 10 soalan.', xpReward:10, bonusXp:20, trackProgress:true, mode:'look-find', questions: buildQuestions(SECOND,'lesson2','look-find') },
-    boss: { id:'pulau-1-boss-challenge', island:1, unlockIsland:2, label:'Boss Challenge', moduleTitle:'Pulau Huruf', title:'Cabaran Zafri', instruction:'Cabaran campuran Alif sampai Ya. 20 soalan.', xpReward:15, bonusXp:50, trackProgress:true, mode:'boss', questions: buildQuestions(ALL_BOSS.slice(0,20),'boss','boss') }
-  };
-
-  function pageLessonKey(){ const p = location.pathname.toLowerCase(); if(p.includes('lesson-practice')) return 'practice'; if(p.includes('lesson-2')) return 'lesson2'; if(p.includes('boss-challenge')) return 'boss'; return 'lesson1'; }
-  const LESSON = LESSONS[pageLessonKey()] || LESSONS.lesson1;
-  let currentUser=null, selectedChild=null, audioSettings={}, activeAudio=null;
-  let currentQuestionIndex=0, score=0, xpEarnedThisRun=0, answeredCurrent=false, wrongThisQuestion=false;
-
-  const $ = id => document.getElementById(id);
-  const setText = (id,v) => { const el=$(id); if(el) el.textContent = v; };
-  const qNow = () => LESSON.questions[currentQuestionIndex] || LESSON.questions[0];
-
-  function selectedChildId(){
-    const urlId = new URLSearchParams(location.search).get('child') || '';
-    const id = urlId || localStorage.getItem('jawikids_selected_child_id') || localStorage.getItem('selected_child_id') || sessionStorage.getItem('jawikids_selected_child_id') || sessionStorage.getItem('selected_child_id') || '';
-    if(id) persistSelectedChildId(id);
-    return id;
+  function setText(id, text){ const el=$(id); if(el) el.textContent = text; }
+  function setHTML(id, html){ const el=$(id); if(el) el.innerHTML = html; }
+  function shuffle(arr){ return [...arr].sort(()=>Math.random()-.5); }
+  function pickChoices(correct, extra=[]){
+    const pool = shuffle([...new Set([...extra, ...allChoices])].filter(x=>x!==correct));
+    return shuffle([correct, ...pool.slice(0,3)]);
   }
-  function persistSelectedChildId(id){
-    if(!id) return;
-    localStorage.setItem('jawikids_selected_child_id', id);
-    localStorage.setItem('selected_child_id', id);
-    sessionStorage.setItem('jawikids_selected_child_id', id);
-    sessionStorage.setItem('selected_child_id', id);
-  }
-  function avatarSrc(child){
-    const key = (child?.avatar_key || '').toLowerCase();
-    if(child?.avatar_url) return child.avatar_url;
-    if(key.includes('zainab')) return `assets/characters/zainab-happy.svg?v=${VERSION}`;
-    return `assets/characters/zafri-happy.svg?v=${VERSION}`;
-  }
-
-  async function initAuth(){
-    if(!window.jawiSupabase && window.getJawiSupabase) window.jawiSupabase = window.getJawiSupabase();
-    if(!window.jawiSupabase) return null;
-    const { data } = await window.jawiSupabase.auth.getUser();
-    currentUser = data?.user || null;
-    if(!currentUser) location.href = 'login.html';
-    return currentUser;
-  }
-  async function loadSelectedChild(){
-    const id = selectedChildId();
-    if(!id){ location.href = 'child-profile.html?select=1'; return null; }
-    if(!window.jawiSupabase || !currentUser) return null;
-    const { data, error } = await window.jawiSupabase
-      .from('children')
-      .select('id,name,age,gender,avatar_key,avatar_url,total_xp,current_island,hearts,parent_id')
-      .eq('id',id)
-      .eq('parent_id',currentUser.id)
-      .maybeSingle();
-    if(error){ console.warn('[JawiKids] child load error', error.message); }
-    if(!data){ location.href = 'child-profile.html?select=1'; return null; }
-    selectedChild = data;
-    persistSelectedChildId(data.id);
-    return selectedChild;
-  }
-  async function loadAudioSettings(){
-    audioSettings = {};
-    if(!window.jawiSupabase) return;
-    const keys = Array.from(new Set([...LESSON.questions.map(q=>q.audioKey),'feedback_correct','feedback_wrong','lesson_complete']));
-    const { data, error } = await window.jawiSupabase.from('audio_settings').select('audio_key,audio_text,audio_url,is_active').in('audio_key',keys).eq('is_active',true);
-    if(error){ console.warn('[JawiKids] audio fallback:', error.message); return; }
-    (data||[]).forEach(r => audioSettings[r.audio_key] = r);
-  }
-  async function loadProgress(){
-    if(!LESSON.trackProgress || !window.jawiSupabase || !selectedChild) return;
-    const { data } = await window.jawiSupabase.from('child_progress').select('progress_percent,is_completed,score').eq('child_id',selectedChild.id).eq('lesson_id',LESSON.id).maybeSingle();
-    if(data && !data.is_completed){
-      const pct = Number(data.progress_percent || 0);
-      currentQuestionIndex = Math.max(0, Math.min(LESSON.questions.length - 1, Math.floor((pct/100)*LESSON.questions.length)));
-      score = Number(data.score || 0);
-    }
-  }
-
-  function renderHud(){
-    setText('hudChildName', selectedChild?.name || 'Anak');
-    setText('hudXp', `${Number(selectedChild?.total_xp || 0).toLocaleString('ms-MY')} XP`);
-    const hearts = Math.max(0, Math.min(5, Number(selectedChild?.hearts ?? 5)));
-    setText('hudHearts', hearts > 0 ? '❤️'.repeat(hearts) : '♡');
-    const av = $('hudAvatar'); if(av) av.src = avatarSrc(selectedChild);
-  }
-  function updateProgress(pct){
-    pct = Math.max(0, Math.min(100, Number(pct||0)));
-    const fill=$('lessonProgressFill'); if(fill) fill.style.width = pct + '%';
-    setText('lessonProgressText', `${Math.round(pct)}% siap`);
-    setText('hudQuestion', `${Math.min(currentQuestionIndex+1, LESSON.questions.length)}/${LESSON.questions.length}`);
-  }
-  function modeLabel(){ return LESSON.mode === 'match' ? 'Latihan Padanan' : LESSON.mode === 'look-find' ? 'Cari Huruf' : LESSON.mode === 'boss' ? 'Cabaran Masa' : 'Kuiz Audio'; }
-
-  function renderQuestion(){
-    const q=qNow(); answeredCurrent=false; wrongThisQuestion=false;
-    document.body.dataset.lessonMode = LESSON.mode;
-    renderHud();
-    setText('lessonPill', `${LESSON.label} · ${modeLabel()} · ${currentQuestionIndex+1}/${LESSON.questions.length}`);
-    setText('lessonTitle', q.title || LESSON.title);
-    setText('lessonInstruction', LESSON.instruction);
-    setText('audioPromptTitle', q.promptTitle || 'Dengar dahulu, kemudian jawab.');
-    setText('mainJawi', LESSON.mode === 'look-find' ? q.correct : '🎧');
-    setText('coachTitle', LESSON.mode === 'boss' ? 'Fokus! Cabaran Zafri bermula.' : 'Dengar audio dan pilih jawapan.');
-    setText('coachNote', LESSON.mode === 'look-find' ? 'Lihat huruf sasaran, kemudian cari jawapan yang sama.' : 'Tekan Mainkan Audio dahulu jika belum dengar.');
-    updateProgress(Math.round((currentQuestionIndex/LESSON.questions.length)*100));
-    const grid=$('answerGrid'); if(!grid) return;
-    grid.innerHTML='';
-    q.choices.forEach(choice=>{
-      const btn=document.createElement('button'); btn.className='answer-btn compact-answer'; btn.dir='rtl'; btn.type='button'; btn.textContent=choice;
-      btn.addEventListener('click',()=>answer(choice,btn)); grid.appendChild(btn);
-    });
-    showAudioStatus('Tekan butang main untuk dengar arahan.');
-  }
-  function lockAnswers(){ document.querySelectorAll('.answer-btn').forEach(b=>b.disabled=true); }
-
-  function getAudio(key,fallback){ const s=audioSettings[key]||{}; return {url:s.audio_url||'', text:s.audio_text||fallback||''}; }
-  function playAudioKey(key,fallback){ const s=getAudio(key,fallback); if(s.url) playUrl(s.url,s.text); else speak(s.text||fallback); }
-  function playUrl(url,fallback){
-    try{ if(activeAudio){activeAudio.pause(); activeAudio.currentTime=0;} if(window.speechSynthesis) speechSynthesis.cancel(); activeAudio=new Audio(url);
-      activeAudio.onplay=()=>setPlaying(true); activeAudio.onended=()=>setPlaying(false); activeAudio.onerror=()=>{setPlaying(false); speak(fallback);}; activeAudio.play().catch(()=>speak(fallback));
-    }catch(e){ speak(fallback); }
-  }
-  function voice(){ const v=window.speechSynthesis?.getVoices()||[]; return v.find(x=>/ms|malay|indonesia/i.test(x.lang+' '+x.name))||v.find(x=>/en/i.test(x.lang))||v[0]||null; }
   function speak(text){
-    if(!('speechSynthesis' in window)){ showAudioStatus('Audio tidak disokong browser ini.'); return; }
-    try{ if(activeAudio){activeAudio.pause(); activeAudio.currentTime=0;} speechSynthesis.cancel(); const u=new SpeechSynthesisUtterance(text||'Pilih jawapan yang betul.'); u.lang='ms-MY'; u.rate=.82; u.pitch=1.05; const v=voice(); if(v) u.voice=v; u.onstart=()=>setPlaying(true); u.onend=()=>setPlaying(false); u.onerror=()=>setPlaying(false); speechSynthesis.speak(u); }catch(e){ setPlaying(false); }
-  }
-  function setPlaying(on){ const card=$('lessonAudioCard'), btn=$('playAudioBtn'); if(card) card.classList.toggle('is-playing',!!on); if(btn){ btn.classList.toggle('is-playing',!!on); const label=btn.querySelector('strong'); if(label) label.textContent=on?'Sedang Main...':'Mainkan Audio'; } showAudioStatus(on?'Audio sedang dimainkan...':'Tekan butang main untuk ulang audio.'); }
-  function showAudioStatus(msg){ setText('audioStatus',msg); }
-
-  async function persistChildPatch(patch){
-    if(!window.jawiSupabase || !selectedChild || !currentUser) return false;
-    const { error } = await window.jawiSupabase.from('children').update(patch).eq('id',selectedChild.id).eq('parent_id',currentUser.id);
-    if(error){ console.warn('[JawiKids] child save error:', error.message); return false; }
-    Object.assign(selectedChild, patch);
-    renderHud();
-    return true;
-  }
-  async function loseHeartOnce(){
-    if(!selectedChild || wrongThisQuestion) return;
-    wrongThisQuestion = true;
-    const current = Math.max(0, Math.min(5, Number(selectedChild.hearts ?? 5)));
-    const next = Math.max(0, current - 1);
-    await persistChildPatch({ hearts: next });
-  }
-
-  async function answer(choice,btn){
-    if(answeredCurrent) return;
-    const q=qNow(), correct=choice===q.correct;
-    btn.classList.add(correct?'is-correct':'is-wrong');
-    if(!correct){
-      btn.disabled=true;
-      await loseHeartOnce();
-      setText('coachTitle','Cuba lagi ya.');
-      setText('coachNote',q.hint||'Dengar semula audio dan cuba lagi.');
-      playAudioKey('feedback_wrong',`Cuba lagi. ${q.hint||''}`);
-      return;
-    }
-    answeredCurrent=true; lockAnswers(); score++; if(LESSON.trackProgress) xpEarnedThisRun += LESSON.xpReward;
-    setText('mainJawi', q.correct); setText('coachTitle','Tahniah! Jawapan betul.'); setText('coachNote', currentQuestionIndex<LESSON.questions.length-1?'Bagus! Soalan seterusnya muncul sekejap lagi.':'Hebat! Aktiviti selesai.');
-    playAudioKey('feedback_correct',`Tahniah. Jawapan betul. Ini huruf ${q.correct}.`);
-    await savePartialProgress(); setTimeout(nextQuestion, 900);
-  }
-  async function nextQuestion(){ if(currentQuestionIndex < LESSON.questions.length-1){ currentQuestionIndex++; renderQuestion(); return; } await completeLesson(); }
-
-  async function upsertProgress(payload){
-    if(!window.jawiSupabase || !selectedChild) return;
-    const { error } = await window.jawiSupabase.from('child_progress').upsert(payload,{onConflict:'child_id,lesson_id'});
-    if(error){
-      console.warn('[JawiKids] progress save fallback:', error.message);
-      await window.jawiSupabase.from('child_progress').upsert({
-        child_id: payload.child_id,
-        lesson_id: payload.lesson_id,
-        is_completed: payload.is_completed,
-        score: payload.score || score,
-        completed_at: new Date().toISOString()
-      },{onConflict:'child_id,lesson_id'});
-    }
-  }
-
-  async function savePartialProgress(){
-    if(!LESSON.trackProgress || !selectedChild || !currentUser) return;
-    const answeredCount=Math.min(LESSON.questions.length,currentQuestionIndex+1);
-    const pct=Math.round((answeredCount/LESSON.questions.length)*100);
-    const newXp=Number(selectedChild.total_xp||0)+Number(LESSON.xpReward||0);
-    await persistChildPatch({total_xp:newXp,current_island:Math.max(Number(selectedChild.current_island||1),Number(LESSON.island||1))});
-    await upsertProgress({
-      child_id:selectedChild.id,
-      lesson_id:LESSON.id,
-      progress_percent:pct,
-      is_completed:pct>=100,
-      xp_earned:xpEarnedThisRun,
-      score,
-      updated_at:new Date().toISOString(),
-      completed_at:pct>=100 ? new Date().toISOString() : null
-    });
-    updateProgress(pct);
-  }
-  function isBossChallenge(){ return LESSON.id === 'pulau-1-boss-challenge'; }
-
-  async function awardBossBadge(){
-    if(!window.jawiSupabase || !selectedChild || !isBossChallenge()) return;
     try{
-      const { data: achievement } = await window.jawiSupabase
-        .from('achievements')
-        .select('id')
-        .eq('trigger_type','pulau_1_boss_complete')
-        .maybeSingle();
-      if(achievement?.id){
-        await window.jawiSupabase.from('child_achievements').upsert({child_id:selectedChild.id, achievement_id:achievement.id},{onConflict:'child_id,achievement_id'});
-      }
-    }catch(e){ console.warn('[JawiKids] badge save skipped:', e.message); }
+      if(!('speechSynthesis' in window)) return;
+      speechSynthesis.cancel();
+      const u = new SpeechSynthesisUtterance(text);
+      u.lang='ms-MY'; u.rate=.86; u.pitch=1.18;
+      const voices = speechSynthesis.getVoices();
+      const v = voices.find(x=>/ms|malay|indonesia/i.test(x.lang+' '+x.name)) || voices.find(x=>/female|zira|siti|google/i.test(x.name)) || voices[0];
+      if(v) u.voice=v;
+      speechSynthesis.speak(u);
+    }catch(e){}
   }
-
-  async function completeLesson(){
-    const bonus=LESSON.trackProgress?LESSON.bonusXp:0;
-    const shouldUnlockNextIsland = isBossChallenge();
-    if(LESSON.trackProgress && selectedChild && currentUser){
-      const finalXp=Number(selectedChild.total_xp||0)+Number(bonus||0);
-      const nextIsland = shouldUnlockNextIsland ? (LESSON.unlockIsland || 2) : Math.max(Number(selectedChild.current_island || 1), Number(LESSON.island || 1));
-      await persistChildPatch({total_xp:finalXp,current_island:nextIsland});
-      await upsertProgress({
-        child_id:selectedChild.id,
-        lesson_id:LESSON.id,
-        progress_percent:100,
-        is_completed:true,
-        xp_earned:xpEarnedThisRun+bonus,
-        score,
-        updated_at:new Date().toISOString(),
-        completed_at:new Date().toISOString()
+  function tone(kind='tap'){
+    try{
+      const ctx = new (window.AudioContext||window.webkitAudioContext)();
+      const now = ctx.currentTime;
+      const notes = kind==='ok' ? [660,880,1175] : kind==='bad' ? [220,170] : kind==='pop' ? [520,900] : [440,560];
+      notes.forEach((f,i)=>{
+        const o=ctx.createOscillator(), g=ctx.createGain();
+        o.type = kind==='bad' ? 'triangle' : 'sine'; o.frequency.value=f;
+        g.gain.setValueAtTime(.001, now+i*.055); g.gain.exponentialRampToValueAtTime(.16, now+i*.055+.012); g.gain.exponentialRampToValueAtTime(.001, now+i*.055+.12);
+        o.connect(g); g.connect(ctx.destination); o.start(now+i*.055); o.stop(now+i*.055+.14);
       });
-      if(shouldUnlockNextIsland) await awardBossBadge();
-    }
-    updateProgress(100);
-    renderSummary(bonus);
-    playAudioKey('lesson_complete', shouldUnlockNextIsland ? 'Tahniah. Cabaran selesai. Pulau baru telah dibuka.' : (LESSON.trackProgress?'Tahniah. Lesson selesai.':'Latihan selesai. Jom teruskan.'));
-    if(shouldUnlockNextIsland) showBossVictoryOverlay(bonus);
+    }catch(e){}
   }
-  function nextPath(){ if(LESSON.id==='pulau-1-practice-01') return 'lesson-game.html'; if(LESSON.id==='pulau-1-lesson-1') return 'lesson-2.html'; if(LESSON.id==='pulau-1-lesson-2') return 'boss-challenge.html'; return 'game-map.html'; }
-  function nextLabel(){ if(LESSON.id==='pulau-1-practice-01') return 'Mula Lesson 1'; if(LESSON.id==='pulau-1-lesson-1') return 'Mula Lesson 2'; if(LESSON.id==='pulau-1-lesson-2') return 'Mula Boss Challenge'; return 'Kembali ke Peta'; }
-  function renderSummary(bonus){
-    const boss = isBossChallenge();
-    setText('lessonPill', boss ? 'Boss Challenge · Pulau 1 Selesai' : `${LESSON.label} · Selesai`);
-    setText('lessonTitle', boss ? 'Pulau Huruf Berjaya Ditawan!' : (LESSON.trackProgress?'Tahniah! Lesson Selesai':'Latihan Selesai'));
-    setText('lessonInstruction', boss ? 'Zafri dan Zainab sedang membuka laluan ke Pulau 2.' : (LESSON.trackProgress?'Kamu sudah menjawab semua soalan.':'Latihan ringkas selesai. Tiada XP diberikan.'));
-    setText('audioPromptTitle', boss ? 'Pulau 2 dibuka!' : 'Zafri bangga dengan usaha kamu!');
-    setText('mainJawi', boss ? '🔓' : '🏆');
-    setText('coachTitle', boss ? `Skor ${score}/${LESSON.questions.length} · Badge Wira Huruf` : `Skor ${score}/${LESSON.questions.length}`);
-    setText('coachNote', boss ? `XP: +${xpEarnedThisRun} · Bonus: +${bonus}. Kamu akan kembali ke peta secara automatik.` : (LESSON.trackProgress?`XP: +${xpEarnedThisRun} · Bonus: +${bonus}`:'Latihan sahaja sebelum kuiz.'));
-    const grid=$('answerGrid');
-    if(grid){
-      if(boss){
-        grid.innerHTML=`<div class="lesson-summary-actions"><div class="unlock-note">🏅 Badge Wira Huruf diperoleh · 🔓 Pulau 2 dibuka</div><a class="primary-btn" href="game-map.html">Pergi Ke Peta Sekarang</a></div>`;
-      }else{
-        grid.innerHTML=`<div class="lesson-summary-actions"><a class="primary-btn" href="${nextPath()}">${nextLabel()}</a><a class="secondary-btn" href="game-map.html">Kembali ke Peta</a><button class="secondary-btn" type="button" id="retryLessonBtn">Ulang</button></div>`;
-      }
+  function burstConfetti(){
+    const wrap = document.createElement('div'); wrap.className='pj-confetti';
+    const chars=['⭐','✨','🌈','🎉','💫','🌟'];
+    for(let i=0;i<26;i++){
+      const s=document.createElement('span'); s.textContent=chars[i%chars.length];
+      s.style.left = (8+Math.random()*84)+'%'; s.style.animationDelay=(Math.random()*.25)+'s'; s.style.setProperty('--dx',(Math.random()*180-90)+'px');
+      wrap.appendChild(s);
     }
-    const retry=$('retryLessonBtn'); if(retry) retry.addEventListener('click',()=>{currentQuestionIndex=0;score=0;xpEarnedThisRun=0;renderQuestion();});
+    document.body.appendChild(wrap); setTimeout(()=>wrap.remove(),1200);
+  }
+  function avatarSrc(){ return `assets/characters/zafri-happy.svg?v=${VERSION}`; }
+  function updateHud(){
+    setText('hudChildName', state.childName || 'Anak'); setText('hudXp', `${state.score*10} XP`); setText('hudHearts', '❤️❤️❤️❤️❤️');
+    setText('hudQuestion', state.game ? `${state.qIndex+1}/${state.total}` : '10 Game');
+    const av=$('hudAvatar'); if(av) av.src=avatarSrc();
+    const pct = state.game ? Math.round((state.qIndex/state.total)*100) : 0;
+    const fill=$('lessonProgressFill'); if(fill) fill.style.width=pct+'%'; setText('lessonProgressText', state.game?`${pct}% siap`:'Pilih game pengenalan Jawi');
+  }
+  async function loadChild(){
+    try{
+      if(!window.jawiSupabase && window.getJawiSupabase) window.jawiSupabase = window.getJawiSupabase();
+      if(!window.jawiSupabase || !selectedChildId) return;
+      const {data:{user}} = await window.jawiSupabase.auth.getUser();
+      if(!user) return;
+      const {data} = await window.jawiSupabase.from('children').select('name').eq('id',selectedChildId).eq('parent_id',user.id).maybeSingle();
+      if(data?.name) state.childName=data.name;
+    }catch(e){}
   }
 
-  function showBossVictoryOverlay(bonus){
-    const old = document.getElementById('bossVictoryOverlay');
-    if(old) old.remove();
-    const overlay = document.createElement('div');
-    overlay.id = 'bossVictoryOverlay';
-    overlay.className = 'boss-victory-overlay';
-    overlay.innerHTML = `
-      <div class="boss-victory-card">
-        <div class="victory-glow"></div>
-        <img src="assets/characters/zafri-happy.svg?v=${VERSION}" alt="Zafri" class="victory-avatar victory-zafri">
-        <img src="assets/characters/zainab-happy.svg?v=${VERSION}" alt="Zainab" class="victory-avatar victory-zainab">
-        <div class="victory-badge">🏅</div>
-        <h2>Pulau 1 Selesai!</h2>
-        <p class="victory-subtitle">Kamu dapat <strong>Badge Wira Huruf</strong></p>
-        <div class="victory-rewards">
-          <span>⭐ +${xpEarnedThisRun + bonus} XP</span>
-          <span>🔓 Pulau 2 Dibuka</span>
-        </div>
-        <div class="map-portal">
-          <span class="island-dot done">1</span>
-          <span class="portal-line"></span>
-          <span class="island-dot unlocked">2</span>
-        </div>
-        <small>Menuju ke peta...</small>
-      </div>`;
-    document.body.appendChild(overlay);
-    setTimeout(()=>overlay.classList.add('show'), 30);
-    setTimeout(()=>{ window.location.href='game-map.html?unlocked=pulau-2'; }, 4200);
+  function renderHub(){
+    state.game=0; document.body.classList.add('pulau1-hub-mode'); document.body.classList.remove('pulau1-game-mode');
+    updateHud();
+    setText('lessonPill','Pulau 1 · Pengenalan Jawi · 10 Mini Game');
+    setText('lessonTitle','Pulau 1: Jom Kenal Huruf Jawi');
+    setText('lessonInstruction','Mulakan dari game pertama. Setiap game pendek, ceria dan sesuai untuk anak umur 5–8 tahun.');
+    setText('audioPromptTitle','Zafri kata: Jom mula dengan huruf!');
+    setText('audioStatus','Tekan mana-mana game untuk mula bermain.');
+    setText('mainJawi','ج');
+    setText('coachTitle','Pengenalan Jawi dahulu.');
+    setText('coachNote','Game Pulau 1 fokus kepada huruf, titik, bunyi dan bentuk asas Jawi.');
+    const grid = $('answerGrid');
+    grid.innerHTML = `<div class="pulau1-game-grid">${gameList.map(g=>`<button class="pulau1-game-card ${g.color}" data-game="${g.id}" type="button"><span class="game-no">${g.id}</span><span class="game-icon">${g.icon}</span><strong>${g.title}</strong><small>${g.skill}</small><em>Mula</em></button>`).join('')}</div>`;
+    grid.querySelectorAll('[data-game]').forEach(btn=>btn.addEventListener('click',()=>{ tone('pop'); location.href = `lesson-game.html?island=1&game=${btn.dataset.game}${selectedChildId?'&child='+selectedChildId:''}`; }));
+    const play=$('playAudioBtn'); if(play) play.onclick=()=>{ tone('tap'); speak('Selamat datang ke Pulau Satu. Jom kenal huruf Jawi dari mula. Pilih game pertama untuk bermula.'); };
   }
+
+  function makeQuestion(gameId){
+    const i = state.qIndex;
+    const L = letters[(i + gameId - 1) % letters.length];
+    if(gameId===1) return {type:'balloon', title:`Pecahkan belon huruf ${L.r}`, prompt:`Cari dan pecahkan belon huruf ${L.r}.`, correct:L.j, choices:pickChoices(L.j, ['ا','ب','ت','ث','ج','ح']), voice:`Pecahkan belon huruf ${L.r}`};
+    if(gameId===2) return {type:'audio', title:`Dengar bunyi: ${L.r}`, prompt:'Tekan audio, kemudian pilih huruf yang betul.', correct:L.j, choices:pickChoices(L.j), voice:`Pilih huruf ${L.r}`};
+    if(gameId===3) return {type:'match', title:`Padankan ${L.r}`, prompt:`Huruf Jawi untuk ${L.r} ialah?`, correct:L.j, choices:pickChoices(L.j), voice:`Padankan nama ${L.r} dengan huruf Jawi.`};
+    if(gameId===4) return {type:'dots', title:`Misi Titik: ${L.dots}`, prompt:`Pilih huruf yang mempunyai ${L.dots}.`, correct:L.j, choices:pickChoices(L.j, ['ب','ت','ث','ج','ح','خ','د','ذ','ر']), voice:`Cari huruf yang mempunyai ${L.dots}.`};
+    if(gameId===5) return {type:'similar', title:'Huruf Hampir Sama', prompt:`Antara pilihan ini, mana huruf ${L.r}?`, correct:L.j, choices:pickChoices(L.j, ['ب','ت','ث','ج','ح','خ','د','ذ','ر']), voice:`Perhatikan bentuk. Pilih huruf ${L.r}.`};
+    if(gameId===6){ const seq=['ا','ب','ت','ث','ج']; return {type:'train', title:'Kereta Alif Ba Ta', prompt:`Gerabak nombor ${i+1}: pilih huruf seterusnya.`, correct:seq[i%seq.length], choices:shuffle(seq), voice:'Susun kereta huruf. Pilih huruf yang betul.'}; }
+    if(gameId===7) return {type:'memory', title:`Kad Memori ${L.r}`, prompt:`Buka kad yang sama dengan ${L.j}.`, correct:L.j, choices:pickChoices(L.j), voice:`Ingat kad huruf ${L.r}.`};
+    if(gameId===8) return {type:'star', title:`Tangkap bintang ${L.r}`, prompt:`Tangkap bintang yang membawa huruf ${L.r}.`, correct:L.j, choices:pickChoices(L.j), voice:`Tangkap bintang huruf ${L.r}.`};
+    if(gameId===9) return {type:'shape', title:`Bentuk Huruf ${L.r}`, prompt:`${L.r}: ${L.clue}. Pilih hurufnya.`, correct:L.j, choices:pickChoices(L.j), voice:`Lihat bentuk. ${L.r} ${L.clue}.`};
+    return {type:'boss', title:'Mini Boss Pulau 1', prompt:`Cabaran ulang kaji: pilih ${L.r}.`, correct:L.j, choices:pickChoices(L.j), voice:`Mini boss. Pilih huruf ${L.r}.`};
+  }
+
+  function renderGame(){
+    document.body.classList.remove('pulau1-hub-mode'); document.body.classList.add('pulau1-game-mode');
+    const meta = gameList[state.game-1]; state.current = makeQuestion(state.game); state.locked=false;
+    updateHud();
+    setText('lessonPill',`Pulau 1 · Game ${meta.id}/10 · ${meta.title}`);
+    setText('lessonTitle',state.current.title); setText('lessonInstruction',state.current.prompt);
+    setText('audioPromptTitle',`${meta.icon} ${meta.title}`); setText('audioStatus','Tekan audio untuk dengar arahan Zafri.');
+    setText('mainJawi', state.current.type==='audio' ? '🎧' : state.current.correct);
+    setText('coachTitle', meta.skill); setText('coachNote','Jawab dengan santai. Kalau salah, cuba lagi.');
+    const grid=$('answerGrid');
+    const cls = `pulau1-options ${state.current.type}`;
+    grid.innerHTML = `<div class="${cls}">${state.current.choices.map(c=>`<button class="pulau1-choice ${state.current.type}" type="button" data-choice="${c}" dir="rtl"><span>${c}</span></button>`).join('')}</div>`;
+    grid.querySelectorAll('[data-choice]').forEach(btn=>btn.addEventListener('click',()=>handleAnswer(btn.dataset.choice,btn)));
+    const play=$('playAudioBtn'); if(play) play.onclick=()=>{ tone('tap'); speak(state.current.voice); };
+    setTimeout(()=>speak(state.current.voice),250);
+  }
+
+  function handleAnswer(choice, btn){
+    if(state.locked) return;
+    if(choice !== state.current.correct){
+      btn.classList.add('wrong','shake'); tone('bad'); speak('Cuba lagi sayang. Perhatikan huruf dengan baik.');
+      setText('coachTitle','Cuba lagi.'); setText('coachNote','Tak apa, belajar perlahan-lahan.');
+      setTimeout(()=>btn.classList.remove('shake'),500); return;
+    }
+    state.locked=true; state.score++;
+    btn.classList.add('correct','pop-burst'); tone(state.current.type==='balloon'?'pop':'ok'); burstConfetti();
+    setText('mainJawi',choice); setText('coachTitle','Hebat! Jawapan betul.'); setText('coachNote','Zafri bagi bintang untuk kamu!');
+    speak('Tahniah. Jawapan betul.');
+    setTimeout(()=>{
+      if(state.qIndex < state.total-1){ state.qIndex++; renderGame(); return; }
+      renderComplete();
+    },950);
+  }
+  function renderComplete(){
+    const meta=gameList[state.game-1]; const next=state.game<10 ? state.game+1 : 0;
+    updateHud(); const fill=$('lessonProgressFill'); if(fill) fill.style.width='100%'; setText('lessonProgressText','100% siap');
+    setText('lessonPill',`Pulau 1 · ${meta.title} Selesai`); setText('lessonTitle','Syabas! Game Selesai');
+    setText('lessonInstruction',`Skor kamu ${state.score}/${state.total}. Teruskan kenal huruf Jawi dari mula.`);
+    setText('audioPromptTitle','Zafri bangga dengan kamu!'); setText('audioStatus','Pilih game seterusnya atau kembali ke peta.'); setText('mainJawi','🏆');
+    setText('coachTitle',`+${state.score*10} XP Demo`); setText('coachNote', state.game<10?'Jom cuba game seterusnya.':'Pulau 1 pengenalan selesai. Kamu sudah kenal asas huruf!');
+    const child = selectedChildId ? `&child=${selectedChildId}` : '';
+    setHTML('answerGrid', `<div class="pulau1-complete-card"><div class="trophy">🏆</div><strong>${meta.title}</strong><p>Skor: ${state.score}/${state.total}</p><div class="lesson-summary-actions">${next?`<a class="primary-btn" href="lesson-game.html?island=1&game=${next}${child}">Game Seterusnya</a>`:`<a class="primary-btn" href="game-map.html">Kembali ke Peta</a>`}<a class="secondary-btn" href="lesson-game.html?island=1${child}">Senarai 10 Game</a><button class="secondary-btn" id="retryLessonBtn" type="button">Ulang Game</button></div></div>`);
+    const retry=$('retryLessonBtn'); if(retry) retry.onclick=()=>{state.qIndex=0;state.score=0;renderGame();};
+    burstConfetti(); speak('Syabas. Game selesai.');
+  }
+
   async function boot(){
-    await initAuth();
-    await Promise.all([loadSelectedChild(),loadAudioSettings()]);
-    if(!selectedChild) return;
-    await loadProgress();
-    renderQuestion();
-    const audioBtn=$('playAudioBtn'); if(audioBtn) audioBtn.addEventListener('click',()=>{ const q=qNow(); playAudioKey(q.audioKey,q.audioText); });
+    await loadChild(); updateHud();
+    if(selectedGame) renderGame(); else renderHub();
   }
   document.addEventListener('DOMContentLoaded', boot);
 })();

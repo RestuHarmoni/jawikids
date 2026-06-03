@@ -1,9 +1,9 @@
 // Pulau Jawi v3.1 child profile compact cache refresh
 /* Pulau Jawi Service Worker v2.7 - dashboard clean + child gate */
-const CACHE_NAME = 'pulau-jawi-v3-1-child-profile-compact';
+const CACHE_NAME = "pulau-jawi-v3-2-pulau1-games';
 const CORE_ASSETS = [
   './', './index.html', './game-map.html?v=2.5-landscape-fix', './game-map/', './pwa-start.html', './manifest.json', './manifest-game.json',
-  './style.css?v=3.1.0', './app.css?v=3.1.0', './pwa-register.js?v=1.52.0', './js/quick-menu.js?v=3.1.0',
+  './style.css?v=3.1.0', './app.css?v=3.1.0', './pwa-register.js?v=3.2.0', './js/quick-menu.js?v=3.1.0',
   './js/orientation-lock.js?v=2.6-clean', './js/orientation-reset.js?v=3.1.0'
 ];
 self.addEventListener('install', event => {
