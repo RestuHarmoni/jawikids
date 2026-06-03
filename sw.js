@@ -1,8 +1,8 @@
 /* JawiKids Service Worker v1.52.0 - force landscape game mode aware */
-const CACHE_NAME = 'jawikids-v1-52-0-quick-menu-force-landscape-game';
+const CACHE_NAME = 'pulau-jawi-v2-3-realistic-map';
 const CORE_ASSETS = [
-  './', './index.html', './pwa-start.html', './manifest.json', './manifest-game.json',
-  './style.css?v=1.52.0', './app.css?v=1.52.0', './pwa-register.js?v=1.52.0', './js/quick-menu.js?v=1.52.0',
+  './', './index.html', './game-map.html?v=2.3-real-map', './game-map/', './pwa-start.html', './manifest.json', './manifest-game.json',
+  './style.css?v=1.52.0', './app.css?v=2.3-real-map', './pwa-register.js?v=1.52.0', './js/quick-menu.js?v=1.52.0',
   './js/orientation-lock.js?v=1.52.0', './js/orientation-reset.js?v=1.52.0',
   './orientation-lock.js?v=1.52.0', './orientation-reset.js?v=1.52.0'
 ];

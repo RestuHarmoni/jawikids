@@ -1,5 +1,120 @@
-<!doctype html><html lang="ms"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Parent Dashboard - Pulau Jawi</title><link rel="stylesheet" href="app.css"></head><body><div class="page"><main class="shell layout">
-<aside class="sidebar card"><a class="brand" href="index.html"><span class="brand-badge">🏝️</span><span class="brand-title"><b>Pulau Jawi</b><span>Parent Area</span></span></a><div class="profile"><img src="assets/avatars/zainab/zainab-happy.svg"><div><b>Assalamualaikum Parent</b><div class="mini-note">3 / 3 slot anak</div></div></div><nav class="menu"><a class="active" href="parent-dashboard.html">Dashboard</a><a href="child-select.html">Pilih Anak</a><a href="game-map.html">Peta Game</a><a href="parent-inbox.html">Inbox</a><a href="support.html">Support</a><a href="payment.html">Tambah Slot</a></nav></aside>
-<section><div class="hero card" style="grid-template-columns:1fr .7fr"><div><span class="eyebrow">📊 Ringkasan Pembelajaran</span><h1>Progress anak belajar Jawi.</h1><p>Pantau pulau, XP, bintang, aktiviti hari ini dan pencapaian terbaru.</p><a class="btn btn-play" href="child-select.html">👦 Pilih Anak</a></div><div class="stage" style="min-height:300px"><div class="sun"></div><div class="island-art"></div><img class="character zafri" src="assets/avatars/zafri/zafri-happy.svg"><div class="bubble">Hari ini jom siapkan 1 lesson!</div></div></div>
-<div class="dashboard-grid" style="margin-top:18px"><div class="card" style="padding:20px"><h2>👦 Profil Anak</h2><div class="kid-row"><div><b>Ali</b><div class="mini-note">Pulau 3 • 42% siap</div><div class="progress"><i style="width:42%"></i></div></div><a class="btn btn-blue" href="game-map.html">Main</a></div><div class="kid-row"><div><b>Aisyah</b><div class="mini-note">Pulau 1 • 12% siap</div><div class="progress"><i style="width:12%"></i></div></div><a class="btn btn-blue" href="game-map.html">Main</a></div><div class="kid-row"><div><b>Adam</b><div class="mini-note">Pulau 6 • 68% siap</div><div class="progress"><i style="width:68%"></i></div></div><a class="btn btn-blue" href="game-map.html">Main</a></div></div><div class="card" style="padding:20px"><h2>🔥 Aktiviti Hari Ini</h2><p>✅ 2 lesson selesai<br>⭐ 80 XP dikumpul<br>🏆 Badge baru: Pop Huruf</p><h2>📨 Inbox</h2><p class="mini-note">1 mesej belum dibaca daripada admin.</p><a class="btn btn-primary" href="parent-inbox.html">Buka Inbox</a></div></div></section>
-</main></div></body></html>
+<!DOCTYPE html>
+<html lang="ms">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard Ibu Bapa - JawiKids</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@500;600;700;800;900&family=Noto+Sans+Arabic:wght@600;700;800;900&family=Amiri:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css?v=1.52.0">
+  <link rel="stylesheet" href="app.css?v=1.52.0">
+
+  <link rel="manifest" href="manifest.json?v=1.52.0">
+  <meta name="theme-color" content="#A7E92F">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-title" content="JawiKids">
+  <link rel="apple-touch-icon" href="assets/icons/apple-touch-icon.svg?v=1.52.0">
+</head>
+<body>
+  <div class="app-shell">
+    <header class="app-header dashboard-header">
+      <a class="brand" href="index.html">
+        <span class="brand-mark">ج</span>
+        <span><strong>JawiKids</strong><small>Main, Belajar, Bijak Jawi!</small></span>
+      </a>
+      <nav class="app-nav">
+        <a href="parent-dashboard.html" class="active">Dashboard</a>
+        <a href="child-select.html">Profil Anak</a>
+        <a href="game-map.html">Peta Pulau</a>
+        <a href="achievement.html">Achievement</a>
+        <a href="parent-analytics.html">Analytics</a>
+        <a href="parent-inbox.html" class="nav-inbox">🔔 Inbox <span class="nav-badge" data-inbox-count>0</span></a>
+        <a href="support.html">Support</a>
+        <a href="affiliate.html">Affiliate <span class="soon-dot">Soon</span></a>
+        <button class="mini-logout-btn" type="button" onclick="JawiKidsAuth.logoutParent()">Logout</button>
+      </nav>
+    </header>
+
+    <main class="app-main">
+      <section class="premium-card app-card dashboard-hero official-dashboard-hero">
+        <div>
+          <div class="pill">Parent Dashboard</div>
+          <h1>Assalamualaikum, <span data-parent-name>Parent JawiKids</span>.</h1>
+          <p>Pantau slot anak, XP, streak dan perkembangan pembelajaran JawiKids secara live daripada Supabase.</p>
+          <div class="dashboard-status-line" id="dashboardStatus">Sedang memuatkan dashboard...</div>
+        </div>
+        <a class="inbox-widget" href="parent-inbox.html" aria-label="Buka inbox parent">
+          <span class="inbox-icon">🔔</span>
+          <span><strong>Inbox Parent</strong><small><b data-inbox-count>0</b> mesej belum dibaca</small></span>
+        </a>
+      </section>
+
+      <section class="stat-row dashboard-stat-row live-dashboard-stats">
+        <div class="stat-pill"><strong data-subscription-status>-</strong><span>Status Akaun</span></div>
+        <div class="stat-pill"><strong><span data-child-count>0</span>/<span data-max-children>3</span></strong><span>Slot Anak</span></div>
+        <div class="stat-pill"><strong data-total-xp>0</strong><span>Total XP</span></div>
+        <div class="stat-pill"><strong><span data-best-streak>0</span>🔥</strong><span>Best Streak</span></div>
+      </section>
+
+      <section class="parent-dashboard-feature-row">
+        <a href="achievement.html"><span>🏆</span>Achievement</a>
+        <a href="daily-reward.html"><span>🎁</span>Daily Reward</a>
+        <a href="avatar-shop.html"><span>🎒</span>Kedai Avatar</a>
+        <a href="parent-analytics.html"><span>📊</span>Analytics</a>
+        <a href="payment.html"><span>💳</span>Bayaran</a>
+      </section>
+
+      <section class="dashboard-section-head">
+        <div>
+          <div class="pill">Profil Anak</div>
+          <h2>Anak & Progress</h2>
+        </div>
+        <a class="primary-btn" href="child-select.html">Urus Anak</a>
+      </section>
+
+      <section class="app-grid two" id="dashboardChildrenGrid" style="margin-top:18px">
+        <div class="premium-card app-card dashboard-loading-card">Memuatkan profil anak...</div>
+      </section>
+
+      <section class="app-grid two dashboard-panels" style="margin-top:18px">
+        <div class="premium-card app-card inbox-preview-card">
+          <div class="section-title-row">
+            <div>
+              <div class="pill">Notification</div>
+              <h2>Inbox Terkini</h2>
+            </div>
+            <a class="mini-link" href="parent-inbox.html">Lihat Semua</a>
+          </div>
+          <div class="mini-inbox-list" id="dashboardInboxList">
+            <div class="mini-inbox-item"><span>🔔</span><div><strong>Tiada mesej baru</strong><small>Notifikasi akan muncul di sini.</small></div></div>
+          </div>
+        </div>
+
+        <div class="premium-card app-card child-card family-slot-card">
+          <div class="child-face">👨‍👩‍👧‍👦</div>
+          <div>
+            <h2>Family Slot</h2>
+            <p><span data-child-count>0</span> daripada <span data-max-children>3</span> slot anak digunakan. Tambah slot anak sehingga maksimum 5 anak.</p>
+            <a class="secondary-btn" href="payment.html?type=child_slot">Tambah Slot RM10</a>
+          </div>
+        </div>
+      </section>
+    </main>
+    <div class="footer-mini">© 2026 JawiKids. Live Dashboard Supabase Sync.</div>
+  </div>
+
+  <div class="slide-notification" id="slideNotification">
+    <span>🔔</span>
+    <div><strong>JawiKids Inbox</strong><small id="slideNotificationText">Notifikasi baru diterima.</small></div>
+    <button onclick="document.getElementById('slideNotification').classList.remove('show')">×</button>
+  </div>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="js/supabase-client.js?v=1.52.0"></script>
+  <script src="js/auth.js?v=1.52.0"></script>
+  <script src="js/inbox.js?v=1.52.0"></script>
+  <script src="js/dashboard.js?v=1.52.0"></script>
+  <script src="js/quick-menu.js?v=1.52.0"></script>
+<script src="js/orientation-reset.js?v=1.52.0"></script><script src="pwa-register.js?v=1.52.0"></script>
+</body>
+</html>

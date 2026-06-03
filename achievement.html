@@ -1,1 +1,102 @@
-<!doctype html><html lang="ms"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Pencapaian - Pulau Jawi</title><link rel="stylesheet" href="app.css"></head><body><div class="page"><header class="topbar"><a class="brand" href="parent-dashboard.html"><span class="brand-badge">🏝️</span><span class="brand-title"><b>Pulau Jawi</b><span>Pencapaian</span></span></a><nav class="nav-actions"><a class="btn" href="game-map.html">Peta</a><a class="btn btn-blue" href="reward.html">Reward</a></nav></header><main class="shell"><section class="hero card"><div><span class="eyebrow">🏆 Achievement</span><h1>Lencana Pendekar Kecil</h1><p>Kumpul badge daripada setiap pulau dan boss challenge.</p></div><div class="stage"><div class="sun"></div><div class="island-art"></div><img class="character zafri" src="assets/avatars/zafri/zafri-happy.svg"><div class="bubble">Badge baru dibuka!</div></div></section><section class="island-grid" id="badges" style="margin-top:20px"></section></main></div><script src="js/pulau-jawi-data.js"></script><script>badges.innerHTML=PULAU_JAWI_DATA.islands.map(i=>`<article class="card island-card"><div class="island-icon">${i.icon}</div><h3>${i.game}</h3><p>${i.title}</p><span class="tag">Badge Pulau ${i.id}</span></article>`).join('')</script></body></html>
+<!DOCTYPE html>
+<html lang="ms">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Achievement - JawiKids</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@500;600;700;800;900&family=Noto+Sans+Arabic:wght@600;700;800;900&family=Amiri:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css?v=1.52.0">
+  <link rel="stylesheet" href="app.css?v=1.52.0">
+
+  <link rel="manifest" href="manifest.json?v=1.52.0">
+  <meta name="theme-color" content="#A7E92F">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-title" content="JawiKids">
+  <link rel="apple-touch-icon" href="assets/icons/apple-touch-icon.svg?v=1.52.0">
+</head>
+<body class="feature-shell">
+  <header class="app-header">
+    <a class="brand" href="index.html">
+      <span class="brand-mark">ج</span>
+      <span><strong>JawiKids</strong><small>Main, Belajar, Bijak Jawi!</small></span>
+    </a>
+    <nav class="app-nav">
+      <a href="parent-dashboard.html">Dashboard</a>
+      <a href="child-select.html">Profil Anak</a>
+      <a href="game-map.html">Peta Pulau</a>
+      <a href="achievement.html" class="active">Achievement</a>
+      <a href="avatar-shop.html" >Kedai Avatar</a>
+      <a href="parent-inbox.html" class="nav-inbox">🔔 Inbox <span class="nav-badge" data-inbox-count>3</span></a>
+    </nav>
+  </header>
+  <main class="app-main">
+    
+<section class="premium-card app-card feature-hero">
+  <div>
+    <div class="pill">TASK 12</div>
+    <h1>Achievement Anak</h1>
+    <p>Badge pencapaian membantu anak rasa berjaya setiap kali belajar Jawi, tamat pulau, kumpul XP atau kekalkan streak.</p>
+    <div class="feature-actions">
+      <a class="primary-btn" href="game-map.html">Teruskan Pulau</a>
+      <a class="secondary-btn" href="daily-reward.html">Claim Daily Reward</a>
+    </div>
+  </div>
+  <div class="feature-icon-card premium-card"><div class="feature-big-icon">🏆</div></div>
+</section>
+
+<section class="beta-nav-grid">
+  <a class="beta-nav-card" href="achievement.html"><span>🏆</span>Achievement</a>
+  <a class="beta-nav-card" href="daily-reward.html"><span>🎁</span>Daily Reward</a>
+  <a class="beta-nav-card" href="avatar-shop.html"><span>🎒</span>Avatar Shop</a>
+  <a class="beta-nav-card" href="parent-analytics.html"><span>📊</span>Analytics</a>
+</section>
+
+<section class="achievement-grid">
+  <article class="achievement-card unlocked">
+    <div class="achievement-badge">🔥</div>
+    <h3>Rajin 7 Hari</h3>
+    <p>Kekalkan streak belajar selama 7 hari berturut-turut.</p>
+    <span class="status-chip unlocked">Unlocked · +50 XP</span>
+  </article>
+  <article class="achievement-card unlocked">
+    <div class="achievement-badge">🏝️</div>
+    <h3>Penjelajah Huruf</h3>
+    <p>Tamatkan Pulau Huruf dan kuasai asas huruf Jawi.</p>
+    <span class="status-chip unlocked">Unlocked · Badge</span>
+  </article>
+  <article class="achievement-card">
+    <div class="achievement-badge">⭐</div>
+    <h3>1000 XP Pertama</h3>
+    <p>Kumpul 1000 XP melalui lesson pendek harian.</p>
+    <span class="status-chip locked">820 / 1000 XP</span>
+  </article>
+  <article class="achievement-card">
+    <div class="achievement-badge">📚</div>
+    <h3>10 Lesson Tamat</h3>
+    <p>Selesaikan 10 lesson untuk buka badge pembaca muda.</p>
+    <span class="status-chip locked">6 / 10 Lesson</span>
+  </article>
+  <article class="achievement-card">
+    <div class="achievement-badge">👑</div>
+    <h3>Lagenda Jawi</h3>
+    <p>Tamatkan semua 10 pulau MVP JawiKids.</p>
+    <span class="status-chip locked">Pulau 4 / 10</span>
+  </article>
+  <article class="achievement-card">
+    <div class="achievement-badge">🎁</div>
+    <h3>Pembuka Peti</h3>
+    <p>Claim hadiah harian hari ke-7 untuk buka Mystery Chest.</p>
+    <span class="status-chip locked">Hari 5 / 7</span>
+  </article>
+</section>
+
+  </main>
+  <div class="footer-mini">© 2026 JawiKids. Achievement System</div>
+  <script src="js/beta-features.js?v=1.52.0"></script>
+
+  <script src="pwa-register.js?v=1.52.0"></script>
+<script src="js/quick-menu.js?v=1.52.0"></script>
+<script src="js/orientation-reset.js?v=1.52.0"></script></body>
+</html>

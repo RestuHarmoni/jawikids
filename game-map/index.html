@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
   <title>Pulau Jawi — Peta Pengembaraan</title>
-  <link rel="stylesheet" href="app.css?v=2.3-real-map">
+  <link rel="stylesheet" href="../app.css?v=2.3-real-map">
   <style>
     :root{--navy:#183153;--sky:#8ee9ff;--sea1:#61d8ff;--sea2:#108bd5;--sun:#ffd84d;--mint:#9cf45b;--sand:#ffe29a;--pink:#ff8ecb;--purple:#a78bfa;--orange:#ffb454;--green:#39c86a;--white:#fff}
     *{box-sizing:border-box}html,body{margin:0;min-height:100%;font-family:Nunito,system-ui,-apple-system,Segoe UI,sans-serif;color:var(--navy);background:#dff8ff;overflow-x:hidden}body{background:radial-gradient(circle at 20% 0%,#fff8bd 0 8%,transparent 20%),linear-gradient(180deg,#dff8ff 0%,#bff2ff 40%,#e9fbff 100%)}
@@ -19,8 +19,8 @@
 <body>
 <div class="pj-wrap">
   <header class="pj-top">
-    <a class="pj-brand" href="index.html"><span class="pj-logo">🏝️</span><span><b>Pulau Jawi</b><span>Peta Pengembaraan Anak</span></span></a>
-    <div class="pj-actions"><a class="pj-btn" href="parent-dashboard.html">Dashboard</a><button class="pj-btn primary" id="miniBtn">Minimal View</button></div>
+    <a class="pj-brand" href="../index.html"><span class="pj-logo">🏝️</span><span><b>Pulau Jawi</b><span>Peta Pengembaraan Anak</span></span></a>
+    <div class="pj-actions"><a class="pj-btn" href="../parent-dashboard.html">Dashboard</a><button class="pj-btn primary" id="miniBtn">Minimal View</button></div>
   </header>
   <main class="pj-panel">
     <section class="pj-title"><div class="badge">🗺️ 10 Pulau Jawi • Umur 5–8 Tahun</div><h1>Jelajah Laut Jawi!</h1><p>Ikut laluan putus-putus dari pulau ke pulau. Avatar anak akan berada di pulau semasa yang telah dibuka.</p></section>
@@ -50,7 +50,7 @@ const world=document.getElementById('world');
 const unlocked=Number(localStorage.getItem('pulauJawiUnlocked')||4);
 const current=Number(localStorage.getItem('pulauJawiCurrentIsland')||Math.min(unlocked,4));
 function beep(type='tap'){try{const A=window.AudioContext||window.webkitAudioContext;const ctx=new A();const o=ctx.createOscillator(),g=ctx.createGain();o.connect(g);g.connect(ctx.destination);o.type='sine';o.frequency.value=type==='ok'?880:520;g.gain.setValueAtTime(.001,ctx.currentTime);g.gain.exponentialRampToValueAtTime(.08,ctx.currentTime+.015);g.gain.exponentialRampToValueAtTime(.001,ctx.currentTime+.14);o.start();o.stop(ctx.currentTime+.16)}catch(e){}}
-islands.forEach((it,i)=>{const open=it.id<=unlocked,cur=it.id===current;const el=document.createElement(open?'a':'div');el.className='island '+(open?'open':'locked')+' '+(cur?'current':'');if(open)el.href='lesson-game.html?island='+it.id;el.style.left=it.x+'%';el.style.top=it.y+'%';el.style.animationDelay=(i*.15)+'s';el.style.setProperty('--islandA',it.a);el.style.setProperty('--islandB',it.b);el.innerHTML=`<div class="shadow"></div><div class="land"><div class="current-ring"></div><div class="num">${it.id}</div><span class="tree t1">🌴</span><span class="tree t2">🌳</span><span class="hut">${it.icon}</span><div class="lock">🔒</div></div><div class="avatar-here"><img src="assets/characters/zafri-main.svg" alt="Zafri"><div class="speech">Saya di sini!</div></div><div class="label"><b>${it.name}</b><span>${it.game}</span></div>`;if(open){el.addEventListener('mouseenter',()=>beep());el.addEventListener('click',()=>{localStorage.setItem('pulauJawiCurrentIsland',it.id);beep('ok')})}world.appendChild(el)});
+islands.forEach((it,i)=>{const open=it.id<=unlocked,cur=it.id===current;const el=document.createElement(open?'a':'div');el.className='island '+(open?'open':'locked')+' '+(cur?'current':'');if(open)el.href='../lesson-game.html?island='+it.id;el.style.left=it.x+'%';el.style.top=it.y+'%';el.style.animationDelay=(i*.15)+'s';el.style.setProperty('--islandA',it.a);el.style.setProperty('--islandB',it.b);el.innerHTML=`<div class="shadow"></div><div class="land"><div class="current-ring"></div><div class="num">${it.id}</div><span class="tree t1">🌴</span><span class="tree t2">🌳</span><span class="hut">${it.icon}</span><div class="lock">🔒</div></div><div class="avatar-here"><img src="../assets/characters/zafri-main.svg" alt="Zafri"><div class="speech">Saya di sini!</div></div><div class="label"><b>${it.name}</b><span>${it.game}</span></div>`;if(open){el.addEventListener('mouseenter',()=>beep());el.addEventListener('click',()=>{localStorage.setItem('pulauJawiCurrentIsland',it.id);beep('ok')})}world.appendChild(el)});
 document.getElementById('miniBtn').onclick=()=>document.body.classList.toggle('hidden-ui');
 </script>
 </body>
