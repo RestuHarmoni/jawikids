@@ -1,9 +1,0 @@
-Pulau Jawi v2.3 Realistic Game Map
-
-Fail utama diubah:
-- game-map.html (dibina semula, style inline supaya perubahan pasti keluar walaupun app.css/cache lama)
-- game-map/index.html (untuk URL clean /game-map)
-- sw.js (cache name ditukar kepada pulau-jawi-v2-3-realistic-map)
-
-Nota upload:
-Upload keseluruhan ZIP ke hosting. Jika masih nampak lama, unregister service worker/cache browser atau buka URL dengan ?v=2.3.
