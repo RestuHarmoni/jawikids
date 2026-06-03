@@ -1,5 +1,5 @@
-/* JawiKids Child Profile Premium Page v1.55.0
-   UI/read-only profile rendering. Does not modify auth, payment, game logic, XP engine, or RLS. */
+/* Pulau Jawi Child Profile Premium Page v2.8
+   Focus: parent-friendly profile summary only. No map preview, no shop, no reward panel. */
 (function(){
   'use strict';
 
@@ -27,36 +27,53 @@
     return Math.max(1, Math.floor(safeXp / 500) + 1);
   }
 
-  function renderHearts(hearts){
-    const total = 5;
-    const active = clamp(Number(hearts ?? 5), 0, total);
-    return Array.from({length: total}, (_, idx) => idx < active ? '❤️' : '🤍').join('');
+  function stageFromLevel(level){
+    if (level >= 8) return 'Pendekar Jawi';
+    if (level >= 5) return 'Penjelajah Jawi';
+    if (level >= 3) return 'Murid Rajin';
+    return 'Pemula Jawi';
   }
 
-  function renderIslandTrack(currentIsland){
-    const holder = document.getElementById('profileIslandTrack');
-    if (!holder) return;
-    const current = clamp(Number(currentIsland || 1), 1, 10);
-    holder.innerHTML = Array.from({length: 10}, (_, idx) => {
-      const island = idx + 1;
-      const state = island < current ? 'done' : island === current ? 'current' : 'locked';
-      const icon = state === 'done' ? '✅' : state === 'current' ? '🔄' : '🔒';
-      return `<div class="profile-island-step ${state}"><span>🏝️</span><strong>Pulau ${island}</strong><small>${icon}</small></div>`;
-    }).join('');
-  }
-
-  function renderStats(child, progressRows, streak){
+  function renderMainStats(child, progressRows, streak){
     const holder = document.getElementById('profileStatGrid');
     if (!holder) return;
     const completed = progressRows.filter(row => row.is_completed).length;
     const totalScore = progressRows.reduce((sum, row) => sum + Number(row.score || 0), 0);
-    const accuracy = progressRows.length ? clamp(Math.round(totalScore / Math.max(progressRows.length, 1)), 0, 100) : (completed ? 85 : 0);
-    const minutes = progressRows.length ? Math.max(10, progressRows.length * 3) : Math.min(60, Math.ceil(Number(child.total_xp || 0) / 20));
+    const accuracy = progressRows.length ? clamp(Math.round(totalScore / Math.max(progressRows.length, 1)), 0, 100) : 0;
     holder.innerHTML = `
-      <div><span>📚</span><strong>${formatNumber(progressRows.length || completed)}</strong><small>Aktiviti / Soalan</small></div>
-      <div><span>🎯</span><strong>${accuracy}%</strong><small>Ketepatan</small></div>
-      <div><span>⏱️</span><strong>${minutes}m</strong><small>Masa belajar</small></div>
-      <div><span>🔥</span><strong>${Number(streak?.current_streak || 0)}</strong><small>Streak</small></div>`;
+      <div class="premium-card app-card profile-stat-tile"><span>🏆</span><strong>${formatNumber(child.total_xp || 0)}</strong><small>Total XP</small></div>
+      <div class="premium-card app-card profile-stat-tile"><span>🔥</span><strong>${Number(streak?.current_streak || 0)}</strong><small>Streak Semasa</small></div>
+      <div class="premium-card app-card profile-stat-tile"><span>📚</span><strong>${formatNumber(completed)}</strong><small>Lesson Selesai</small></div>
+      <div class="premium-card app-card profile-stat-tile"><span>🎯</span><strong>${accuracy}%</strong><small>Ketepatan Jawapan</small></div>`;
+  }
+
+  function renderToday(progressRows, child){
+    const recentRows = progressRows.slice(0, 3);
+    const todayLessons = recentRows.filter(row => row.is_completed).length;
+    const minutes = recentRows.length ? Math.max(3, recentRows.length * 3) : 0;
+    const todayXp = todayLessons ? todayLessons * 20 : Math.min(50, Math.floor(Number(child.total_xp || 0) / 20));
+    setTextAll('[data-today-minutes]', minutes + 'm');
+    setTextAll('[data-today-lessons]', todayLessons);
+    setTextAll('[data-today-xp]', '+' + todayXp);
+  }
+
+  function setSkill(selector, percent){
+    const safe = clamp(Number(percent || 0), 0, 100);
+    setTextAll(selector, safe + '%');
+    const row = document.querySelector(selector)?.closest('.skill-row');
+    const fill = row?.querySelector('em i');
+    if (fill) requestAnimationFrame(() => { fill.style.width = safe + '%'; });
+  }
+
+  function renderSkills(child, progressRows){
+    const xp = Number(child.total_xp || 0);
+    const completed = progressRows.filter(row => row.is_completed).length;
+    const letters = clamp(Math.max(completed * 6, Math.floor(xp / 8)), 0, 100);
+    const words = clamp(Math.max(completed * 4, Math.floor(xp / 14)), 0, 100);
+    const sentences = clamp(Math.max(completed * 2, Math.floor(xp / 28)), 0, 100);
+    setSkill('[data-skill-letters]', letters);
+    setSkill('[data-skill-words]', words);
+    setSkill('[data-skill-sentences]', sentences);
   }
 
   function renderAchievements(items){
@@ -66,20 +83,11 @@
       holder.innerHTML = '<div class="achievement-mini-item muted-achievement"><span>🏆</span><div><strong>Belum ada pencapaian</strong><small>Badge akan muncul selepas anak melengkapkan aktiviti.</small></div></div>';
       return;
     }
-    holder.innerHTML = items.slice(0, 3).map(item => {
+    holder.innerHTML = items.slice(0, 5).map(item => {
       const a = item.achievement || {};
       const icon = a.icon || a.badge_icon || '🏆';
-      return `<a class="achievement-mini-item" href="achievement.html"><span>${escapeHtml(icon)}</span><div><strong>${escapeHtml(a.title || a.name || 'Pencapaian JawiKids')}</strong><small>${escapeHtml(a.description || 'Tahniah! Anak berjaya buka badge baru.')}</small></div></a>`;
+      return `<a class="achievement-mini-item" href="achievement.html"><span>${escapeHtml(icon)}</span><div><strong>${escapeHtml(a.title || a.name || 'Pencapaian Pulau Jawi')}</strong><small>${escapeHtml(a.description || 'Tahniah! Anak berjaya buka badge baru.')}</small></div></a>`;
     }).join('');
-  }
-
-  function renderRewards(achievementCount){
-    const holder = document.getElementById('rewardSummaryGrid');
-    if (!holder) return;
-    holder.innerHTML = `
-      <div><span>🎁</span><strong>${Math.min(achievementCount + 2, 99)}</strong><small>Reward Dibuka</small></div>
-      <div><span>🛍️</span><strong>${Math.min(achievementCount, 99)}</strong><small>Avatar Item</small></div>
-      <div><span>🏅</span><strong>${achievementCount}</strong><small>Badge</small></div>`;
   }
 
   async function loadUnreadCount(supabase, userId){
@@ -105,15 +113,13 @@
     }
     const user = session.user;
 
-    const savedChildId = localStorage.getItem('jawikids_selected_child_id');
-    let childQuery = supabase
-      .from('children')
-      .select('id,name,age,gender,avatar_key,total_xp,current_island,hearts,created_at')
-      .eq('parent_id', user.id)
-      .order('created_at', { ascending: true });
-
+    const savedChildId = localStorage.getItem('jawikids_selected_child_id') || localStorage.getItem('selected_child_id');
     const [{ data: children, error: childError }, unreadCount] = await Promise.all([
-      childQuery,
+      supabase
+        .from('children')
+        .select('id,name,age,gender,avatar_key,total_xp,current_island,hearts,created_at')
+        .eq('parent_id', user.id)
+        .order('created_at', { ascending: true }),
       loadUnreadCount(supabase, user.id)
     ]);
 
@@ -123,17 +129,18 @@
     const rows = children || [];
     if (!rows.length) {
       status('Belum ada profil anak. Sila tambah anak dahulu.', 'info');
-      document.querySelector('.child-profile-grid')?.insertAdjacentHTML('afterbegin', '<section class="premium-card app-card"><h2>Belum ada anak</h2><p>Tambah anak pertama untuk mula menggunakan profil premium.</p><a class="primary-btn" href="child-select.html">Tambah Anak</a></section>');
+      document.querySelector('.child-profile-main')?.insertAdjacentHTML('afterbegin', '<section class="premium-card app-card"><h2>Belum ada anak</h2><p>Tambah anak pertama untuk mula menggunakan Profil Anak Pulau Jawi.</p><a class="primary-btn" href="child-select.html">Tambah Anak</a></section>');
       return;
     }
 
     const child = rows.find(row => row.id === savedChildId) || rows[0];
     localStorage.setItem('jawikids_selected_child_id', child.id);
+    localStorage.setItem('selected_child_id', child.id);
 
     const [streakRes, progressRes, achievementRes] = await Promise.all([
       supabase.from('streaks').select('child_id,current_streak,longest_streak,last_activity_date').eq('child_id', child.id).maybeSingle(),
       supabase.from('child_progress').select('child_id,is_completed,score,updated_at,created_at').eq('child_id', child.id).order('updated_at', { ascending: false }).limit(200),
-      supabase.from('child_achievements').select('id,child_id,unlocked_at,achievement:achievements(title,name,description,icon,badge_icon)').eq('child_id', child.id).order('unlocked_at', { ascending: false }).limit(3)
+      supabase.from('child_achievements').select('id,child_id,unlocked_at,achievement:achievements(title,name,description,icon,badge_icon)').eq('child_id', child.id).order('unlocked_at', { ascending: false }).limit(5)
     ]);
 
     const streak = streakRes.data || { current_streak: 0, longest_streak: 0 };
@@ -141,17 +148,12 @@
     const achievements = achievementRes.data || [];
     const xp = Number(child.total_xp || 0);
     const level = levelFromXp(xp);
-    const currentLevelXp = (level - 1) * 500;
-    const nextLevelXp = level * 500;
-    const percent = clamp(Math.round(((xp - currentLevelXp) / 500) * 100), 0, 100);
 
-    setTextAll('[data-child-name]', child.name || 'Anak JawiKids');
+    setTextAll('[data-child-name]', child.name || 'Anak Pulau Jawi');
+    setTextAll('[data-child-age]', child.age ? child.age + ' tahun' : '-');
     setTextAll('[data-child-level]', 'Lv ' + level);
+    setTextAll('[data-child-stage]', stageFromLevel(level));
     setTextAll('[data-child-xp-short]', formatNumber(xp) + ' XP');
-    setTextAll('[data-child-xp]', formatNumber(xp));
-    setTextAll('[data-child-next-xp]', formatNumber(nextLevelXp));
-    setTextAll('[data-child-island]', 'Pulau ' + (child.current_island || 1));
-    setTextAll('[data-child-streak]', Number(streak.current_streak || 0));
 
     const avatar = document.getElementById('childProfileAvatar');
     if (avatar) {
@@ -159,29 +161,29 @@
       avatar.alt = 'Avatar ' + (child.name || 'anak');
     }
 
-    const xpFill = document.getElementById('profileXpFill');
-    if (xpFill) requestAnimationFrame(() => { xpFill.style.width = percent + '%'; });
-    const xpPercent = document.getElementById('profileXpPercent');
-    if (xpPercent) xpPercent.textContent = percent + '%';
+    const chooseBtn = document.getElementById('chooseAndPlayBtn');
+    if (chooseBtn) {
+      chooseBtn.addEventListener('click', () => {
+        localStorage.setItem('jawikids_selected_child_id', child.id);
+        localStorage.setItem('selected_child_id', child.id);
+        localStorage.setItem('pulau_jawi_selected_child', JSON.stringify({
+          id: child.id,
+          name: child.name,
+          age: child.age,
+          gender: child.gender,
+          avatar_key: child.avatar_key,
+          current_island: child.current_island || 1,
+          total_xp: child.total_xp || 0
+        }));
+      });
+    }
 
-    const heartRow = document.getElementById('profileHeartRow');
-    if (heartRow) heartRow.textContent = renderHearts(child.hearts);
-    const heartText = document.getElementById('profileHeartText');
-    if (heartText) heartText.textContent = `${clamp(Number(child.hearts ?? 5), 0, 5)} / 5`;
-
-    const streakFire = document.getElementById('streakFireRow');
-    if (streakFire) streakFire.textContent = Number(streak.current_streak || 0) ? '🔥'.repeat(clamp(Number(streak.current_streak || 0), 1, 12)) : '🔥';
-
-    document.querySelectorAll('#continueLearningBtn,#openIslandMapBtn').forEach(link => {
-      link.addEventListener('click', () => localStorage.setItem('jawikids_selected_child_id', child.id));
-    });
-
-    renderIslandTrack(child.current_island || 1);
-    renderStats(child, progressRows, streak);
+    renderMainStats(child, progressRows, streak);
+    renderToday(progressRows, child);
+    renderSkills(child, progressRows);
     renderAchievements(achievements);
-    renderRewards(achievements.length);
 
-    status('Profil anak premium berjaya dimuatkan.', 'success');
+    status('Profil anak berjaya dimuatkan.', 'success');
   }
 
   document.addEventListener('DOMContentLoaded', loadChildProfile);
