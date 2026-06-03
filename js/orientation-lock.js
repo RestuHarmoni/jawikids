@@ -19,7 +19,8 @@
   }
 
   function isGamePage(){
-    return GAME_PAGES.has(pageName()) || document.body?.dataset?.jkOrientation === 'game';
+    const path = location.pathname.toLowerCase().replace(/\/$/, '');
+    return GAME_PAGES.has(pageName()) || path.endsWith('/game-map') || path.endsWith('/lesson-game') || path.endsWith('/boss-challenge') || document.body?.dataset?.jkOrientation === 'game';
   }
 
   function isTouchDevice(){
