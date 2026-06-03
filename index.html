@@ -1,32 +1,8 @@
-<!doctype html><html lang="ms"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Pulau Jawi - Demo Game Jawi Kanak-Kanak</title><link rel="stylesheet" href="app.css"><link rel="manifest" href="manifest.json"></head><body>
+<!doctype html><html lang="ms"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Pulau Jawi - Game Jawi Kanak-Kanak</title><link rel="stylesheet" href="app.css"><link rel="manifest" href="manifest.json"></head><body class="bg-bubbles">
 <div class="page">
-  <header class="topbar">
-    <a class="brand" href="index.html"><span class="brand-badge">🏝️</span><span class="brand-title"><b>Pulau Jawi</b><span>Belajar Jawi Melalui Pengembaraan</span></span></a>
-    <nav class="nav-actions"><a class="btn" href="login.html">Login</a><a class="btn btn-blue" href="parent-dashboard.html">Dashboard Demo</a><a class="btn btn-play" href="game-map.html">▶ Mula Main</a></nav>
-  </header>
-  <main class="shell">
-    <section class="hero card">
-      <div>
-        <span class="eyebrow">🎮 Untuk anak 5–8 tahun</span>
-        <h1>Belajar Jawi melalui 10 pulau game interaktif.</h1>
-        <p>Anak terus cuba game pendek, dengar arahan, pilih huruf/perkataan, kumpul bintang dan buka pulau baharu. Sesuai untuk trafik video Facebook/TikTok: masuk terus rasa pengalaman bermain.</p>
-        <div class="hero-grid"><div class="stat"><b>10</b>Pulau</div><div class="stat"><b>100</b>Lesson</div><div class="stat"><b>1000+</b>Cabaran</div></div>
-        <div class="nav-actions" style="justify-content:flex-start"><a class="btn btn-play" href="lesson-game.html?island=1">Cuba Demo 30 Saat</a><a class="btn btn-primary" href="register.html">Daftar Parent</a></div>
-      </div>
-      <div class="stage">
-        <div class="sun"></div><div class="island-art"></div><div class="path"></div>
-        <div class="bubble">Assalamualaikum! Jom cari huruf <span class="jawi">ب</span></div>
-        <img class="character zafri" src="assets/avatars/zafri/zafri-happy.svg" alt="Zafri">
-        <img class="character zainab" src="assets/avatars/zainab/zainab-happy.svg" alt="Zainab">
-      </div>
-    </section>
-    <section class="section-title"><h2>10 Game Mengikut Peringkat Pulau</h2><p>Daripada kenal huruf sampai cabaran Boss Pendekar Jawi.</p></section>
-    <section class="island-grid" id="islandGrid"></section>
-    <section class="card" style="padding:24px;margin-top:22px;text-align:center"><h2>RM49 Lifetime</h2><p class="mini-note">Cadangan pakej: 10 pulau utama, 3 anak, progress parent, audio, badge, reward dan update kandungan masa depan.</p><a class="btn btn-primary" href="payment.html">Lihat Pakej</a></section>
-  </main>
-  <footer class="footer">© Pulau Jawi • Demo UI v2.0</footer>
-</div>
-<script src="js/pulau-jawi-data.js"></script><script>
-const grid=document.getElementById('islandGrid');
-PULAU_JAWI_DATA.islands.forEach(i=>{grid.innerHTML+=`<article class="island-card card"><div class="island-no">${i.id}</div><div class="island-icon">${i.icon}</div><h3>${i.title}</h3><p><b>${i.game}</b><br>${i.skill}</p><span class="tag">Umur ${i.age}</span><br><br><a class="btn btn-blue" href="lesson-game.html?island=${i.id}">Cuba Game</a></article>`})
-</script></body></html>
+<header class="topbar"><a class="brand" href="index.html"><span class="brand-badge">🏝️</span><span class="brand-title"><b>Pulau Jawi</b><span>Belajar Jawi Melalui Pengembaraan</span></span></a><nav class="nav-actions"><a class="btn" href="login.html">Login</a><a class="btn btn-blue" href="parent-dashboard.html">Dashboard Demo</a><a class="btn btn-play" href="game-map.html">▶ Mula Main</a></nav></header>
+<main class="shell">
+<section class="hero card"><div><span class="eyebrow">✨ Family friendly • Umur 5–8 tahun</span><h1>Anak belajar Jawi macam masuk dunia kartun.</h1><p>Landing page ini direka untuk trafik video Facebook/TikTok: anak terus nampak game, bunyi ceria, animasi comel, reward mengejut dan peta pulau yang buat mereka mahu cuba lagi.</p><div class="hero-grid"><div class="stat"><b>10</b>Pulau Seni</div><div class="stat"><b>10</b>Game Unik</div><div class="stat"><b>5–7</b>Soalan/Sesi</div></div><div class="nav-actions" style="justify-content:flex-start"><a class="btn btn-play" href="lesson-game.html?island=1">🎮 Cuba Demo 30 Saat</a><a class="btn btn-primary" href="register.html">Daftar Parent</a><button class="btn btn-pink" onclick="playMagic();document.querySelector('.stage').classList.add('party')">🔊 Test Bunyi</button></div></div><div class="stage"><div class="sun"></div><span class="sparkle s1">✨</span><span class="sparkle s2">🌟</span><span class="sparkle s3">💫</span><div class="island-art"></div><span class="tree t1">🌴</span><span class="tree t2">🌳</span><span class="tree t3">🍄</span><div class="path"></div><div class="bubble">Assalamualaikum! Jom cari huruf <span class="jawi">ب</span> dan buka peti harta!</div><img class="character zafri" src="assets/avatars/zafri/zafri-happy.svg" alt="Zafri"><img class="character zainab" src="assets/avatars/zainab/zainab-happy.svg" alt="Zainab"></div></section>
+<section class="section-title"><h2>10 Pulau, 10 Gaya Game</h2><p>Setiap peringkat ada warna, tema, animasi dan cabaran berbeza supaya anak tidak rasa ulang benda sama.</p></section><section class="island-grid" id="islandGrid"></section>
+<section class="card" style="padding:26px;margin-top:22px;text-align:center"><span class="eyebrow">🎁 Pakej cadangan</span><h2>RM49 Lifetime • 3 Anak</h2><p class="mini-note">10 pulau utama, progress parent, audio, badge, reward, avatar dan update kandungan masa depan. Add-on slot anak boleh dibuat kemudian.</p><a class="btn btn-primary" href="payment.html">Lihat Pakej</a></section></main><footer class="footer">© Pulau Jawi • Premium Kids UI Demo v2.1</footer></div>
+<script src="js/pulau-jawi-data.js"></script><script src="js/pulau-jawi-effects.js"></script><script>const grid=document.getElementById('islandGrid');PULAU_JAWI_DATA.islands.forEach((i,n)=>{grid.innerHTML+=`<article class="island-card card" style="--c1:${i.c1};--c2:${i.c2}"><div class="island-no">${i.id}</div><div class="island-icon">${i.icon}</div><h3>${i.title}</h3><p><b>${i.game}</b><br>${i.skill}</p><span class="tag">Umur ${i.age}</span><br><br><a class="btn btn-blue" href="lesson-game.html?island=${i.id}">Cuba Game</a></article>`})</script></body></html>

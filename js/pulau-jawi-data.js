@@ -82,3 +82,11 @@ window.PULAU_JAWI_DATA = {
     ]}
   ]
 };
+
+// Premium kids theme palette and visual cues for every island.
+(function(){
+  const palette=[
+    ['#9eeeff','#b4ff5c','🎈'],['#d7ff87','#61e4ff','🎵'],['#d9c3ff','#ff9ed8','🧩'],['#8be8ff','#ffe36d','🚣'],['#fff06a','#ffb354','🏰'],['#ffc36b','#91f25f','🏡'],['#afff7a','#8be6ff','🌳'],['#ff9c9c','#ffd56b','⛰️'],['#ff9ed8','#b49cff','⚔️'],['#ffe36d','#ff9f43','👑']
+  ];
+  (window.PULAU_JAWI_DATA?.islands||[]).forEach((i,n)=>{i.c1=palette[n][0];i.c2=palette[n][1];i.visual=palette[n][2];(i.questions||[]).forEach(q=>{q.visual=q.visual||i.visual});});
+})();
