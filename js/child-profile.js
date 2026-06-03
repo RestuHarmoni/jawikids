@@ -1,4 +1,4 @@
-/* Pulau Jawi Child Profile Premium Page v2.9
+/* Pulau Jawi Child Profile Compact Page v3.1
    Focus: parent-friendly profile summary only. No map preview, no shop, no reward panel. */
 (function(){
   'use strict';
