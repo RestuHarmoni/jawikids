@@ -70,10 +70,7 @@
       <div>
         <h2>${escapeHtml(child.name)}</h2>
         <p>Pulau ${child.current_island || 1} · ${Number(child.total_xp || 0).toLocaleString('ms-MY')} XP · ${child.hearts ?? 5} hati</p>
-        <div class="rotator-actions child-select-actions">
-          <a class="primary-btn" href="game-map.html" data-select-child="${child.id}">Mula Main</a>
-          <a class="secondary-btn" href="child-profile.html" data-profile-child="${child.id}">Lihat Profil</a>
-        </div>
+        <a class="primary-btn" href="game-map.html" data-select-child="${child.id}">Mula Main</a>
       </div>
     </div>`);
 
@@ -89,18 +86,12 @@
         event.preventDefault();
         localStorage.setItem('jawikids_selected_child_id', link.dataset.selectChild);
         localStorage.setItem('selected_child_id', link.dataset.selectChild);
+        
+        
 
         // Do NOT lock orientation on child-select/dashboard.
         // The game page itself will activate wide mode after navigation.
         window.location.href = link.getAttribute('href') || 'game-map.html';
-      });
-    });
-    grid.querySelectorAll('[data-profile-child]').forEach(link => {
-      link.addEventListener('click', (event) => {
-        event.preventDefault();
-        localStorage.setItem('jawikids_selected_child_id', link.dataset.profileChild);
-        localStorage.setItem('selected_child_id', link.dataset.profileChild);
-        window.location.href = link.getAttribute('href') || 'child-profile.html';
       });
     });
   }

@@ -1,4 +1,4 @@
-// JawiKids Quick Menu FAB v1.55.0
+// JawiKids Quick Menu FAB v1.52.0
 // Mobile/tablet compact menu for system pages only. Game pages stay distraction-free.
 (function(){
   'use strict';
@@ -12,8 +12,7 @@
 
   const parentLinks = [
     ['🏠','Dashboard','parent-dashboard.html'],
-    ['👧','Pilih Anak','child-select.html'],
-    ['👦','Profil Anak','child-profile.html'],
+    ['👧','Profil Anak','child-select.html'],
     ['🏆','Pencapaian','achievement.html'],
     ['🎁','Ganjaran Harian','daily-reward.html'],
     ['🛒','Kedai Avatar','avatar-shop.html'],

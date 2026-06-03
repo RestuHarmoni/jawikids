@@ -89,8 +89,8 @@ function getAvatarForChild(child) {
   if (window.JawiKidsCharacters?.getChildAvatar) {
     return window.JawiKidsCharacters.getChildAvatar(child);
   }
-  if (key.includes('zainab') || gender === 'female' || gender === 'girl') return 'assets/characters/zainab-main.svg?v=1.55.0';
-  return 'assets/characters/zafri-main.svg?v=1.55.0';
+  if (key.includes('zainab') || gender === 'female' || gender === 'girl') return 'assets/characters/zainab-main.svg?v=1.52.0';
+  return 'assets/characters/zafri-main.svg?v=1.52.0';
 }
 
 async function ensureSelectedChild(supabase, userId) {
