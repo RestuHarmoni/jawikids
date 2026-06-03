@@ -8,8 +8,8 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@500;600;700;800;900&family=Noto+Sans+Arabic:wght@600;700;800;900&family=Amiri:wght@400;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css?v=1.52.0">
-  <link rel="stylesheet" href="app.css?v=2.7-dashboard-clean">
-  <link rel="manifest" href="manifest.json?v=2.7-dashboard-clean">
+  <link rel="stylesheet" href="app.css?v=2.9-dashboard-child-rotate">
+  <link rel="manifest" href="manifest.json?v=2.9-dashboard-child-rotate">
   <meta name="theme-color" content="#A7E92F">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-title" content="Pulau Jawi">
@@ -24,7 +24,7 @@
       </a>
       <nav class="app-nav">
         <a href="parent-dashboard.html" class="active">Dashboard</a>
-        <a href="child-select.html">Profil Anak</a>
+        <a href="child-profile.html">Profil Anak</a>
         <a href="achievement.html">Achievement</a>
         <a href="parent-analytics.html">Analytics</a>
         <a href="parent-inbox.html" class="nav-inbox">🔔 Inbox <span class="nav-badge" data-inbox-count>0</span></a>
@@ -55,6 +55,24 @@
         <div class="stat-pill"><strong><span data-best-streak>0</span>🔥</strong><span>Best Streak</span></div>
       </section>
 
+
+      <section class="premium-card app-card dashboard-child-rotate-card" aria-labelledby="dashboardChildTitle">
+        <div class="dashboard-child-head">
+          <div>
+            <div class="pill">Profil Anak</div>
+            <h2 id="dashboardChildTitle">Pilih anak untuk lihat profil</h2>
+            <p>Gunakan butang rotate untuk switch anak. Peta permainan hanya dibuka dari Profil Anak.</p>
+          </div>
+          <div class="child-rotate-controls">
+            <button class="mini-rotate-btn" type="button" id="prevChildBtn" aria-label="Anak sebelumnya">‹</button>
+            <button class="mini-rotate-btn" type="button" id="nextChildBtn" aria-label="Anak seterusnya">›</button>
+          </div>
+        </div>
+        <div class="dashboard-child-carousel" id="dashboardChildCarousel">
+          <div class="dashboard-child-empty">👦 Memuatkan profil anak...</div>
+        </div>
+      </section>
+
       <section class="app-grid two dashboard-panels" style="margin-top:18px">
         <div class="premium-card app-card inbox-preview-card dashboard-wide-panel">
           <div class="section-title-row">
@@ -80,11 +98,11 @@
   </div>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="js/supabase-client.js?v=1.52.0"></script>
-  <script src="js/auth.js?v=2.7-dashboard-clean"></script>
+  <script src="js/auth.js?v=2.9-dashboard-child-rotate"></script>
   <script src="js/inbox.js?v=1.52.0"></script>
-  <script src="js/dashboard.js?v=2.7-dashboard-clean"></script>
+  <script src="js/dashboard.js?v=2.9-dashboard-child-rotate"></script>
   <script src="js/quick-menu.js?v=1.52.0"></script>
-  <script src="js/orientation-reset.js?v=2.6-clean"></script>
+  <script src="js/orientation-reset.js?v=2.9-dashboard-child-rotate"></script>
   <script src="pwa-register.js?v=1.52.0"></script>
 </body>
 </html>

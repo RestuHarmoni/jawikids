@@ -163,7 +163,7 @@
   }
 
   async function protectPage() {
-    const protectedPages = ['parent-dashboard.html', 'child-select.html', 'game-map.html', 'lesson-game.html'];
+    const protectedPages = ['parent-dashboard.html', 'child-profile.html', 'game-map.html', 'lesson-game.html', 'boss-challenge.html'];
     const file = window.location.pathname.split('/').pop();
     if (!protectedPages.includes(file)) return;
     const supabase = client();
@@ -178,7 +178,7 @@
     if (isGameMap) {
       const selectedChild = localStorage.getItem('jawikids_selected_child_id') || localStorage.getItem('selected_child_id');
       if (!selectedChild) {
-        window.location.href = 'child-select.html?needChild=1';
+        window.location.href = 'child-profile.html?needChild=1';
         return;
       }
     }

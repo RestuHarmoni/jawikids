@@ -1,4 +1,4 @@
-/* Pulau Jawi Dashboard Live Sync v2.7 - simplified parent dashboard */
+/* Pulau Jawi Dashboard Live Sync v2.9 - simplified parent dashboard */
 (function () {
   const avatarFor = (child) => {
     const key = (child.avatar_key || '').toLowerCase();
@@ -32,6 +32,73 @@
       return [];
     }
     return data || [];
+  }
+
+
+  function renderDashboardChildren(childRows, streakByChild, progressByChild) {
+    const holder = document.getElementById('dashboardChildCarousel');
+    const prev = document.getElementById('prevChildBtn');
+    const next = document.getElementById('nextChildBtn');
+    if (!holder) return;
+
+    if (!childRows.length) {
+      holder.innerHTML = `<div class="dashboard-child-empty"><span>👦</span><div><strong>Belum ada profil anak</strong><small>Tambah anak dahulu sebelum mula bermain.</small></div><a class="primary-btn" href="child-profile.html">Buka Profil Anak</a></div>`;
+      if (prev) prev.disabled = true;
+      if (next) next.disabled = true;
+      return;
+    }
+
+    let activeIndex = Number(localStorage.getItem('pulau_jawi_dashboard_child_index') || 0);
+    if (!Number.isFinite(activeIndex) || activeIndex < 0 || activeIndex >= childRows.length) activeIndex = 0;
+
+    const render = () => {
+      const child = childRows[activeIndex];
+      const streak = streakByChild.get(child.id) || {};
+      const prog = progressByChild[child.id] || { completed: 0, score: 0 };
+      localStorage.setItem('pulau_jawi_dashboard_child_index', String(activeIndex));
+      localStorage.setItem('jawikids_selected_child_id', child.id);
+      localStorage.setItem('selected_child_id', child.id);
+      localStorage.setItem('pulau_jawi_selected_child', JSON.stringify({
+        id: child.id,
+        name: child.name,
+        age: child.age,
+        gender: child.gender,
+        avatar_key: child.avatar_key,
+        current_island: child.current_island || 1,
+        total_xp: child.total_xp || 0
+      }));
+
+      holder.innerHTML = `<article class="dashboard-child-feature-card rotate-in">
+        <div class="dashboard-child-avatar-wrap"><img src="${avatarFor(child)}" alt="Avatar ${escapeHtml(child.name || 'anak')}"></div>
+        <div class="dashboard-child-info">
+          <span class="child-count-pill">Anak ${activeIndex + 1} / ${childRows.length}</span>
+          <h3>👦 ${escapeHtml(child.name || 'Anak Pulau Jawi')}</h3>
+          <p>Umur ${escapeHtml(child.age || '-')} tahun · Fokus umur 5–8 tahun</p>
+          <div class="dashboard-child-mini-stats">
+            <span><strong>${formatNumber(child.total_xp || 0)}</strong><small>XP</small></span>
+            <span><strong>${Number(streak.current_streak || 0)}🔥</strong><small>Streak</small></span>
+            <span><strong>${formatNumber(prog.completed || 0)}</strong><small>Lesson</small></span>
+          </div>
+        </div>
+        <a class="primary-btn dashboard-profile-btn" href="child-profile.html?child=${encodeURIComponent(child.id)}" data-child-profile-link="${escapeHtml(child.id)}">Lihat Profil</a>
+      </article>`;
+      holder.querySelector('[data-child-profile-link]')?.addEventListener('click', () => {
+        localStorage.setItem('jawikids_selected_child_id', child.id);
+        localStorage.setItem('selected_child_id', child.id);
+      });
+      if (prev) prev.disabled = childRows.length <= 1;
+      if (next) next.disabled = childRows.length <= 1;
+    };
+
+    prev?.addEventListener('click', () => {
+      activeIndex = (activeIndex - 1 + childRows.length) % childRows.length;
+      render();
+    });
+    next?.addEventListener('click', () => {
+      activeIndex = (activeIndex + 1) % childRows.length;
+      render();
+    });
+    render();
   }
 
   function renderInbox(items) {
@@ -126,8 +193,8 @@
     setTextAll('[data-inbox-count]', inboxItems.length);
     renderInbox(inboxItems);
 
-    // Dashboard parent v2.7 dipermudahkan: tiada paparan Peta Pulau / senarai progress anak di dashboard.
-    // Parent masuk ke Profil Anak dahulu, kemudian pilih anak sebelum Game Map dibuka.
+    renderDashboardChildren(childRows, streakByChild, progressByChild);
+    // Dashboard parent v2.9: paparan anak hanya untuk switch/rotate dan buka Profil Anak. Tiada peta dipamerkan di dashboard.
     status('Dashboard Pulau Jawi live sync berjaya.', 'success');
   }
 

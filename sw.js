@@ -1,5 +1,6 @@
+// Pulau Jawi v2.9 dashboard child rotate cache refresh
 /* Pulau Jawi Service Worker v2.7 - dashboard clean + child gate */
-const CACHE_NAME = 'pulau-jawi-v2-8-profil-anak';
+const CACHE_NAME = 'pulau-jawi-v3-0-clean-child-profile-flow';
 const CORE_ASSETS = [
   './', './index.html', './game-map.html?v=2.5-landscape-fix', './game-map/', './pwa-start.html', './manifest.json', './manifest-game.json',
   './style.css?v=1.52.0', './app.css?v=2.4-map-spacing', './pwa-register.js?v=1.52.0', './js/quick-menu.js?v=1.52.0',

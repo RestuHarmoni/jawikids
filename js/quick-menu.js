@@ -12,17 +12,13 @@
 
   const parentLinks = [
     ['🏠','Dashboard','parent-dashboard.html'],
-    ['👧','Profil Anak','child-select.html'],
-    ['🏆','Pencapaian','achievement.html'],
-    ['🎁','Ganjaran Harian','daily-reward.html'],
-    ['🛒','Kedai Avatar','avatar-shop.html'],
+    ['👦','Profil Anak','child-profile.html'],
+    ['🏆','Achievement','achievement.html'],
     ['📊','Analytics','parent-analytics.html'],
-    ['💳','Bayaran','payment.html'],
     ['📨','Inbox','parent-inbox.html'],
-    ['🛟','Bantuan','support.html'],
+    ['🛟','Support','support.html'],
     ['🤝','Affiliate','affiliate.html']
   ];
-
   const adminLinks = [
     ['📊','Overview','admin.html'],
     ['👨‍👩‍👧','Users / Parents','admin.html#users'],

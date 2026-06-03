@@ -1,4 +1,4 @@
-/* Pulau Jawi Child Profile Premium Page v2.8
+/* Pulau Jawi Child Profile Premium Page v2.9
    Focus: parent-friendly profile summary only. No map preview, no shop, no reward panel. */
 (function(){
   'use strict';
@@ -101,6 +101,43 @@
     return (data || []).length;
   }
 
+
+  async function bindAddChildFromProfile(supabase, parentId){
+    const form = document.getElementById('addChildFromProfileForm');
+    if (!form || form.dataset.bound === '1') return;
+    form.dataset.bound = '1';
+    form.addEventListener('submit', async (event) => {
+      event.preventDefault();
+      const btn = document.getElementById('profileAddChildBtn');
+      if (btn) { btn.disabled = true; btn.textContent = 'Menambah...'; }
+      try {
+        const name = document.getElementById('profileChildName')?.value.trim();
+        const age = Number(document.getElementById('profileChildAge')?.value || 0);
+        const gender = document.getElementById('profileChildGender')?.value || 'male';
+        if (!name || age < 5 || age > 8) {
+          status('Sila isi nama dan umur anak 5 hingga 8 tahun.', 'error');
+          return;
+        }
+        const avatarKey = gender === 'female' ? 'zainab_default' : 'zafri_default';
+        const { data: child, error } = await supabase
+          .from('children')
+          .insert({ parent_id: parentId, name, age, gender, avatar_key: avatarKey, total_xp: 0, current_island: 1, hearts: 5 })
+          .select('id,name,age,gender,avatar_key,total_xp,current_island,hearts,created_at')
+          .single();
+        if (error) throw error;
+        await supabase.from('streaks').upsert({ child_id: child.id, current_streak: 0, longest_streak: 0 });
+        localStorage.setItem('jawikids_selected_child_id', child.id);
+        localStorage.setItem('selected_child_id', child.id);
+        status('Profil anak berjaya ditambah.', 'success');
+        setTimeout(() => { location.href = 'child-profile.html?child=' + encodeURIComponent(child.id); }, 500);
+      } catch(err) {
+        status('Gagal tambah anak: ' + err.message, 'error');
+      } finally {
+        if (btn) { btn.disabled = false; btn.textContent = 'Tambah Profil Anak'; }
+      }
+    });
+  }
+
   async function loadChildProfile(){
     const supabase = window.getJawiSupabase?.();
     if (!supabase) return status('Supabase belum bersambung. Semak js/supabase-client.js.', 'error');
@@ -113,7 +150,8 @@
     }
     const user = session.user;
 
-    const savedChildId = localStorage.getItem('jawikids_selected_child_id') || localStorage.getItem('selected_child_id');
+    const urlChildId = new URLSearchParams(window.location.search).get('child') || new URLSearchParams(window.location.search).get('id');
+    const savedChildId = urlChildId || localStorage.getItem('jawikids_selected_child_id') || localStorage.getItem('selected_child_id');
     const [{ data: children, error: childError }, unreadCount] = await Promise.all([
       supabase
         .from('children')
@@ -129,7 +167,24 @@
     const rows = children || [];
     if (!rows.length) {
       status('Belum ada profil anak. Sila tambah anak dahulu.', 'info');
-      document.querySelector('.child-profile-main')?.insertAdjacentHTML('afterbegin', '<section class="premium-card app-card"><h2>Belum ada anak</h2><p>Tambah anak pertama untuk mula menggunakan Profil Anak Pulau Jawi.</p><a class="primary-btn" href="child-select.html">Tambah Anak</a></section>');
+      document.querySelector('.child-profile-main')?.insertAdjacentHTML('afterbegin', `
+        <section class="premium-card app-card child-profile-add-card">
+          <div class="pill">Profil Anak</div>
+          <h2>Belum ada profil anak</h2>
+          <p>Tambah profil anak di sini. Pulau Jawi hanya menyokong umur 5 hingga 8 tahun.</p>
+          <form id="addChildFromProfileForm" class="profile-add-child-form">
+            <input id="profileChildName" type="text" placeholder="Nama anak" required>
+            <select id="profileChildAge" required>
+              <option value="">Umur</option><option value="5">5 Tahun</option><option value="6">6 Tahun</option><option value="7">7 Tahun</option><option value="8">8 Tahun</option>
+            </select>
+            <select id="profileChildGender">
+              <option value="male">Lelaki - Zafri</option>
+              <option value="female">Perempuan - Zainab</option>
+            </select>
+            <button id="profileAddChildBtn" class="primary-btn" type="submit">Tambah Profil Anak</button>
+          </form>
+        </section>`);
+      bindAddChildFromProfile(supabase, user.id);
       return;
     }
 
@@ -175,6 +230,7 @@
           current_island: child.current_island || 1,
           total_xp: child.total_xp || 0
         }));
+        chooseBtn.href = 'game-map.html?child=' + encodeURIComponent(child.id);
       });
     }
 

@@ -143,7 +143,7 @@ async function loadSelectedChild() {
       setText(mapXp, '0 XP');
       setText(mapHearts, '0');
       setText(mapStreak, '0 Hari');
-      window.location.href = 'child-select.html';
+      window.location.href = 'child-profile.html';
       return;
     }
 

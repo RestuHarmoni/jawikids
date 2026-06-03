@@ -22,7 +22,7 @@
   var selected = localStorage.getItem('jawikids_selected_child_id') || localStorage.getItem('selected_child_id');
   if(!selected){
     try { localStorage.setItem('pulau_jawi_return_after_child_select', location.pathname + location.search); } catch(e){}
-    location.replace((location.pathname.indexOf('/game-map/') !== -1 ? '../' : '') + 'child-select.html?needChild=1');
+    location.replace((location.pathname.indexOf('/game-map/') !== -1 ? '../' : '') + 'child-profile.html?needChild=1');
   }
 })();
 </script>

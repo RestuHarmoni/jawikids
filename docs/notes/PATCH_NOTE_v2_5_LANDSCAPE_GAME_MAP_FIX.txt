@@ -1,0 +1,7 @@
+Pulau Jawi v2.5 Landscape Game Map Fix
+- Game Map UI design tidak diubah.
+- game-map.html dan game-map/index.html kini ada body data-jk-orientation="game".
+- Orientation lock disambungkan kepada Game Map.
+- /game-map route disokong dalam orientation-lock.js.
+- Service worker cache version dinaikkan.
+Upload semua fail dan clear/PWA update cache jika masih nampak versi lama.

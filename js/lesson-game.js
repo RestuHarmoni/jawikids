@@ -76,7 +76,7 @@
   }
   async function loadSelectedChild(){
     const id = selectedChildId();
-    if(!id){ location.href = 'child-select.html?select=1'; return null; }
+    if(!id){ location.href = 'child-profile.html?select=1'; return null; }
     if(!window.jawiSupabase || !currentUser) return null;
     const { data, error } = await window.jawiSupabase
       .from('children')
@@ -85,7 +85,7 @@
       .eq('parent_id',currentUser.id)
       .maybeSingle();
     if(error){ console.warn('[JawiKids] child load error', error.message); }
-    if(!data){ location.href = 'child-select.html?select=1'; return null; }
+    if(!data){ location.href = 'child-profile.html?select=1'; return null; }
     selectedChild = data;
     persistSelectedChildId(data.id);
     return selectedChild;
