@@ -931,3 +931,125 @@ html.jk-force-landscape .jk-rotate-card small{
 .jk-quick-menu{position:fixed;top:16px;right:16px;z-index:9999;font-family:Nunito,system-ui,sans-serif;display:none}.jk-quick-menu-toggle{width:54px;height:54px;border-radius:999px;border:3px solid #1E293B;background:#FFD93D;color:#1E293B;box-shadow:0 7px 0 rgba(30,41,59,.22);font-size:24px;font-weight:1000;display:grid;place-items:center;cursor:pointer}.jk-quick-menu-toggle:active{transform:translateY(4px);box-shadow:0 3px 0 rgba(30,41,59,.22)}.jk-quick-menu-panel{position:absolute;right:0;top:66px;width:min(86vw,320px);max-height:calc(100vh - 92px);overflow:auto;background:rgba(255,255,255,.96);border:2px solid rgba(30,41,59,.10);border-radius:28px;padding:14px;box-shadow:0 24px 60px rgba(30,41,59,.20);backdrop-filter:blur(18px);transform:translateY(-12px) scale(.96);opacity:0;pointer-events:none;transition:.2s ease}.jk-quick-menu.is-open .jk-quick-menu-panel{transform:translateY(0) scale(1);opacity:1;pointer-events:auto}.jk-quick-menu-title{padding:10px 12px 12px;border-bottom:1px dashed rgba(30,41,59,.14);margin-bottom:8px}.jk-quick-menu-title strong{display:block;font-family:Fredoka,sans-serif;font-size:20px;color:#1E293B}.jk-quick-menu-title small{display:block;color:#64748B;font-weight:900}.jk-quick-menu-link{width:100%;display:flex;align-items:center;gap:11px;padding:12px 12px;border-radius:18px;text-decoration:none;color:#1E293B;background:transparent;border:0;font:900 15px Nunito,system-ui,sans-serif;cursor:pointer;text-align:left}.jk-quick-menu-link:hover,.jk-quick-menu-link.active{background:#EBF8FF;color:#0284C7}.jk-quick-menu-icon{width:28px;height:28px;border-radius:11px;background:#F8FCFF;display:grid;place-items:center;box-shadow:inset 0 0 0 1px rgba(30,41,59,.06)}.jk-quick-menu-logout{margin-top:8px;background:#FFF0F0;color:#BE123C}.jk-quick-menu-logout:hover{background:#FFE4E6;color:#BE123C}
 @media(max-width:980px){.jk-quick-menu{display:block}body.jk-quick-menu-ready .app-header .app-nav{display:none!important}body.jk-quick-menu-ready .admin-nav{display:none!important}body.jk-quick-menu-ready .admin-sidebar nav{display:none!important}body.jk-quick-menu-ready.admin-body .admin-sidebar,body.jk-quick-menu-ready .admin-shell .sidebar{display:none!important}body.jk-quick-menu-ready .admin-main{width:100%;padding-top:84px}body.jk-quick-menu-ready .app-header{padding-right:84px}body.jk-quick-menu-ready .pay-header{padding-right:72px}body.jk-quick-menu-ready .portal-link{display:none!important}}
 @media(min-width:981px){.jk-quick-menu{display:none!important}}
+
+/* TASK-024 / v2.8 Profil Anak Premium - simplified parent-friendly layout */
+.child-profile-premium-v28 { gap: 18px; }
+.child-profile-clean-hero {
+  overflow: hidden;
+  position: relative;
+  background:
+    radial-gradient(circle at 82% 18%, rgba(255,217,61,.45), transparent 24%),
+    radial-gradient(circle at 15% 85%, rgba(167,233,47,.35), transparent 28%),
+    linear-gradient(135deg, #f6fdff 0%, #e9f7ff 42%, #fff4d4 100%);
+}
+.child-profile-clean-hero:before,
+.profile-main-action-card:before {
+  content:"";
+  position:absolute;
+  inset:auto 26px 18px auto;
+  width:72px;
+  height:42px;
+  border-radius:999px;
+  background:rgba(255,255,255,.68);
+  box-shadow:-38px 6px 0 rgba(255,255,255,.42), 30px 12px 0 rgba(255,255,255,.36);
+  pointer-events:none;
+}
+.child-meta-line {
+  display:flex;
+  flex-wrap:wrap;
+  gap:10px;
+  margin:14px 0;
+}
+.child-meta-line span {
+  border:2px solid rgba(30,41,59,.08);
+  background:rgba(255,255,255,.72);
+  color:#1e293b;
+  border-radius:999px;
+  padding:8px 12px;
+  font-weight:800;
+}
+.profile-main-action-card {
+  position:relative;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:18px;
+  overflow:hidden;
+  background:linear-gradient(135deg,#fff 0%,#f2fff5 48%,#fff7d5 100%);
+}
+.profile-main-action-card h2 { margin:4px 0 6px; }
+.profile-main-action-card p { max-width:760px; margin:0; color:#475569; font-weight:700; }
+.big-play-btn {
+  font-size:1.05rem;
+  padding:16px 24px;
+  box-shadow:0 16px 28px rgba(34,197,94,.22);
+  white-space:nowrap;
+}
+.profile-stat-grid-v28 {
+  display:grid;
+  grid-template-columns:repeat(4,minmax(0,1fr));
+  gap:14px;
+}
+.profile-stat-tile {
+  text-align:center;
+  background:linear-gradient(180deg,#ffffff,#f7fbff);
+}
+.profile-stat-tile span { font-size:2rem; display:block; margin-bottom:8px; }
+.profile-stat-tile strong { display:block; font-size:1.55rem; color:#1e293b; }
+.profile-stat-tile small { color:#64748b; font-weight:900; }
+.profile-two-column-v28 {
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:16px;
+}
+.today-activity-grid {
+  display:grid;
+  grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:10px;
+  margin-top:14px;
+}
+.today-activity-grid div {
+  background:#f8fafc;
+  border:2px solid rgba(30,41,59,.06);
+  border-radius:20px;
+  padding:14px;
+  text-align:center;
+}
+.today-activity-grid span { display:block; font-size:1.8rem; }
+.today-activity-grid strong { display:block; font-size:1.25rem; color:#1e293b; }
+.today-activity-grid small { color:#64748b; font-weight:900; }
+.skill-progress-list { display:grid; gap:12px; margin-top:14px; }
+.skill-row {
+  display:grid;
+  grid-template-columns:1fr auto;
+  gap:8px 12px;
+  align-items:center;
+  font-weight:900;
+}
+.skill-row span { color:#1e293b; }
+.skill-row strong { color:#0f766e; }
+.skill-row em {
+  grid-column:1/-1;
+  display:block;
+  height:12px;
+  border-radius:999px;
+  overflow:hidden;
+  background:#e2e8f0;
+  border:1px solid rgba(30,41,59,.08);
+}
+.skill-row em i {
+  display:block;
+  height:100%;
+  width:0;
+  border-radius:999px;
+  background:linear-gradient(90deg,#A7E92F,#3ABEF9,#FFD93D);
+  transition:width .9s cubic-bezier(.2,.9,.2,1);
+}
+@media (max-width: 860px) {
+  .profile-main-action-card { flex-direction:column; align-items:flex-start; }
+  .profile-stat-grid-v28, .profile-two-column-v28 { grid-template-columns:1fr 1fr; }
+  .big-play-btn { width:100%; text-align:center; }
+}
+@media (max-width: 560px) {
+  .profile-stat-grid-v28, .profile-two-column-v28, .today-activity-grid { grid-template-columns:1fr; }
+}

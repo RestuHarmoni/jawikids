@@ -7,14 +7,13 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@500;600;700;800;900&family=Noto+Sans+Arabic:wght@600;700;800;900&family=Amiri:wght@400;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css?v=1.55.0">
-  <link rel="stylesheet" href="app.css?v=1.55.0">
-
-  <link rel="manifest" href="manifest.json?v=1.54.0">
+  <link rel="stylesheet" href="style.css?v=2.8.0">
+  <link rel="stylesheet" href="app.css?v=2.8.0">
+  <link rel="manifest" href="manifest.json?v=2.8.0">
   <meta name="theme-color" content="#A7E92F">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-title" content="Pulau Jawi">
-  <link rel="apple-touch-icon" href="assets/icons/apple-touch-icon.svg?v=1.55.0">
+  <link rel="apple-touch-icon" href="assets/icons/apple-touch-icon.svg?v=2.8.0">
 </head>
 <body>
   <div class="app-shell child-profile-shell">
@@ -25,22 +24,26 @@
       </a>
       <nav class="app-nav">
         <a href="parent-dashboard.html">Dashboard</a>
-        <a href="child-select.html">Pilih Anak</a>
         <a href="child-profile.html" class="active">Profil Anak</a>
         <a href="achievement.html">Achievement</a>
         <a href="parent-analytics.html">Analytics</a>
         <a href="parent-inbox.html" class="nav-inbox">🔔 Inbox <span class="nav-badge" data-inbox-count>0</span></a>
         <a href="support.html">Support</a>
+        <a href="affiliate.html">Affiliate <span class="soon-dot">Soon</span></a>
         <button class="mini-logout-btn" type="button" onclick="JawiKidsAuth.logoutParent()">Logout</button>
       </nav>
     </header>
 
-    <main class="app-main child-profile-main">
-      <section class="premium-card app-card child-profile-hero" aria-labelledby="childProfileTitle">
+    <main class="app-main child-profile-main child-profile-premium-v28">
+      <section class="premium-card app-card child-profile-hero child-profile-clean-hero" aria-labelledby="childProfileTitle">
         <div class="child-profile-hero-copy">
-          <div class="pill">TASK-022 · Profil Anak</div>
+          <div class="pill">Profil Anak · Umur 5–8 Tahun</div>
           <h1 id="childProfileTitle">👦 <span data-child-name>Profil Anak</span></h1>
-          <p>Pantau avatar, XP, pulau, streak, pencapaian dan statistik pembelajaran anak dalam satu halaman premium.</p>
+          <p>Semak perkembangan anak secara ringkas sebelum memilih anak untuk masuk ke dunia permainan Pulau Jawi.</p>
+          <div class="child-meta-line">
+            <span>Umur: <strong data-child-age>-</strong></span>
+            <span>Tahap: <strong data-child-stage>Pemula Jawi</strong></span>
+          </div>
           <div class="dashboard-status-line" id="childProfileStatus">Sedang memuatkan profil anak...</div>
         </div>
         <div class="child-profile-avatar-stage">
@@ -49,98 +52,62 @@
         </div>
       </section>
 
-      <section class="child-profile-grid">
-        <section class="premium-card app-card child-profile-card xp-profile-card">
-          <div class="section-title-row dashboard-card-title-row">
-            <div>
-              <div class="pill">⭐ Level & XP</div>
-              <h2>Perkembangan XP</h2>
-            </div>
-            <span class="dashboard-chip" data-child-island>Pulau 1</span>
-          </div>
-          <div class="xp-summary-row">
-            <div><strong data-child-xp>0</strong><small>XP Semasa</small></div>
-            <div><strong data-child-next-xp>500</strong><small>Sasaran Level</small></div>
-          </div>
-          <div class="premium-xp-bar" aria-label="Progress XP">
-            <span class="premium-xp-fill" id="profileXpFill" style="width:0%"></span>
-          </div>
-          <div class="xp-percent-line"><span id="profileXpPercent">0%</span> menuju level seterusnya</div>
-          <div class="child-profile-actions">
-            <a class="primary-btn" href="game-map.html" id="continueLearningBtn">▶️ Sambung Belajar</a>
-            <a class="secondary-btn" href="game-map.html" id="openIslandMapBtn">🗺️ Buka Peta Pulau</a>
-          </div>
-        </section>
+      <section class="premium-card app-card profile-main-action-card">
+        <div>
+          <div class="pill">Langkah Seterusnya</div>
+          <h2>Pilih anak sebelum masuk peta</h2>
+          <p>Game Map hanya akan dibuka selepas parent memilih profil anak. Ini memastikan progress, XP, hati dan streak disimpan kepada anak yang betul.</p>
+        </div>
+        <a class="primary-btn big-play-btn" href="child-select.html" id="chooseAndPlayBtn">▶ PILIH & MAIN</a>
+      </section>
 
-        <section class="premium-card app-card child-profile-card avatar-profile-card">
-          <div class="pill">🧒 Avatar Anak</div>
-          <h2>Koleksi Avatar</h2>
-          <div class="avatar-wear-preview">
-            <span>🎩 Topi</span><span>👕 Baju</span><span>👜 Aksesori</span>
-          </div>
-          <p class="soft-text">Item avatar yang dibuka akan dipaparkan di sini apabila sistem koleksi penuh diaktifkan.</p>
-          <a class="secondary-btn" href="avatar-shop.html">🛒 Kedai Avatar</a>
-        </section>
+      <section class="profile-stat-grid-v28" id="profileStatGrid">
+        <div class="premium-card app-card dashboard-loading-card">Memuatkan statistik...</div>
+      </section>
 
-        <section class="premium-card app-card child-profile-card island-profile-card">
-          <div class="pill">🗺️ Progress Pulau</div>
-          <h2>Perjalanan Pulau</h2>
-          <div class="profile-island-track" id="profileIslandTrack"></div>
-        </section>
-
-        <section class="premium-card app-card child-profile-card stat-profile-card">
-          <div class="pill">📚 Statistik Pembelajaran</div>
-          <h2>Ringkasan Anak</h2>
-          <div class="profile-stat-grid" id="profileStatGrid">
-            <div class="dashboard-loading-card">Memuatkan statistik...</div>
+      <section class="profile-two-column-v28">
+        <section class="premium-card app-card child-profile-card today-profile-card">
+          <div class="pill">📅 Aktiviti Hari Ini</div>
+          <h2>Ringkasan Hari Ini</h2>
+          <div class="today-activity-grid" id="todayActivityGrid">
+            <div><span>⏱️</span><strong data-today-minutes>0m</strong><small>Minit belajar</small></div>
+            <div><span>🎮</span><strong data-today-lessons>0</strong><small>Lesson selesai</small></div>
+            <div><span>⭐</span><strong data-today-xp>0</strong><small>XP hari ini</small></div>
           </div>
         </section>
 
-        <section class="premium-card app-card child-profile-card streak-profile-card">
-          <div class="pill">🔥 Streak</div>
-          <h2>Konsisten Belajar</h2>
-          <div class="streak-hero-number"><strong data-child-streak>0</strong><small>hari berturut-turut</small></div>
-          <div class="streak-fire-row" id="streakFireRow">🔥</div>
-        </section>
-
-        <section class="premium-card app-card child-profile-card heart-profile-card">
-          <div class="pill">❤️ Heart / Energy</div>
-          <h2>Tenaga Belajar</h2>
-          <div class="heart-row-large" id="profileHeartRow">❤️❤️❤️❤️❤️</div>
-          <p><strong id="profileHeartText">5 / 5</strong> hati tersedia untuk aktiviti pembelajaran.</p>
-        </section>
-
-        <section class="premium-card app-card child-profile-card achievement-profile-card">
-          <div class="section-title-row dashboard-card-title-row">
-            <div>
-              <div class="pill">🏆 Pencapaian</div>
-              <h2>Badge Terkini</h2>
-            </div>
-            <a class="mini-link" href="achievement.html">Lihat Semua</a>
-          </div>
-          <div class="achievement-mini-list" id="profileAchievementList"></div>
-        </section>
-
-        <section class="premium-card app-card child-profile-card reward-profile-card">
-          <div class="pill">🎁 Koleksi Ganjaran</div>
-          <h2>Ganjaran Anak</h2>
-          <div class="reward-summary-grid" id="rewardSummaryGrid">
-            <div><span>🎁</span><strong>0</strong><small>Reward Dibuka</small></div>
-            <div><span>🛍️</span><strong>0</strong><small>Avatar Item</small></div>
-            <div><span>🏅</span><strong>0</strong><small>Badge</small></div>
+        <section class="premium-card app-card child-profile-card learning-summary-card">
+          <div class="pill">📚 Ringkasan Pembelajaran</div>
+          <h2>Kemahiran Anak</h2>
+          <div class="skill-progress-list" id="skillProgressList">
+            <div class="skill-row"><span>Huruf Jawi</span><strong data-skill-letters>0%</strong><em><i style="width:0%"></i></em></div>
+            <div class="skill-row"><span>Perkataan</span><strong data-skill-words>0%</strong><em><i style="width:0%"></i></em></div>
+            <div class="skill-row"><span>Ayat Mudah</span><strong data-skill-sentences>0%</strong><em><i style="width:0%"></i></em></div>
           </div>
         </section>
       </section>
+
+      <section class="premium-card app-card child-profile-card achievement-profile-card">
+        <div class="section-title-row dashboard-card-title-row">
+          <div>
+            <div class="pill">🏆 Achievement Ringkas</div>
+            <h2>Badge Terkini</h2>
+          </div>
+          <a class="mini-link" href="achievement.html">Lihat Semua</a>
+        </div>
+        <div class="achievement-mini-list" id="profileAchievementList"></div>
+      </section>
     </main>
-    <div class="footer-mini">© 2026 Pulau Jawi. Child Profile Premium Page.</div>
+    <div class="footer-mini">© 2026 Pulau Jawi. Profil Anak Premium.</div>
   </div>
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-  <script src="js/supabase-client.js?v=1.54.0"></script>
-  <script src="js/auth.js?v=1.54.0"></script>
-  <script src="js/inbox.js?v=1.54.0"></script>
-  <script src="js/child-profile.js?v=1.55.0"></script>
-  <script src="js/quick-menu.js?v=1.55.0"></script>
-  <script src="js/orientation-reset.js?v=1.54.0"></script><script src="pwa-register.js?v=1.54.0"></script>
+  <script src="js/supabase-client.js?v=2.8.0"></script>
+  <script src="js/auth.js?v=2.8.0"></script>
+  <script src="js/inbox.js?v=2.8.0"></script>
+  <script src="js/child-profile.js?v=2.8.0"></script>
+  <script src="js/quick-menu.js?v=2.8.0"></script>
+  <script src="js/orientation-reset.js?v=2.8.0"></script>
+  <script src="pwa-register.js?v=2.8.0"></script>
 </body>
 </html>
