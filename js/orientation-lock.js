@@ -1,140 +1,100 @@
-// JawiKids v1.52.0 - FORCE LANDSCAPE FOR GAME PAGES ONLY
-// Official SOP: non-game pages = portrait/reset, game pages = force landscape when supported.
+// Pulau Jawi v3.4 - Stable Game Session Orientation
+// Goal: Game pages stay in one stable wide-game session from map -> lesson -> boss.
+// No repeated "please rotate" popup during questions/answer taps.
 (function(){
   'use strict';
 
-  const GAME_PAGES = new Set([
-    'game-map.html',
-    'lesson-game.html',
-    'lesson-practice.html',
-    'lesson-2.html',
-    'letter-intro.html',
-    'boss-challenge.html',
-    'future-mini-games.html'
-  ]);
-
-  function pageName(){
-    const raw = (location.pathname.split('/').pop() || 'index.html').toLowerCase();
-    return raw.includes('.') ? raw : (raw ? raw + '.html' : 'index.html');
-  }
+  const GAME_PATHS = ['game-map', 'lesson-game', 'lesson-practice', 'lesson-2', 'letter-intro', 'boss-challenge', 'future-mini-games'];
 
   function isGamePage(){
     const path = location.pathname.toLowerCase().replace(/\/$/, '');
-    return GAME_PAGES.has(pageName()) || path.endsWith('/game-map') || path.endsWith('/lesson-game') || path.endsWith('/boss-challenge') || document.body?.dataset?.jkOrientation === 'game';
-  }
-
-  function isTouchDevice(){
-    return (window.matchMedia && window.matchMedia('(hover: none) and (pointer: coarse)').matches) || 'ontouchstart' in window;
+    const last = (path.split('/').pop() || '').replace('.html','');
+    return GAME_PATHS.includes(last) || document.body?.dataset?.jkOrientation === 'game';
   }
 
   function isLandscape(){
     return window.matchMedia && window.matchMedia('(orientation: landscape)').matches;
   }
 
-  function setGameState(){
+  function setGameSession(){
     try{
-      localStorage.setItem('jawikids_game_mode', '1');
-      localStorage.setItem('jawikids_game_wide_mode', '1');
+      sessionStorage.setItem('pulau_jawi_game_session', '1');
       sessionStorage.setItem('jawikids_game_mode', '1');
       sessionStorage.setItem('jawikids_game_wide_mode', '1');
+      localStorage.setItem('jawikids_game_wide_mode', '1');
     }catch(e){}
-    document.documentElement.classList.add('jk-force-landscape','jk-game-wide-mode','jk-landscape-active');
-    if(document.body) document.body.classList.add('jk-force-landscape','jk-game-wide-mode');
+
+    document.documentElement.classList.add('pj-game-session','jk-force-landscape','jk-game-wide-mode','jk-landscape-active');
+    document.documentElement.classList.toggle('pj-device-landscape', isLandscape());
+    document.documentElement.classList.toggle('pj-device-portrait', !isLandscape());
+
+    if(document.body){
+      document.body.classList.add('pj-game-session','jk-force-landscape','jk-game-wide-mode');
+      document.body.classList.toggle('pj-device-landscape', isLandscape());
+      document.body.classList.toggle('pj-device-portrait', !isLandscape());
+    }
   }
 
-  function clearGameState(){
+  function clearGameSession(){
     try{
+      sessionStorage.removeItem('pulau_jawi_game_session');
+      sessionStorage.removeItem('jawikids_game_mode');
+      sessionStorage.removeItem('jawikids_game_wide_mode');
       localStorage.removeItem('jawikids_game_wide_mode');
       localStorage.removeItem('jawikids_game_mode');
-      sessionStorage.removeItem('jawikids_game_wide_mode');
-      sessionStorage.removeItem('jawikids_game_mode');
     }catch(e){}
-    document.documentElement.classList.remove('jk-force-landscape','jk-game-wide-mode','jk-wide-preferred','jk-child-game-mode','jk-landscape-active','jk-portrait-blocked','jk-touch-device');
+    document.documentElement.classList.remove('pj-game-session','jk-force-landscape','jk-game-wide-mode','jk-landscape-active','pj-device-landscape','pj-device-portrait','jk-portrait-blocked','jk-touch-device');
     if(document.body){
-      document.body.classList.remove('jk-force-landscape','jk-game-wide-mode','jk-wide-preferred-body','jk-child-game-mode-body');
+      document.body.classList.remove('pj-game-session','jk-force-landscape','jk-game-wide-mode','pj-device-landscape','pj-device-portrait','jk-portrait-blocked','jk-touch-device');
     }
     const overlay = document.getElementById('jkRotateOverlay');
     if(overlay) overlay.remove();
   }
 
-  function ensureOverlay(){
-    let overlay = document.getElementById('jkRotateOverlay');
-    if(overlay) return overlay;
-    overlay = document.createElement('div');
-    overlay.id = 'jkRotateOverlay';
-    overlay.className = 'jk-rotate-overlay';
-    overlay.innerHTML = `
-      <div class="jk-rotate-card" role="dialog" aria-modal="true" aria-label="Pusing peranti">
-        <div class="jk-rotate-visual"><div class="jk-rotate-device"></div><div class="jk-rotate-arrow">↻</div></div>
-        <h2>Sila pusingkan peranti</h2>
-        <p>Permainan JawiKids menggunakan paparan landscape supaya peta dan butang lebih besar.</p>
-        <button type="button" id="jkRotateLockBtn">Masuk Mode Landscape</button>
-        <small>Jika iPhone/iPad tidak boleh paksa rotate, pusingkan peranti secara manual.</small>
-      </div>`;
-    document.body.appendChild(overlay);
-    const btn = overlay.querySelector('#jkRotateLockBtn');
-    if(btn){
-      btn.addEventListener('click', function(){ requestLandscapeLock(true); });
-    }
-    return overlay;
-  }
-
-  function updateOverlay(){
-    if(!isGamePage() || !isTouchDevice()) return;
-    const overlay = ensureOverlay();
-    if(isLandscape()) overlay.classList.remove('show');
-    else overlay.classList.add('show');
-  }
-
-  async function requestFullscreenForLock(){
-    try{
-      if(!document.fullscreenElement && document.documentElement.requestFullscreen){
-        await document.documentElement.requestFullscreen({ navigationUI: 'hide' }).catch(function(){ return null; });
-      }
-    }catch(e){}
-  }
-
-  async function requestLandscapeLock(fromUserGesture){
+  async function tryNativeLandscapeLock(fromUserGesture){
     if(!isGamePage()) return false;
-    setGameState();
+    setGameSession();
     try{
-      if(fromUserGesture) await requestFullscreenForLock();
+      // Native lock mostly works in Android PWA/fullscreen. It often fails in normal Chrome/Safari.
+      if(fromUserGesture && !document.fullscreenElement && document.documentElement.requestFullscreen){
+        await document.documentElement.requestFullscreen({ navigationUI: 'hide' }).catch(()=>null);
+      }
       if(screen.orientation && screen.orientation.lock){
         await screen.orientation.lock('landscape');
-        updateOverlay();
+        setGameSession();
         return true;
       }
     }catch(e){
-      // Some iOS/Safari browsers do not support forced orientation. Overlay will guide manual rotate.
+      // Silent fallback. Do not show rotate popup repeatedly.
     }
-    updateOverlay();
+    setGameSession();
     return false;
   }
 
+  function bindFirstGestureOnly(){
+    if(window.__pulauJawiOrientationBound) return;
+    window.__pulauJawiOrientationBound = true;
+    const once = function(){ tryNativeLandscapeLock(true); };
+    document.addEventListener('pointerdown', once, { once:true, passive:true });
+    document.addEventListener('touchend', once, { once:true, passive:true });
+    document.addEventListener('click', once, { once:true, passive:true });
+  }
+
   async function unlockNormalMode(){
-    clearGameState();
+    clearGameSession();
     try{ if(screen.orientation && screen.orientation.unlock) screen.orientation.unlock(); }catch(e){}
     try{ if(document.fullscreenElement && document.exitFullscreen) await document.exitFullscreen(); }catch(e){}
   }
 
-  function bindGameGestureLock(){
-    const once = function(){ requestLandscapeLock(true); };
-    document.addEventListener('click', once, { once:true, passive:true });
-    document.addEventListener('touchend', once, { once:true, passive:true });
-  }
-
-  window.JawiKidsOrientation = {
+  window.PulauJawiOrientation = window.JawiKidsOrientation = {
     startGameMode(targetUrl){
-      try{
-        localStorage.setItem('jawikids_game_mode', '1');
-        localStorage.setItem('jawikids_game_wide_mode', '1');
-      }catch(e){}
+      setGameSession();
       window.location.href = targetUrl || 'game-map.html';
     },
     stopGameMode: unlockNormalMode,
-    unlockNormalMode: unlockNormalMode,
-    lockLandscape: function(){ return requestLandscapeLock(true); },
-    refresh: function(){ if(isGamePage()) requestLandscapeLock(false); else unlockNormalMode(); },
+    unlockNormalMode,
+    lockLandscape(){ return tryNativeLandscapeLock(true); },
+    refresh(){ if(isGamePage()) setGameSession(); else unlockNormalMode(); },
     isStandalonePWA(){
       return (window.matchMedia && window.matchMedia('(display-mode: standalone)').matches) || window.navigator.standalone === true || document.referrer.startsWith('android-app://');
     }
@@ -142,10 +102,9 @@
 
   function init(){
     if(isGamePage()){
-      setGameState();
-      requestLandscapeLock(false);
-      bindGameGestureLock();
-      updateOverlay();
+      setGameSession();
+      tryNativeLandscapeLock(false);
+      bindFirstGestureOnly();
     }else{
       unlockNormalMode();
     }
@@ -153,8 +112,8 @@
 
   document.addEventListener('DOMContentLoaded', init);
   window.addEventListener('pageshow', init);
-  window.addEventListener('resize', updateOverlay);
-  window.addEventListener('orientationchange', function(){ setTimeout(updateOverlay, 300); });
+  window.addEventListener('resize', setGameSession);
+  window.addEventListener('orientationchange', function(){ setTimeout(setGameSession, 250); });
   document.addEventListener('visibilitychange', function(){ if(!document.hidden) init(); });
   init();
 })();

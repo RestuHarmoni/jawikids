@@ -1630,3 +1630,57 @@ html.jk-force-landscape .jk-rotate-card small{
     content:"Pusingkan telefon untuk main dengan skrin penuh";
   }
 }
+
+/* Pulau Jawi v3.4 - Stable game session, no rotate popup repeat */
+html.pj-game-session,
+body.pj-game-session,
+body[data-jk-orientation="game"]{
+  width:100%;
+  min-height:100svh;
+  overflow:hidden !important;
+  overscroll-behavior:none;
+  touch-action:manipulation;
+}
+
+body[data-jk-orientation="game"] .app-shell,
+body[data-jk-orientation="game"] .game-compact-shell{
+  min-height:100svh;
+  max-height:100svh;
+  overflow:hidden !important;
+}
+
+body[data-jk-orientation="game"] .app-main,
+body[data-jk-orientation="game"] .compact-game-main{
+  overflow:hidden !important;
+}
+
+body[data-jk-orientation="game"] .jk-rotate-overlay,
+#jkRotateOverlay{
+  display:none !important;
+  visibility:hidden !important;
+  opacity:0 !important;
+  pointer-events:none !important;
+}
+
+/* Keep answer taps from resizing or causing layout jump on mobile */
+body[data-jk-orientation="game"] button,
+body[data-jk-orientation="game"] .answer-option,
+body[data-jk-orientation="game"] .game-choice,
+body[data-jk-orientation="game"] .island{
+  -webkit-tap-highlight-color:transparent;
+  user-select:none;
+}
+
+@media (max-width: 920px), (max-height: 560px){
+  body[data-jk-orientation="game"] .compact-game-header{
+    min-height:44px;
+    padding:5px 8px;
+  }
+  body[data-jk-orientation="game"] .player-hud{
+    margin:4px auto;
+  }
+  body[data-jk-orientation="game"] .lesson-stage-compact{
+    height:calc(100svh - 92px);
+    min-height:0;
+  }
+}
