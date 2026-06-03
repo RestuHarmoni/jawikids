@@ -1,1 +1,0 @@
-Letak audio huruf, audio arahan, sound betul/salah di sini untuk versi production.
