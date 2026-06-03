@@ -16,6 +16,16 @@
     @media(orientation:landscape) and (max-height:560px){.pj-wrap{padding:6px}.pj-title{display:none}.pj-top{margin-bottom:6px}.world{height:calc(100vh - 78px);min-height:330px}.island{width:84px;height:62px}.label{bottom:-31px;width:84px;padding:3px;border-radius:12px}.label b{font-size:9px}.label span{font-size:7px}.sun{width:62px;height:62px}.cloud{transform:scale(.52)}}
   </style>
   <link rel="manifest" href="manifest-game.json?v=1.52.1-game-landscape">
+
+<script>
+(function(){
+  var selected = localStorage.getItem('jawikids_selected_child_id') || localStorage.getItem('selected_child_id');
+  if(!selected){
+    try { localStorage.setItem('pulau_jawi_return_after_child_select', location.pathname + location.search); } catch(e){}
+    location.replace((location.pathname.indexOf('/game-map/') !== -1 ? '../' : '') + 'child-select.html?needChild=1');
+  }
+})();
+</script>
 </head>
 <body data-jk-orientation="game">
 <div class="pj-wrap">

@@ -1,4 +1,4 @@
-/* JawiKids Dashboard Live Sync v1.27 */
+/* Pulau Jawi Dashboard Live Sync v2.7 - simplified parent dashboard */
 (function () {
   const avatarFor = (child) => {
     const key = (child.avatar_key || '').toLowerCase();
@@ -43,7 +43,7 @@
     }
     list.innerHTML = items.map(item => {
       const n = item.notification || {};
-      return `<a href="parent-inbox.html" class="mini-inbox-item unread"><span>🔔</span><div><strong>${escapeHtml(n.title || 'Notifikasi JawiKids')}</strong><small>${escapeHtml(n.message || '')}</small></div></a>`;
+      return `<a href="parent-inbox.html" class="mini-inbox-item unread"><span>🔔</span><div><strong>${escapeHtml(n.title || 'Notifikasi Pulau Jawi')}</strong><small>${escapeHtml(n.message || '')}</small></div></a>`;
     }).join('');
     const first = items[0]?.notification;
     if (first) {
@@ -79,7 +79,7 @@
     if (profileError) console.warn('Profile warning:', profileError.message);
     const safeProfile = profile || {
       id: user.id,
-      full_name: user.user_metadata?.full_name || user.user_metadata?.name || user.email || 'Parent JawiKids',
+      full_name: user.user_metadata?.full_name || user.user_metadata?.name || user.email || 'Parent Pulau Jawi',
       subscription_status: 'inactive',
       premium_lifetime: false,
       max_children: 3,
@@ -117,7 +117,7 @@
     const bestStreak = streaks.reduce((max, s) => Math.max(max, Number(s.current_streak || 0), Number(s.longest_streak || 0)), 0);
     const premiumText = safeProfile?.premium_lifetime ? 'Premium' : (safeProfile?.subscription_status === 'active' ? 'Active' : 'Free');
 
-    setTextAll('[data-parent-name]', safeProfile?.full_name || user.user_metadata?.full_name || user.email || 'Parent JawiKids');
+    setTextAll('[data-parent-name]', safeProfile?.full_name || user.user_metadata?.full_name || user.email || 'Parent Pulau Jawi');
     setTextAll('[data-child-count]', childRows.length);
     setTextAll('[data-max-children]', maxChildren);
     setTextAll('[data-total-xp]', formatNumber(totalXp));
@@ -126,39 +126,9 @@
     setTextAll('[data-inbox-count]', inboxItems.length);
     renderInbox(inboxItems);
 
-    const grid = document.getElementById('dashboardChildrenGrid');
-    if (!grid) return;
-    if (!childRows.length) {
-      grid.innerHTML = `<div class="premium-card app-card empty-dashboard-card"><h2>Belum ada profil anak</h2><p>Tambah anak pertama untuk mula belajar Jawi.</p><a class="primary-btn" href="child-select.html">Tambah Anak</a></div>`;
-      status('Dashboard live. Belum ada anak didaftarkan.', 'info');
-      return;
-    }
-
-    grid.innerHTML = childRows.map(child => {
-      const st = streakByChild.get(child.id) || { current_streak: 0, longest_streak: 0 };
-      const pr = progressByChild[child.id] || { completed: 0, score: 0 };
-      const island = child.current_island || 1;
-      const hearts = child.hearts ?? 5;
-      return `<div class="premium-card app-card child-card live-child-card">
-        <div class="child-face avatar-face"><img src="${avatarFor(child)}" alt="${escapeHtml(child.name)}"></div>
-        <div class="live-child-info">
-          <h2>${escapeHtml(child.name)}</h2>
-          <p>Pulau ${island} · ${formatNumber(child.total_xp)} XP · ${hearts} hati</p>
-          <div class="child-mini-stats">
-            <span>🔥 ${Number(st.current_streak || 0)} streak</span>
-            <span>🏆 ${Number(st.longest_streak || 0)} terbaik</span>
-            <span>✅ ${Number(pr.completed || 0)} lesson</span>
-          </div>
-          <a class="primary-btn" href="game-map.html" data-select-child="${child.id}">Lihat Peta</a>
-        </div>
-      </div>`;
-    }).join('');
-
-    grid.querySelectorAll('[data-select-child]').forEach(link => {
-      link.addEventListener('click', () => localStorage.setItem('jawikids_selected_child_id', link.dataset.selectChild));
-    });
-
-    status('Dashboard live sync berjaya. Data slot anak, XP dan streak dibaca daripada Supabase.', 'success');
+    // Dashboard parent v2.7 dipermudahkan: tiada paparan Peta Pulau / senarai progress anak di dashboard.
+    // Parent masuk ke Profil Anak dahulu, kemudian pilih anak sebelum Game Map dibuka.
+    status('Dashboard Pulau Jawi live sync berjaya.', 'success');
   }
 
   document.addEventListener('DOMContentLoaded', loadDashboard);

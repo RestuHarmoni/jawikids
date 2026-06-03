@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Pilih Profil Anak - JawiKids</title>
+  <title>Pilih Profil Anak - Pulau Jawi</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@500;600;700;800;900&family=Noto+Sans+Arabic:wght@600;700;800;900&family=Amiri:wght@400;700&display=swap" rel="stylesheet">
@@ -13,18 +13,21 @@
   <link rel="manifest" href="manifest.json?v=1.52.0">
   <meta name="theme-color" content="#A7E92F">
   <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-title" content="JawiKids">
+  <meta name="apple-mobile-web-app-title" content="Pulau Jawi">
   <link rel="apple-touch-icon" href="assets/icons/apple-touch-icon.svg?v=1.52.0">
 </head>
 <body>
   <div class="app-shell">
     <header class="app-header">
-      <a class="brand" href="index.html"><span class="brand-mark">ج</span><span><strong>JawiKids</strong><small>Main, Belajar, Bijak Jawi!</small></span></a>
+      <a class="brand" href="index.html"><span class="brand-mark">ج</span><span><strong>Pulau Jawi</strong><small>Main, Belajar, Bijak Jawi!</small></span></a>
       <nav class="app-nav">
         <a href="parent-dashboard.html">Dashboard</a>
         <a href="child-select.html" class="active">Profil Anak</a>
-        <a href="game-map.html">Peta Pulau</a>
+        <a href="achievement.html">Achievement</a>
+        <a href="parent-analytics.html">Analytics</a>
+        <a href="parent-inbox.html" class="nav-inbox">🔔 Inbox <span class="nav-badge" data-inbox-count>0</span></a>
         <a href="support.html">Support</a>
+        <a href="affiliate.html">Affiliate <span class="soon-dot">Soon</span></a>
         <button class="mini-logout-btn" type="button" onclick="JawiKidsAuth.logoutParent()">Logout</button>
       </nav>
     </header>
@@ -62,8 +65,6 @@
             <option value="6">Umur 6</option>
             <option value="7">Umur 7</option>
             <option value="8">Umur 8</option>
-            <option value="9">Umur 9</option>
-            <option value="10">Umur 10</option>
           </select>
           <select id="childGender" required>
             <option value="male">Lelaki - Zafri</option>
@@ -73,12 +74,12 @@
         </form>
       </section>
     </main>
-    <div class="footer-mini">© 2026 JawiKids. Child Profile Supabase Sync.</div>
+    <div class="footer-mini">© 2026 Pulau Jawi. Child Profile Supabase Sync.</div>
   </div>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="js/supabase-client.js?v=1.52.0"></script>
   <script src="js/auth.js?v=1.52.0"></script>
-  <script src="js/child-select.js?v=1.52.0"></script>
+  <script src="js/child-select.js?v=2.7-child-gate"></script>
   <script src="js/quick-menu.js?v=1.52.0"></script>
 <script src="js/orientation-reset.js?v=1.52.0"></script><script src="pwa-register.js?v=1.52.0"></script>
 </body>

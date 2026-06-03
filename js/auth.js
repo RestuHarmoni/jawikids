@@ -1,4 +1,4 @@
-/* JawiKids Auth Controller */
+/* Pulau Jawi Auth Controller */
 (function () {
   const $ = (id) => document.getElementById(id);
   const client = () => window.jawiSupabase;
@@ -26,7 +26,7 @@
 
     const user = userData.user;
     const meta = user.user_metadata || {};
-    const fullName = meta.full_name || meta.name || meta.display_name || user.email || 'Parent JawiKids';
+    const fullName = meta.full_name || meta.name || meta.display_name || user.email || 'Parent Pulau Jawi';
     const phoneNumber = meta.phone_number || meta.phone || null;
 
     const defaultProfile = {
@@ -173,6 +173,16 @@
       window.location.href = 'login.html';
       return;
     }
+
+    const isGameMap = file === 'game-map.html' || window.location.pathname.endsWith('/game-map/');
+    if (isGameMap) {
+      const selectedChild = localStorage.getItem('jawikids_selected_child_id') || localStorage.getItem('selected_child_id');
+      if (!selectedChild) {
+        window.location.href = 'child-select.html?needChild=1';
+        return;
+      }
+    }
+
     await ensureParentProfile();
   }
 

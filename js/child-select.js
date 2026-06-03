@@ -1,4 +1,4 @@
-/* JawiKids Child Select Live Sync v1.44 - Mula Main triggers wide mode */
+/* Pulau Jawi Child Select Live Sync v2.7 - child must be selected before map */
 (function () {
   let currentProfile = null;
   let currentChildren = [];
@@ -39,7 +39,7 @@
       const meta = session.user.user_metadata || {};
       const fallbackProfile = {
         id: session.user.id,
-        full_name: meta.full_name || meta.name || session.user.email || 'Parent JawiKids',
+        full_name: meta.full_name || meta.name || session.user.email || 'Parent Pulau Jawi',
         subscription_type: 'free',
         subscription_status: 'inactive',
         premium_lifetime: false,
@@ -84,10 +84,21 @@
     grid.querySelectorAll('[data-select-child]').forEach(link => {
       link.addEventListener('click', async (event) => {
         event.preventDefault();
-        localStorage.setItem('jawikids_selected_child_id', link.dataset.selectChild);
-        localStorage.setItem('selected_child_id', link.dataset.selectChild);
-        
-        
+        const childId = link.dataset.selectChild;
+        const child = currentChildren.find(item => String(item.id) === String(childId));
+        localStorage.setItem('jawikids_selected_child_id', childId);
+        localStorage.setItem('selected_child_id', childId);
+        if (child) {
+          localStorage.setItem('pulau_jawi_selected_child', JSON.stringify({
+            id: child.id,
+            name: child.name,
+            age: child.age,
+            gender: child.gender,
+            avatar_key: child.avatar_key,
+            current_island: child.current_island || 1,
+            total_xp: child.total_xp || 0
+          }));
+        }
 
         // Do NOT lock orientation on child-select/dashboard.
         // The game page itself will activate wide mode after navigation.
@@ -136,6 +147,10 @@
       const gender = document.getElementById('childGender')?.value || 'male';
       if (!name || !age) {
         status('Sila isi nama dan umur anak.', 'error');
+        return;
+      }
+      if (age < 5 || age > 8) {
+        status('Pulau Jawi fokus untuk anak umur 5 hingga 8 tahun sahaja.', 'error');
         return;
       }
       const avatarKey = gender === 'female' ? 'zainab_default' : 'zafri_default';

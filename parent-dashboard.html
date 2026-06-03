@@ -3,17 +3,16 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Dashboard Ibu Bapa - JawiKids</title>
+  <title>Dashboard Ibu Bapa - Pulau Jawi</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@500;600;700;800;900&family=Noto+Sans+Arabic:wght@600;700;800;900&family=Amiri:wght@400;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css?v=1.52.0">
-  <link rel="stylesheet" href="app.css?v=1.52.0">
-
-  <link rel="manifest" href="manifest.json?v=1.52.0">
+  <link rel="stylesheet" href="app.css?v=2.7-dashboard-clean">
+  <link rel="manifest" href="manifest.json?v=2.7-dashboard-clean">
   <meta name="theme-color" content="#A7E92F">
   <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-title" content="JawiKids">
+  <meta name="apple-mobile-web-app-title" content="Pulau Jawi">
   <link rel="apple-touch-icon" href="assets/icons/apple-touch-icon.svg?v=1.52.0">
 </head>
 <body>
@@ -21,12 +20,11 @@
     <header class="app-header dashboard-header">
       <a class="brand" href="index.html">
         <span class="brand-mark">ج</span>
-        <span><strong>JawiKids</strong><small>Main, Belajar, Bijak Jawi!</small></span>
+        <span><strong>Pulau Jawi</strong><small>Main, Belajar, Bijak Jawi!</small></span>
       </a>
       <nav class="app-nav">
         <a href="parent-dashboard.html" class="active">Dashboard</a>
         <a href="child-select.html">Profil Anak</a>
-        <a href="game-map.html">Peta Pulau</a>
         <a href="achievement.html">Achievement</a>
         <a href="parent-analytics.html">Analytics</a>
         <a href="parent-inbox.html" class="nav-inbox">🔔 Inbox <span class="nav-badge" data-inbox-count>0</span></a>
@@ -36,12 +34,12 @@
       </nav>
     </header>
 
-    <main class="app-main">
+    <main class="app-main parent-dashboard-clean">
       <section class="premium-card app-card dashboard-hero official-dashboard-hero">
         <div>
           <div class="pill">Parent Dashboard</div>
-          <h1>Assalamualaikum, <span data-parent-name>Parent JawiKids</span>.</h1>
-          <p>Pantau slot anak, XP, streak dan perkembangan pembelajaran JawiKids secara live daripada Supabase.</p>
+          <h1>Assalamualaikum, <span data-parent-name>Parent Pulau Jawi</span>.</h1>
+          <p>Selamat datang ke Pulau Jawi. Pantau status akaun, slot anak, XP, streak dan mesej terkini dalam satu paparan ringkas.</p>
           <div class="dashboard-status-line" id="dashboardStatus">Sedang memuatkan dashboard...</div>
         </div>
         <a class="inbox-widget" href="parent-inbox.html" aria-label="Buka inbox parent">
@@ -57,28 +55,8 @@
         <div class="stat-pill"><strong><span data-best-streak>0</span>🔥</strong><span>Best Streak</span></div>
       </section>
 
-      <section class="parent-dashboard-feature-row">
-        <a href="achievement.html"><span>🏆</span>Achievement</a>
-        <a href="daily-reward.html"><span>🎁</span>Daily Reward</a>
-        <a href="avatar-shop.html"><span>🎒</span>Kedai Avatar</a>
-        <a href="parent-analytics.html"><span>📊</span>Analytics</a>
-        <a href="payment.html"><span>💳</span>Bayaran</a>
-      </section>
-
-      <section class="dashboard-section-head">
-        <div>
-          <div class="pill">Profil Anak</div>
-          <h2>Anak & Progress</h2>
-        </div>
-        <a class="primary-btn" href="child-select.html">Urus Anak</a>
-      </section>
-
-      <section class="app-grid two" id="dashboardChildrenGrid" style="margin-top:18px">
-        <div class="premium-card app-card dashboard-loading-card">Memuatkan profil anak...</div>
-      </section>
-
       <section class="app-grid two dashboard-panels" style="margin-top:18px">
-        <div class="premium-card app-card inbox-preview-card">
+        <div class="premium-card app-card inbox-preview-card dashboard-wide-panel">
           <div class="section-title-row">
             <div>
               <div class="pill">Notification</div>
@@ -90,31 +68,23 @@
             <div class="mini-inbox-item"><span>🔔</span><div><strong>Tiada mesej baru</strong><small>Notifikasi akan muncul di sini.</small></div></div>
           </div>
         </div>
-
-        <div class="premium-card app-card child-card family-slot-card">
-          <div class="child-face">👨‍👩‍👧‍👦</div>
-          <div>
-            <h2>Family Slot</h2>
-            <p><span data-child-count>0</span> daripada <span data-max-children>3</span> slot anak digunakan. Tambah slot anak sehingga maksimum 5 anak.</p>
-            <a class="secondary-btn" href="payment.html?type=child_slot">Tambah Slot RM10</a>
-          </div>
-        </div>
       </section>
     </main>
-    <div class="footer-mini">© 2026 JawiKids. Live Dashboard Supabase Sync.</div>
+    <div class="footer-mini">© 2026 Pulau Jawi. Live Dashboard Supabase Sync.</div>
   </div>
 
   <div class="slide-notification" id="slideNotification">
     <span>🔔</span>
-    <div><strong>JawiKids Inbox</strong><small id="slideNotificationText">Notifikasi baru diterima.</small></div>
+    <div><strong>Pulau Jawi Inbox</strong><small id="slideNotificationText">Notifikasi baru diterima.</small></div>
     <button onclick="document.getElementById('slideNotification').classList.remove('show')">×</button>
   </div>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="js/supabase-client.js?v=1.52.0"></script>
-  <script src="js/auth.js?v=1.52.0"></script>
+  <script src="js/auth.js?v=2.7-dashboard-clean"></script>
   <script src="js/inbox.js?v=1.52.0"></script>
-  <script src="js/dashboard.js?v=1.52.0"></script>
+  <script src="js/dashboard.js?v=2.7-dashboard-clean"></script>
   <script src="js/quick-menu.js?v=1.52.0"></script>
-<script src="js/orientation-reset.js?v=1.52.0"></script><script src="pwa-register.js?v=1.52.0"></script>
+  <script src="js/orientation-reset.js?v=2.6-clean"></script>
+  <script src="pwa-register.js?v=1.52.0"></script>
 </body>
 </html>
